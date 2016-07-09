@@ -169,7 +169,7 @@ def fetch(requests_session, url, method='get', data=None, expect_status=200, hea
     raise Exception('Giving up!')
 
 
-def login(requests_session):
+def phpbb_login(requests_session):
     logging.info('Logging in as {0}'.format(config.username))
     login_page_url = '{0}/ucp.php?mode=login'.format(config.forum_base_url)
     # Load login page
@@ -279,7 +279,7 @@ def main():
         requests_session = requests.Session()
 
         # Log us in
-        login(requests_session)
+        phpbb_login(requests_session)
 
         # List the threads in this subforum
         list_board_threads(

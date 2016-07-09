@@ -20,6 +20,7 @@ import sys
 import re
 # libs
 import requests
+from bs4 import BeautifulSoup
 # local
 import config
 
@@ -169,18 +170,86 @@ def fetch(requests_session, url, method='get', data=None, expect_status=200, hea
     raise Exception('Giving up!')
 
 
+def phpbb_login(requests_session):
+    logging.info('Logging in as {0}'.format(config.username))
+    login_page_url = '{0}/ucp.php?mode=login'.format(config.forum_base_url)
+    # Load login page
+    # Send login request
+    login_response = fetch(
+        requests_session,
+        url=login_page_url,
+        method='post',
+        expect_status=200,
+        headers={
+            'origin': config.site_base_url,
+            'pragma': 'no-cache',
+            'referer': '{0}ucp.php?mode=login'.format(config.forum_base_url),
+            },
+        data={
+            'username': config.username,
+            'password': config.password,
+            'autologin': 'on',
+            'viewonline': 'on',
+            'redirect': '',
+            'login': 'login',
+            }
+    )
+    save_file(
+        file_path = os.path.join("debug","login_response.html"),
+        data = login_response.content,
+        force_save = True,
+        allow_fail = True
+    )
+
+    # Verify login worked
+    assert(config.username in login_response.content)# Our username
+    assert('/ucp.php?mode=logout' in login_response.content)# Logout link
+    #assert('' not in login_response.content)# Login link
+    logging.info('Logged in as {0}'.format(config.username))
+    return
+
+
 def parse_thread_page(html):
     """Extract data from each post on a thread page"""
+    page_soup = BeautifulSoup.BeautifulSoup(html)
+    posts = page_soup.find_all(re.compile('div id = "p\d+"'))
+    post = {
+        'time_of_retreival':'',
+        'board_id': '',
+        'thread_id': '',
+        'post_id': '',
+        'user_id': '',
+        'post_html': '',
+
+    }
     return posts
+
 
 def process_thread(requests_session, board_id, thread_id, output_path):
     """Load each page of a thread and parse each page"""
     logging.info('Processing thread: {0} from board: {1}'.format(thread_id, board_id))
-    for page_number in xrange(1, 2000):# 2K pages is unexpectedly high
+    for page_number in xrange(0, 2000):# 2K pages is unexpectedly high
+        offset = page_number*config.posts_per_page
         # Load page
-        page_url = ''.format()
-        # Parse post data from page
+        page_url = '{forum_base_url}/viewtopic.php?f={board_id}&t={thread_id}&start={offset}'.format(
+            forum_base_url=config.forum_base_url, board_id=board_id, thread_id=thread_id, offset=offset)
+        thread_page_response = fetch(
+            requests_session,
+            url=page_url,
+            method='get',
+            data=None,
+            expect_status=200,
+            headers=None
+        )
+        save_file(
+            file_path = os.path.join('debug', 'thread_page_response.htm'),
+            data = thread_page_response.content,
+            force_save = True,
+            allow_fail = False
+        )
 
+        # Parse post data from page
+        page_posts = parse_thread_page(html=thread_page_response.content)
         # Stop at the end of the thread
         if (1):# TODO
             break
@@ -207,22 +276,27 @@ def process_threads(requests_session, input_file_path, output_path):
 
 def main():
     try:
+        setup_logging(log_file_path=os.path.join('debug','process_threads_log.txt'))
 ##        # Accept CLI args
-##        setup_logging(log_file_path=os.path.join('debug','list_threads_log.txt'))
 ##        parser = argparse.ArgumentParser()
 ##        parser.add_argument('list_path', help='list_path',
 ##                        type=int)
 ##        args = parser.parse_args()
+##        input_file_path = args.list_path
+        input_file_path = os.path.join('debug', 'board_21_threads.txt')
 
         # Init Requests session
         requests_session = requests.Session()
 
         # Log us in
-        login(requests_session)
+        phpbb_login(requests_session)
 
         # Process supplied threads
-        process_threads(input_file_path=aos.path.join('debug', ''))
-        #process_threads(input_file_path=args.list_path)
+        process_threads(
+            requests_session,
+            input_file_path,
+            output_path=config.output_path
+        )
 
         sys.exit(0)# Everything went fine.
 
