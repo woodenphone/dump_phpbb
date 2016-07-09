@@ -1,0 +1,26 @@
+dump_phpbb_notes.txt
+
+
+
+
+
+
+Login form:
+
+
+
+curl 'http://aryion.com/forum/ucp.php?mode=login' -H 'Cookie: phpbb3_rl7a3_u=1; phpbb3_rl7a3_k=; phpbb3_rl7a3_sid=2be6805429bfd9575f976330b2d3c624; __utmt=1; style_cookie=null; __utma=205114816.72944102.1467792794.1467973172.1468051431.3; __utmb=205114816.3.10.1468051431; __utmc=205114816; __utmz=205114816.1467792794.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)' -H 'Origin: http://aryion.com' -H 'Accept-Encoding: gzip, deflate' -H 'Accept-Language: en-US,en;q=0.8' -H 'Upgrade-Insecure-Requests: 1' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36' -H 'Content-Type: application/x-www-form-urlencoded' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' -H 'Cache-Control: max-age=0' -H 'Referer: http://aryion.com/forum/ucp.php?mode=login' -H 'Connection: keep-alive' --data 'username=eprange01&password=EkasPortal01&autologin=on&viewonline=on&redirect=.%2Fucp.php%3Fmode%3Dlogin&sid=2be6805429bfd9575f976330b2d3c624&redirect=index.php&login=Login' --compressed
+curl 'http://aryion.com/forum/ucp.php?mode=login' \
+ 'Cookie: phpbb3_rl7a3_u=1; phpbb3_rl7a3_k=; phpbb3_rl7a3_sid=2be6805429bfd9575f976330b2d3c624; __utmt=1; style_cookie=null; __utma=205114816.72944102.1467792794.1467973172.1468051431.3; __utmb=205114816.3.10.1468051431; __utmc=205114816; __utmz=205114816.1467792794.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)' \
+ 'Origin: http://aryion.com' \
+ 'Accept-Encoding: gzip, deflate' \
+ 'Accept-Language: en-US,en;q=0.8' \
+ 'Upgrade-Insecure-Requests: 1' \
+ 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36' \
+ 'Content-Type: application/x-www-form-urlencoded' \
+ 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' \
+ 'Cache-Control: max-age=0' \
+ 'Referer: http://aryion.com/forum/ucp.php?mode=login' \
+ 'Connection: keep-alive' \
+ --data 'username=eprange01&password=EkasPortal01&autologin=on&viewonline=on&redirect=.%2Fucp.php%3Fmode%3Dlogin&sid=2be6805429bfd9575f976330b2d3c624&redirect=index.php&login=Login' \
+ --compressed

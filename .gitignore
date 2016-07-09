@@ -1,0 +1,6 @@
+debug/
+un_git/
+download/
+*.pyc
+config.py
+accounts.py
