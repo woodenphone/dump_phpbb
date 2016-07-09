@@ -36,8 +36,11 @@ for bs_post in bs_posts:
     post_html = str(bs_post)
     post['post_html'] = post_html
     post_soup = BeautifulSoup(post_html, "html.parser")
+    # Find the remote ID of the board
+    board_id = re.search('<a\ href=\"./report\.php\?f\=(\d+)', post_html).group(1)
+    post['board_id'] = board_id
     # Find the remote ID of the thread
-    thread_id = re.search('<a\ href=\"./report\.php\?f\=(\d+)', post_html).group(1)
+    thread_id = re.search('', post_html).group(1)
     post['thread_id'] = thread_id
     # Find the remote ID of the post
     post_id = re.search('id="p(\d+)"', post_html).group(1)
@@ -60,6 +63,7 @@ for bs_post in bs_posts:
     post['poster_id'] = poster_id
     avatar_url = re.search('.(/download/file\.php\?avatar=[^"])', post_profile_html).group(1)
     post['avatar_url'] = avatar_url
+    print(repr(post))
 
 
 

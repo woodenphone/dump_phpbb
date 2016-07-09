@@ -212,16 +212,23 @@ def phpbb_login(requests_session):
 def parse_thread_page(html):
     """Extract data from each post on a thread page"""
     page_soup = BeautifulSoup.BeautifulSoup(html)
-    posts = page_soup.find_all(re.compile('div id = "p\d+"'))
-    post = {
-        'time_of_retreival':'',
-        'board_id': '',
-        'thread_id': '',
-        'post_id': '',
-        'user_id': '',
-        'post_html': '',
+    bs_posts = page_soup.find_all(re.compile('div id = "p\d+"'))
+    posts = []
+    for bs_post in bs_posts:
+        post_html = str(bs_post)
+        post = {
+            'time_of_retreival':str(time.time()),
+            'post_time': None,
+            'board_id': re.search('<a\ href=\"./report\.php\?f\=(\d+)', post_html).group(1),
+            'thread_id': re.search('<h2><a\shref="./viewtopic.php\?f=21&amp;t=(\d+)">([^<]+)</a></h2>', page_html, re.MULTILINE|re.IGNORECASE).group(1),
+            'thread_title': re.search('<h2><a\shref="./viewtopic.php\?f=21&amp;t=(\d+)">([^<]+)</a></h2>', page_html, re.MULTILINE|re.IGNORECASE).group(2),
+            'post_id': re.search('id="p(\d+)"', post_html).group(1),
+            'post_html': post_html,
 
-    }
+        }
+        posts.append(post)
+        continue
+    logging.debug('repr(posts): {0}'.format(repr(posts)))
     return posts
 
 
