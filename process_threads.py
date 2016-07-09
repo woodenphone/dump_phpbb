@@ -169,111 +169,50 @@ def fetch(requests_session, url, method='get', data=None, expect_status=200, hea
     raise Exception('Giving up!')
 
 
-def login(requests_session):
-    logging.info('Logging in as {0}'.format(config.username))
-    login_page_url = '{0}/ucp.php?mode=login'.format(config.forum_base_url)
-    # Load login page
-    # Send login request
-    login_response = fetch(
-        requests_session,
-        url=login_page_url,
-        method='post',
-        expect_status=200,
-        headers={
-            'origin': config.site_base_url,
-            'pragma': 'no-cache',
-            'referer': '{0}ucp.php?mode=login'.format(config.forum_base_url),
-            },
-        data={
-            'username': config.username,
-            'password': config.password,
-            'autologin': 'on',
-            'viewonline': 'on',
-            'redirect': '',
-            'login': 'login',
-            }
-    )
-    save_file(
-        file_path = os.path.join("debug","login_response.html"),
-        data = login_response.content,
-        force_save = True,
-        allow_fail = True
-    )
+def parse_thread_page(html):
+    """Extract data from each post on a thread page"""
+    return posts
 
-    # Verify login worked
-    assert(config.username in login_response.content)# Our username
-    assert('/ucp.php?mode=logout' in login_response.content)# Logout link
-    #assert('' not in login_response.content)# Login link
-    logging.info('Logged in as {0}'.format(config.username))
+def process_thread(requests_session, board_id, thread_id, output_path):
+    """Load each page of a thread and parse each page"""
+    logging.info('Processing thread: {0} from board: {1}'.format(thread_id, board_id))
+    for page_number in xrange(1, 2000):# 2K pages is unexpectedly high
+        # Load page
+        page_url = ''.format()
+        # Parse post data from page
+
+        # Stop at the end of the thread
+        if (1):# TODO
+            break
+        continue
+    # Save thread data
+    logging.info('Processed thread: {0} from board: {1}'.format(thread_id, board_id))
     return
 
-
-def parse_threads_listing_page(html):
-    # <a href="./viewtopic.php?f=86&amp;t=23065"
-    thread_id_list = re.findall('<a\shref="./viewtopic.php\?f=\d+\&amp;t=(\d+)"', html, re.IGNORECASE | re.MULTILINE)
-    logging.debug('parse_threads_listing_page() thread_id_list: {0}'.format(thread_id_list))
-    return thread_id_list
-
-
-def list_board_threads(requests_session, board_id, output_file_path):
-    logging.info('Listing threads from board_id:{0} to output_file_path: {1}'.format(board_id, output_file_path))
-    if not os.path.exists(os.path.dirname(output_file_path)):
-        os.makedirs(os.path.dirname(output_file_path))
-
-    thread_ids = []
-    last_page_thread_ids = [None]
-    for page_num in xrange(1, 500):# TODO: Increase to a few thousand after testing
-        # Generate page URL
-        offset = page_num*config.threads_per_page
-        page_url = '{forum_base_url}/viewforum.php?f={board_id}&start={offset}'.format(
-            forum_base_url=config.forum_base_url, board_id=board_id, offset=offset)
-
-        # Load this page's threads
-        thread_listing_response = fetch(
-            requests_session,
-            url=page_url,
-            method='post',
-            expect_status=200,
-        )
-        save_file(
-            file_path = os.path.join("debug","thread_listing_response.html"),
-            data = thread_listing_response.content,
-            force_save = True,
-            allow_fail = True
-        )
-
-        # Parse out thread IDs
-        this_page_thread_ids = parse_threads_listing_page(html=thread_listing_response.content)
-        thread_ids += this_page_thread_ids
-
-        # Detect the end of the listing
-        if (last_page_thread_ids == this_page_thread_ids):
-            logging.info('Reached the end of the thread lisitng.')
-            break
-        else:
-            last_page_thread_ids = this_page_thread_ids
-        continue
-    logging.debug('Found {0} threads.'.format(len(thread_ids)))
-    # Write thread IDs to a file
-    with open(output_file_path, 'w') as f:
-        for thread_id in thread_ids:
+def process_threads(requests_session, input_file_path, output_path):
+    """Process the threads listed in the given file"""
+    with open(input_file_path, 'r') as f:
+        for line in f:
+            # Extract info from line
             # board_id.thread_id\n
-            f.write('{0}.{1}\n'.format(board_id, thread_id))
+            line = line.strip()
+            b, t = line.split('.')
+            board_id, thread_id = int(b), int(t)
+            # Process thread
+            process_thread(requests_session, board_id, thread_id, output_path)
+            continue
 
-    logging.info('Listed threads from board_id:{0} to output_file_path: {1}'.format(board_id, output_file_path))
     return
 
 
 def main():
     try:
-        setup_logging(log_file_path=os.path.join('debug','list_threads_log.txt'))
 ##        # Accept CLI args
+##        setup_logging(log_file_path=os.path.join('debug','list_threads_log.txt'))
 ##        parser = argparse.ArgumentParser()
-##        parser.add_argument('board_id', help='board_id',
+##        parser.add_argument('list_path', help='list_path',
 ##                        type=int)
 ##        args = parser.parse_args()
-##        board_id = args.board_id
-        board_id = 21
 
         # Init Requests session
         requests_session = requests.Session()
@@ -281,12 +220,10 @@ def main():
         # Log us in
         login(requests_session)
 
-        # List the threads in this subforum
-        list_board_threads(
-            requests_session=requests_session,
-            board_id=board_id,
-            output_file_path=os.path.join('debug', 'board_{0}_threads.txt'.format(board_id))
-        )
+        # Process supplied threads
+        process_threads(input_file_path=aos.path.join('debug', ''))
+        #process_threads(input_file_path=args.list_path)
+
         sys.exit(0)# Everything went fine.
 
     except Exception as e:# Log fatal exceptions
