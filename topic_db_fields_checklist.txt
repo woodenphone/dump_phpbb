@@ -1,0 +1,46 @@
+topic_db_fields_checklist.txt
+Checklist of fields from the bhpbb.topics DB table
+This is to figure out what we need/want/can save from each topic.
+https://wiki.phpbb.com/Table.phpbb_topics
+
+X = Inapplicable/Can't be done
+N = We can get it but don't want it
+T = TODO, we want it but haven't coded it
+Y = We need this and it's coded
+_ = Haven't gotten around to looking at at all
+
+
+[T] topic_id
+[T] forum_id
+[_] icon_id
+[T] topic_attachment
+[X] topic_approved
+[X] topic_reported
+[T] topic_title
+[T] topic_poster
+[T] topic_time
+[X] topic_time_limit
+[X] topic_views
+[T] topic_replies
+[X] topic_replies_real
+[_] topic_status
+[T] topic_type
+[T] topic_first_post_id
+[_] topic_first_poster_name
+[_] topic_first_poster_colour
+[T] topic_last_post_id
+[T] topic_last_poster_id
+[T] topic_last_poster_name
+[_] topic_last_poster_colour
+[_] topic_last_post_subject
+[_] topic_last_post_time
+[X] topic_last_view_time
+[_] topic_moved_id
+[X] topic_bumped
+[_] topic_bumper
+[_] poll_title
+[_] poll_start
+[_] poll_length
+[_] poll_max_options
+[_] poll_last_vote
+[_] poll_vote_change

@@ -1,0 +1,36 @@
+post_db_fields_checklist.txt
+Checklist of fields from the bhpbb.posts DB table
+This is to figure out what we need/want/can save from each post.
+https://wiki.phpbb.com/Table.phpbb_posts
+
+X = Inapplicable/Can't be done
+T = TODO, we want it but haven't coded it
+Y = We need this and it's coded
+_ = Haven't gotten around to looking at at all
+
+[Y] post_id
+[T] topic_id
+[T] forum_id
+[Y] poster_id
+[_] icon_id
+[X] poster_ip
+[Y] post_time
+[X] post_approved
+[X] post_reported
+[_] enable_bbcode
+[_] enable_smilies
+[_] enable_magic_url
+[_] enable_sig
+[Y] post_username
+[T] post_subject
+[T] post_text
+[X] post_checksum
+[Y] post_attachment
+[X] bbcode_bitfield
+[X] bbcode_uid
+[X] post_postcount
+[_] post_edit_time
+[X] post_edit_reason
+[_] post_edit_user
+[_] post_edit_count
+[_] post_edit_locked
