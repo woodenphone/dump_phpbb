@@ -30,6 +30,8 @@ from pyquery import PyQuery
 file_path = os.path.join('debug','thread_page_response.b53.t2182.start2580.htm')
 file_path = os.path.join('tests','aryion.b38.t45427.htm')
 file_path = os.path.join('tests', 'phpbb.b64.t2377101.htm')
+#file_path = os.path.join('tests', 'aryion.b38.t44962.htm')
+
 with open(file_path, 'r') as f:
     page_html = f.read()
 
@@ -70,6 +72,7 @@ thread['board_id'] = board_id
 # Get post IDs
 post_ids = re.findall('<div\sid="p(\d+)"\sclass="post\s(?:has-profile\s)?bg\d(?:\s*online\s*)?">', page_html)
 print('Found {0} post_ids'.format(len(post_ids)))
+print('post_ids: {0!r}'.format(post_ids))
 
 # Get post level information
 posts = []
@@ -84,16 +87,17 @@ for post_id in post_ids:
     p = PyQuery(post_outer_html)
     # Get the title of the post
 ##    post_title_path = '#p{pid} > div > div.postbody > h3 > a'.format(pid=post_id)
-    post_title_path = 'div > div.postbody > h3 > a'
+    post_title_path = 'div > div.postbody h3 a'
     post_title_element = p(post_title_path)
     post_title = post_title_element.text()
     post['title'] = post_title
 
     # Get the Username
 ##    username_path = '#p{pid} > div > div.postbody > p > strong > a'.format(pid=post_id)
-    username_path = '.author'
+    username_path = '.author strong a'
     username_element = p(username_path)
     username = username_element.text()
+    assert(len(username) >= 1)
     post['username'] = username
 
     # Get the userID
@@ -102,6 +106,7 @@ for post_id in post_ids:
     userid_element = p(userid_path)
     userid_html = userid_element.outer_html()
     userid = re.search('./memberlist.php\?mode=viewprofile&amp;u=(\d+)(?:&amp;sid=\w+)?', userid_html, re.IGNORECASE|re.MULTILINE).group(1)
+    assert(len(userid) >= 1)
     post['userid'] = userid
 
     # Get the post time
@@ -110,6 +115,7 @@ for post_id in post_ids:
     post_time_element = p(post_time_path)
     post_time_box = post_time_element.text()
     post_time = re.search('(\w+\s\w+\s\d+,\s\d{4}\s\d+:\d+\s\w+)', post_time_box).group(1)
+    assert(len(post_time) >= 5)
     post['time'] = post_time
 
     # Get the post content/body/text
@@ -154,7 +160,7 @@ for post_id in post_ids:
 
             # Find the comment for this attachment, if there is a comment for it
             attachment_comment = attachment_child.text()
-            print('attachment_comment: {0!r}'.format(attachment_comment))
+            #print('attachment_comment: {0!r}'.format(attachment_comment))
             attachment['comment'] = attachment_comment
 
             # Attachment title
@@ -187,8 +193,8 @@ for post_id in post_ids:
 
     # Store the post object away
     posts.append(post)
-    if len(posts) == 200:# DEBUG
-        break# Stop at first post for debug
+##    if len(posts) == 200:# DEBUG
+##        break# Stop at first post for debug
     continue
 
 thread['posts'] = posts

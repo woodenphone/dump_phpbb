@@ -74,8 +74,11 @@ from pyquery import PyQuery
 def parse_thread_page(page_html, board_id, topic_id, offset):
     """Parse a page of posts"""
     d = PyQuery(page_html)
+
     # Get post IDs
-    post_ids = re.findall('<div\sid="p(\d+)"\sclass="post\sbg\d">', page_html)
+    post_ids = re.findall('<div\sid="p(\d+)"\sclass="post\s(?:has-profile\s)?bg\d(?:\s*online\s*)?">', page_html)
+    print('Found {0} post_ids'.format(len(post_ids)))
+    print('post_ids: {0!r}'.format(post_ids))
 
     # Get post level information
     posts = []
@@ -85,46 +88,58 @@ def parse_thread_page(page_html, board_id, topic_id, offset):
             'post_id': post_id,
             'time_of_retreival': str( time.time() ),
         }
-
+        # Lock ourselves to only this one post
+        post_outer_html = d('#p{pid}'.format(pid=post_id)).outer_html()
+        p = PyQuery(post_outer_html)
         # Get the title of the post
-        post_title_path = '#p{pid} > div > div.postbody > h3 > a'.format(pid=post_id)
-        post_title_element = d(post_title_path)
+    ##    post_title_path = '#p{pid} > div > div.postbody > h3 > a'.format(pid=post_id)
+        post_title_path = 'div > div.postbody h3 a'
+        post_title_element = p(post_title_path)
         post_title = post_title_element.text()
         post['title'] = post_title
 
         # Get the Username
-        username_path = '#p{pid} > div > div.postbody > p > strong > a'.format(pid=post_id)
-        username_element = d(username_path)
+    ##    username_path = '#p{pid} > div > div.postbody > p > strong > a'.format(pid=post_id)
+        username_path = '.author strong a'
+        username_element = p(username_path)
         username = username_element.text()
+        assert(len(username) >= 1)
         post['username'] = username
 
         # Get the userID
-        userid_path = '#p{pid} > div > div.postbody > p > strong > a'.format(pid=post_id)
-        userid_element = d(userid_path)
+    ##    userid_path = '#p{pid} > div > div.postbody > p > strong > a'.format(pid=post_id)
+        userid_path = '.author'
+        userid_element = p(userid_path)
         userid_html = userid_element.outer_html()
-        userid = re.search('memberlist.php\?mode=viewprofile&amp;u=(\d+)', userid_html).group(1)
+        userid = re.search('./memberlist.php\?mode=viewprofile&amp;u=(\d+)(?:&amp;sid=\w+)?', userid_html, re.IGNORECASE|re.MULTILINE).group(1)
+        assert(len(userid) >= 1)
         post['userid'] = userid
 
         # Get the post time
-        post_time_path = '#p{pid} > div > div.postbody > p'.format(pid=post_id)
-        post_time_element = d(post_time_path)
+    ##    post_time_path = '#p{pid} > div > div.postbody > p'.format(pid=post_id)
+        post_time_path = '.author'
+        post_time_element = p(post_time_path)
         post_time_box = post_time_element.text()
         post_time = re.search('(\w+\s\w+\s\d+,\s\d{4}\s\d+:\d+\s\w+)', post_time_box).group(1)
+        assert(len(post_time) >= 5)
         post['time'] = post_time
 
         # Get the post content/body/text
-        content_path = '#p{pid} > div > div.postbody > div'.format(pid=post_id)
-        content_element = d(content_path)
+    ##    content_path = '#p{pid} > div > div.postbody > div'.format(pid=post_id)
+    ##    content_path = 'div > div.postbody > div'
+        content_path = '.content'
+        content_element = p(content_path)
         content = content_element.outer_html()
         post['content'] = content
 
         # Get the avatar URL
-        avatar_path = '#profile{pid} > dt > a:nth-child(1) > img'.format(pid=post_id)
-        avatar_element = d(avatar_path)
+    ##    avatar_path = '#profile{pid} > dt > a:nth-child(1) > img'.format(pid=post_id)
+        avatar_path = '[alt="User avatar"]'
+        avatar_element = p(avatar_path)
         if avatar_element:
             avatar_html = avatar_element.outer_html()
             # <img src="./download/file.php?avatar=5_1350103435.jpg"
-            avatar_url = re.search('<img\ssrc="(./download/file.php\?avatar=[\w\d_\.]+)', avatar_html).group(1)
+            avatar_url = re.search('<img\s(?:class="avatar"\s*)?src="([^"<>]+)', avatar_html).group(1)
             post['avatar_url'] = avatar_url
         else:
             post['avatar_url'] = None
@@ -134,17 +149,19 @@ def parse_thread_page(page_html, board_id, topic_id, offset):
         # attachbox:            #p2404876 > div > div.postbody > dl > dd > dl > dt > a
         # attachbox(text file): #p2467990 > div > div.postbody > dl > dd > dl > dt > a
         # #p2404876 > div > div.postbody > dl
-        attachment_path = '#p{pid} > div > div.postbody > dl > dd > dl'.format(pid=post_id)
-        attachment_elements = d(attachment_path)
+    ##    attachment_path = '#p{pid} > div > div.postbody > dl > dd > dl'.format(pid=post_id)
+    ##    attachment_path = 'div > div.postbody > dl > dd > dl'
+        attachment_path = '.attach-image , .inline-attachment, .thumbnail, .file'
+        attachment_elements = p(attachment_path)
         if attachment_elements:
             post_attachments = []
             for attachment_child in attachment_elements.items():
                 attachment = {}
                 attachment_child_outer_html = attachment_child.outer_html()
-                #print('attachment_child_outer_html: {0!r}'.format(attachment_child_outer_html))
+                print('attachment_child_outer_html: {0!r}'.format(attachment_child_outer_html))
 
                 # Find the url of this attachment
-                attachment_dl_url = re.search('<a\s(?:class="postlink"\s)?href="(./download/file\.php\?id=\d+(?:&amp;mode=view)?)">', attachment_child_outer_html).group(1)
+                attachment_dl_url = re.search('<a\s*(?:class="postlink"\s*)?(?:class="thumbnail\s*)?href="(./download/file\.php\?id=\d+(?:&amp;mode=view|&amp;sid=\w+)*)">', attachment_child_outer_html).group(1)
                 attachment['dl_url'] = attachment_dl_url
 
                 # Find the comment for this attachment, if there is a comment for it
@@ -153,13 +170,18 @@ def parse_thread_page(page_html, board_id, topic_id, offset):
                 attachment['comment'] = attachment_comment
 
                 # Attachment title
-                #attachment_title = re.search('title="([^"]+)"', attachment_child_outer_html).group(1)
-                #attachment['title'] = attachment_title
+                if 'title="' in attachment_child_outer_html:# Some don't have this
+                    attachment_title = re.search('title="([^"]*)"', attachment_child_outer_html).group(1)
+                else:
+                    attachment_title = None
+                attachment['title'] = attachment_title
 
-
-                # Find the filename for the attachment, if there is one next to it
-                #attachment_filename = None#TODO FIXME
-                #attachment['attachment_filename'] = attachment_filename
+                # Find the alt text for the attachment, if there is one
+                if 'alt="' in attachment_child_outer_html:# Some don't have this
+                    attachment_alt_text = re.search('alt="([^"]*)"', attachment_child_outer_html).group(1)
+                else:
+                    attachment_alt_text = None
+                attachment['alt_text'] = attachment_alt_text
 
                 post_attachments.append(attachment)
                 continue
@@ -170,16 +192,17 @@ def parse_thread_page(page_html, board_id, topic_id, offset):
 
         # Get the signature
         signature_path = '#sig{pid}'.format(pid=post_id)
-        signature_element = d(signature_path)
+        signature_element = p(signature_path)
         signature = signature_element.outer_html()
         post['signature'] = signature
 
 
         # Store the post object away
         posts.append(post)
-        if len(posts) == 200:# DEBUG
-            break# Stop at first post for debug
+    ##    if len(posts) == 200:# DEBUG
+    ##        break# Stop at first post for debug
         continue
+    print('posts: {0!r}'.format(posts))
     return posts
 
 
