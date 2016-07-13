@@ -27,6 +27,7 @@ from pyquery import PyQuery
 
 
 file_path = os.path.join('debug','thread_page_response.htm')
+file_path = os.path.join('debug','thread_page_response.b53.t2182.start2580.htm')
 with open(file_path, 'r') as f:
     page_html = f.read()
 
@@ -45,9 +46,18 @@ thread_title = thread_title_element.text()
 thread['title'] = thread_title
 
 # Get the thread ID
+thread_id_path = '#page-body > h2 > a'
+thread_id_element = d(thread_id_path)
+thread_id_html = thread_id_element.outer_html()
+thread_id = re.search('<a\shref="./viewtopic\.php\?f=\d+&amp;t=(\d+)(?:&amp;start=\d+)">', thread_id_html).group(1)
+thread['thread_id'] = thread_id
 
 # Get the board ID
-
+board_id_path = '#page-body > h2 > a'
+board_id_element = d(board_id_path)
+board_id_html = board_id_element.outer_html()
+board_id = re.search('<a\shref="./viewtopic\.php\?f=(\d+)&amp;t=\d+(?:&amp;start=\d+)">', board_id_html).group(1)
+thread['board_id'] = board_id
 
 
 
@@ -107,15 +117,52 @@ for post_id in post_ids:
     else:
         post['avatar_url'] = None
 
-    # Find all the attachments in the post (if any)
+    # Find all the attachments in the post (if any) (There can be 0, 1 2, 3,... attachments per post)
+    # inline-attachment:    #p1053528 > div > div.postbody > div > div > dl > dt > img
+    # attachbox:            #p2404876 > div > div.postbody > dl > dd > dl > dt > a
+    # attachbox(text file): #p2467990 > div > div.postbody > dl > dd > dl > dt > a
+    # #p2404876 > div > div.postbody > dl
+    attachment_path = '#p{pid} > div > div.postbody > dl > dd > dl > dt > a'.format(pid=post_id)
+    attachment_elements = d(attachment_path)
+    if attachment_elements:
+        attachments = []
+        for attachment_child in attachment_elements.items():
+            attachment = {}
+            # Find the url of this attachment
+            #attachment_url = attachment_child.attrib['href'][1:]#None#TODO FIXME
+            #attachment['url'] = attachment_url
+
+            # Find the comment for this attachment, if there is a comment for it
+            attachment_comment = None#TODO FIXME
+            attachment['comment'] = attachment_comment
+
+            # Find the filename for the attachment, if there is one next to it
+            attachment_filename = None#TODO FIXME
+            attachment['attachment_filename'] = attachment_filename
+
+            attachments.append(attachment)
+            continue
+    else:
+        attachments = None
+    post['attachments'] = attachments
+
+
+    # Get the signature
+    signature_path = '#sig{pid}'.format(pid=post_id)
+    signature_element = d(signature_path)
+    signature = signature_element.outer_html()
+    post['signature'] = signature
+
 
     # Store the post object away
     posts.append(post)
+    if len(posts) == 2:# DEBUG
+        break# Stop at first post for debug
     continue
 
 thread['posts'] = posts
 
-print('{0}'.format(thread))
+print('thread: {0!r}'.format(thread))
 
 
 
