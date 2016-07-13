@@ -240,7 +240,7 @@ def process_thread(requests_session, board_id, thread_id, output_path):
         # Load page
         page_url = '{forum_base_url}/viewtopic.php?f={board_id}&t={thread_id}&start={offset}'.format(
             forum_base_url=config.forum_base_url, board_id=board_id, thread_id=thread_id, offset=offset)
-        page_url = 'https://aryion.com/forum/viewtopic.php?f=38&t=45427'
+        #page_url = 'http://www.electricalaudio.com/phpBB3/viewtopic.php?f=5&t=64830'
         thread_page_response = fetch(
             requests_session,
             url=page_url,

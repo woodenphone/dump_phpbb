@@ -29,6 +29,7 @@ from pyquery import PyQuery
 file_path = os.path.join('debug','thread_page_response.htm')
 file_path = os.path.join('debug','thread_page_response.b53.t2182.start2580.htm')
 file_path = os.path.join('tests','aryion.b38.t45427.htm')
+file_path = os.path.join('tests', 'phpbb.b64.t2377101.htm')
 with open(file_path, 'r') as f:
     page_html = f.read()
 
@@ -41,30 +42,34 @@ d = PyQuery(page_html)
 thread = {}
 
 # Get the thread title
-thread_title_path = '#page-body > h2 > a'
+thread_title_path = '.topic-title'
 thread_title_element = d(thread_title_path)
+assert(thread_title_element)
 thread_title = thread_title_element.text()
 thread['title'] = thread_title
 
 # Get the thread ID
-thread_id_path = '#page-body > h2 > a'
+thread_id_path = '.topic-title'
 thread_id_element = d(thread_id_path)
 thread_id_html = thread_id_element.outer_html()
-thread_id = re.search('<a\shref="./viewtopic\.php\?f=\d+&amp;t=(\d+)(?:&amp;start=\d+)?">', thread_id_html).group(1)
+assert(thread_id_html)
+thread_id = re.search('<a\shref="./viewtopic\.php\?f=\d+&amp;t=(\d+)(?:&amp;start=\d+)?(?:&amp;sid=\w+)?">', thread_id_html).group(1)
 thread['thread_id'] = thread_id
 
 # Get the board ID
-board_id_path = '#page-body > h2 > a'
+board_id_path = '.topic-title'
 board_id_element = d(board_id_path)
 board_id_html = board_id_element.outer_html()
-board_id = re.search('<a\shref="./viewtopic\.php\?f=(\d+)&amp;t=\d+(?:&amp;start=\d+)?">', board_id_html).group(1)
+assert(board_id_html)
+board_id = re.search('<a\shref="./viewtopic\.php\?f=(\d+)&amp;t=\d+(?:&amp;start=\d+)?(?:&amp;sid=\w+)?">', board_id_html).group(1)
 thread['board_id'] = board_id
 
 
 
 
 # Get post IDs
-post_ids = re.findall('<div\sid="p(\d+)"\sclass="post\sbg\d">', page_html)
+post_ids = re.findall('<div\sid="p(\d+)"\sclass="post\s(?:has-profile\s)?bg\d(?:\s*online\s*)?">', page_html)
+print('Found {0} post_ids'.format(len(post_ids)))
 
 # Get post level information
 posts = []
@@ -91,7 +96,7 @@ for post_id in post_ids:
     userid_path = '#p{pid} > div > div.postbody > p > strong > a'.format(pid=post_id)
     userid_element = d(userid_path)
     userid_html = userid_element.outer_html()
-    userid = re.search('memberlist.php\?mode=viewprofile&amp;u=(\d+)', userid_html).group(1)
+    userid = re.search('./memberlist.php\?mode=viewprofile&amp;u=(\d+)(?:&amp;sid=\w+)?', userid_html).group(1)
     post['userid'] = userid
 
     # Get the post time
