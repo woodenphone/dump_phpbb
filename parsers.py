@@ -16,19 +16,23 @@ from pyquery import PyQuery
 
 
 class TopicParser():# TODO
-    """Parser for threads"""
+    """Parser for whole topics"""
     def __init__(self, board_id, topic_id):
         self.topic = {}
         return
 
     def ParsePage(self, page_html, offset):
+        """Parse a single page from the topic and add the results to the internal thread object"""
         return {}
 
     def GetThreadObj(self):
         return self.topic
 
+
+
+
 class PostParser():# TODO
-    """Parser for posts"""
+    """Parser for individual posts"""
     user_id = None
 
     def __init__(self, topic_page_html, post_id):
@@ -37,6 +41,11 @@ class PostParser():# TODO
         # Parse the post
         self.post_userid = self.find_userid()
         return
+
+    def ParsePost(self, post_obj):
+        """TODO"""
+        raise Exception('TODO: impliment these things')
+
 
 
     def find_userid(self):
