@@ -28,6 +28,7 @@ from pyquery import PyQuery
 
 file_path = os.path.join('debug','thread_page_response.htm')
 file_path = os.path.join('debug','thread_page_response.b53.t2182.start2580.htm')
+file_path = os.path.join('tests','aryion.b38.t45427.htm')
 with open(file_path, 'r') as f:
     page_html = f.read()
 
@@ -49,14 +50,14 @@ thread['title'] = thread_title
 thread_id_path = '#page-body > h2 > a'
 thread_id_element = d(thread_id_path)
 thread_id_html = thread_id_element.outer_html()
-thread_id = re.search('<a\shref="./viewtopic\.php\?f=\d+&amp;t=(\d+)(?:&amp;start=\d+)">', thread_id_html).group(1)
+thread_id = re.search('<a\shref="./viewtopic\.php\?f=\d+&amp;t=(\d+)(?:&amp;start=\d+)?">', thread_id_html).group(1)
 thread['thread_id'] = thread_id
 
 # Get the board ID
 board_id_path = '#page-body > h2 > a'
 board_id_element = d(board_id_path)
 board_id_html = board_id_element.outer_html()
-board_id = re.search('<a\shref="./viewtopic\.php\?f=(\d+)&amp;t=\d+(?:&amp;start=\d+)">', board_id_html).group(1)
+board_id = re.search('<a\shref="./viewtopic\.php\?f=(\d+)&amp;t=\d+(?:&amp;start=\d+)?">', board_id_html).group(1)
 thread['board_id'] = board_id
 
 
@@ -122,29 +123,38 @@ for post_id in post_ids:
     # attachbox:            #p2404876 > div > div.postbody > dl > dd > dl > dt > a
     # attachbox(text file): #p2467990 > div > div.postbody > dl > dd > dl > dt > a
     # #p2404876 > div > div.postbody > dl
-    attachment_path = '#p{pid} > div > div.postbody > dl > dd > dl > dt > a'.format(pid=post_id)
+    attachment_path = '#p{pid} > div > div.postbody > dl > dd > dl'.format(pid=post_id)
     attachment_elements = d(attachment_path)
     if attachment_elements:
-        attachments = []
+        post_attachments = []
         for attachment_child in attachment_elements.items():
             attachment = {}
+            attachment_child_outer_html = attachment_child.outer_html()
+            print('attachment_child_outer_html: {0!r}'.format(attachment_child_outer_html))
+
             # Find the url of this attachment
-            #attachment_url = attachment_child.attrib['href'][1:]#None#TODO FIXME
-            #attachment['url'] = attachment_url
+            attachment_dl_url = re.search('<a\s(?:class="postlink"\s)?href="(./download/file\.php\?id=\d+(?:&amp;mode=view)?)">', attachment_child_outer_html).group(1)
+            attachment['dl_url'] = attachment_dl_url
 
             # Find the comment for this attachment, if there is a comment for it
-            attachment_comment = None#TODO FIXME
+            attachment_comment = attachment_child.text()
+            print('attachment_comment: {0!r}'.format(attachment_comment))
             attachment['comment'] = attachment_comment
 
-            # Find the filename for the attachment, if there is one next to it
-            attachment_filename = None#TODO FIXME
-            attachment['attachment_filename'] = attachment_filename
+            # Attachment title
+            #attachment_title = re.search('title="([^"]+)"', attachment_child_outer_html).group(1)
+            #attachment['title'] = attachment_title
 
-            attachments.append(attachment)
+
+            # Find the filename for the attachment, if there is one next to it
+            #attachment_filename = None#TODO FIXME
+            #attachment['attachment_filename'] = attachment_filename
+
+            post_attachments.append(attachment)
             continue
     else:
-        attachments = None
-    post['attachments'] = attachments
+        post_attachments = None
+    post['attachments'] = post_attachments
 
 
     # Get the signature
@@ -156,7 +166,7 @@ for post_id in post_ids:
 
     # Store the post object away
     posts.append(post)
-    if len(posts) == 2:# DEBUG
+    if len(posts) == 200:# DEBUG
         break# Stop at first post for debug
     continue
 

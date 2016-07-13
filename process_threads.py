@@ -240,7 +240,7 @@ def process_thread(requests_session, board_id, thread_id, output_path):
         # Load page
         page_url = '{forum_base_url}/viewtopic.php?f={board_id}&t={thread_id}&start={offset}'.format(
             forum_base_url=config.forum_base_url, board_id=board_id, thread_id=thread_id, offset=offset)
-        page_url = 'https://aryion.com/forum/viewtopic.php?f=53&t=2182&start=2580'
+        page_url = 'https://aryion.com/forum/viewtopic.php?f=38&t=45427'
         thread_page_response = fetch(
             requests_session,
             url=page_url,
@@ -300,7 +300,7 @@ def main():
         # Log us in
         phpbb_login(requests_session)
 
-        process_thread(requests_session=requests_session, board_id=38, thread_id=44962, output_path=config.output_path)# debug
+        process_thread(requests_session=requests_session, board_id=38, thread_id=45427, output_path=config.output_path)# debug
 
         # Process supplied threads
         process_threads(
