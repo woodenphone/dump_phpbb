@@ -158,10 +158,10 @@ def parse_thread_page(page_html, board_id, topic_id, offset):
             for attachment_child in attachment_elements.items():
                 attachment = {}
                 attachment_child_outer_html = attachment_child.outer_html()
-                print('attachment_child_outer_html: {0!r}'.format(attachment_child_outer_html))
+                #print('attachment_child_outer_html: {0!r}'.format(attachment_child_outer_html))
 
                 # Find the url of this attachment
-                attachment_dl_url = re.search('<a\s*(?:class="postlink"\s*)?(?:class="thumbnail\s*)?href="(./download/file\.php\?id=\d+(?:&amp;mode=view|&amp;sid=\w+)*)">', attachment_child_outer_html).group(1)
+                attachment_dl_url = re.search('"(./download/file\.php\?id=\d+(?:&amp;mode=view|&amp;sid=\w+)*)"', attachment_child_outer_html).group(1)
                 attachment['dl_url'] = attachment_dl_url
 
                 # Find the comment for this attachment, if there is a comment for it
@@ -202,7 +202,7 @@ def parse_thread_page(page_html, board_id, topic_id, offset):
     ##    if len(posts) == 200:# DEBUG
     ##        break# Stop at first post for debug
         continue
-    print('posts: {0!r}'.format(posts))
+    #print('posts: {0!r}'.format(posts))
     return posts
 
 

@@ -29,11 +29,11 @@ from pyquery import PyQuery
 #file_path = os.path.join('debug','thread_page_response.htm')
 file_path = os.path.join('debug','thread_page_response.b53.t2182.start2580.htm')
 file_path = os.path.join('tests','aryion.b38.t45427.htm')
-#file_path = os.path.join('tests', 'phpbb.b64.t2377101.htm')
-file_path = os.path.join('tests', 'aryion.b38.t44962.htm')
+file_path = os.path.join('tests', 'phpbb.b64.t2377101.htm')
+#file_path = os.path.join('tests', 'aryion.b38.t44962.htm')
 file_path = os.path.join('tests', 'phpbb.b64.t2103285.htm')
-file_path = os.path.join('tests', 'electricalaudio.b5.t64830.htm')
-file_path = os.path.join('tests', 'aryion.b53.t2182.offset2560.htm')
+
+
 
 with open(file_path, 'r') as f:
     page_html = f.read()
@@ -155,8 +155,17 @@ for post_id in post_ids:
             attachment_child_outer_html = attachment_child.outer_html()
             #print('attachment_child_outer_html: {0!r}'.format(attachment_child_outer_html))
 
+            # Record what kind of attachment this is
+            if 'class="attach-image"' in attachment_child_outer_html:
+                attachment_type = 'attach-image'
+            elif 'class="file"' in attachment_child_outer_html:
+                attachment_type = 'file'
+            elif 'class="thumbnail"' in attachment_child_outer_html:
+                attachment_type = 'thumbnail'
+            attachment['type'] = attachment_type
+
             # Find the url of this attachment
-            attachment_dl_url = re.search('"(./download/file\.php\?id=\d+(?:&amp;mode=view|&amp;sid=\w+)*)"', attachment_child_outer_html).group(1)
+            attachment_dl_url = re.search('<a\s*(?:class="postlink"\s*|class="thumbnail\s*)*href="(./download/file\.php\?id=\d+(?:&amp;mode=view|&amp;sid=\w+)*)">', attachment_child_outer_html).group(1)
             attachment['dl_url'] = attachment_dl_url
 
             # Find the comment for this attachment, if there is a comment for it
