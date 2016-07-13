@@ -1,11 +1,21 @@
 dump_phpbb_notes.txt
 
 
-https://area51.phpbb.com/
-https://github.com/phpbb/phpbb
-https://wiki.phpbb.com/Tables
-https://wiki.phpbb.com/Table.phpbb_topics
-https://wiki.phpbb.com/Table.phpbb_posts
+
+phpbb things:
+    https://area51.phpbb.com/
+    https://github.com/phpbb/phpbb
+    https://wiki.phpbb.com/Tables
+    https://wiki.phpbb.com/Table.phpbb_topics
+    https://wiki.phpbb.com/Table.phpbb_posts
+
+Useful things:
+    http://www.w3schools.com/cssref/css_selectors.asp
+
+
+
+
+
 
 
 
