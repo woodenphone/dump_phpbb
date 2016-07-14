@@ -184,7 +184,6 @@ for post_id in post_ids:
         post_attachments = None
     post['attachments'] = post_attachments
 
-
     # Get the signature
     signature_path = '#sig{pid}'.format(pid=post_id)
     signature_element = p(signature_path)
@@ -197,6 +196,7 @@ for post_id in post_ids:
 ##    if len(posts) == 200:# DEBUG
 ##        break# Stop at first post for debug
     continue
+#print('posts: {0!r}'.format(posts))
 
 thread['posts'] = posts
 

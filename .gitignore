@@ -4,3 +4,4 @@ download/
 *.pyc
 config.py
 accounts.py
+threads.json

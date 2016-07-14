@@ -67,12 +67,29 @@ from pyquery import PyQuery
 
 
 
+def parse_thread_level_items(page_one_html, board_id, thread_id):
+    """Parse out information that is more thread-level than post-level.
+    ex. Thread name, reported number of pages,
+    Return a dict of these values."""
+    # Values we were given can be dropped in as-is.
+    thread['board_id'] = board_id
+    thread['thread_id'] = thread_id
+
+    # Get the thread title
+    thread_title_path = 'h2 > a'
+    thread_title_element = d(thread_title_path)
+    assert(thread_title_element)
+    thread_title = thread_title_element.text()
+    thread['title'] = thread_title
+
+    return thread
 
 
 
 
 def parse_thread_page(page_html, board_id, topic_id, offset):
-    """Parse a page of posts"""
+    """Parse a page of posts.
+    Return a list of dicts, each dict being the values for a single post."""
     d = PyQuery(page_html)
 
     # Get post IDs

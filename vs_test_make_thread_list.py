@@ -4,7 +4,7 @@
 #
 # Author:      User
 #
-# Created:     09/07/2016
+# Created:     14/07/2016
 # Copyright:   (c) User 2016
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
@@ -18,14 +18,15 @@ import random
 import argparse
 import sys
 import re
+import json
 # libs
 import requests
-#from bs4 import BeautifulSoup
+from pyquery import PyQuery
 # local
-import parsers
-import config
+#import config
 
-
+THREADS_PER_PAGE = 25
+FORUM_BASE_URL = 'https://www.phpbb.com/community'
 
 def setup_logging(log_file_path,timestamp_filename=True,max_log_size=104857600):
     """Setup logging (Before running any other code)
@@ -171,159 +172,106 @@ def fetch(requests_session, url, method='get', data=None, expect_status=200, hea
     raise Exception('Giving up!')
 
 
-def phpbb_login(requests_session):
-    logging.info('Logging in as {0}'.format(config.username))
-    login_page_url = '{0}/ucp.php?mode=login'.format(config.forum_base_url)
-    # Load login page
-    # Send login request
-    login_response = fetch(
-        requests_session,
-        url=login_page_url,
-        method='post',
-        expect_status=200,
-        headers={
-            'origin': config.site_base_url,
-            'pragma': 'no-cache',
-            'referer': '{0}ucp.php?mode=login'.format(config.forum_base_url),
-            },
-        data={
-            'username': config.username,
-            'password': config.password,
-            'autologin': 'on',
-            'viewonline': 'on',
-            'redirect': '',
-            'login': 'login',
-            }
-    )
-    save_file(
-        file_path = os.path.join("debug","login_response.html"),
-        data = login_response.content,
-        force_save = True,
-        allow_fail = True
-    )
 
-    # Verify login worked
-    assert(config.username in login_response.content)# Our username
-    assert('/ucp.php?mode=logout' in login_response.content)# Logout link
-    #assert('' not in login_response.content)# Login link
-    logging.info('Logged in as {0}'.format(config.username))
-    return
+def parse_threads_listing_page(html, board_id, posts_per_page):
+    d = PyQuery(html)
+
+    topics = []
+    rows = d('.topiclist .row')
+    for row in rows.items():
+        topic_info = {'posts_per_page': posts_per_page}
+        t = PyQuery(row.outer_html())
+
+        # Get the link to the topic (Always exists)
+        page_1_link_html = t('.topictitle').outer_html()
+        topic_id = re.search(';t=(\d+)', page_1_link_html).group(1)
+        topic_info['board_id'] = board_id
+        topic_info['topic_id'] = topic_id
+
+        # Get any links to subsequent pages
+        page_numbers = [1]
+        page_links = t('.pagination a')
+        for page_link in page_links.items():
+            page_link_html = page_link.outer_html()
+            page_number_str = page_link.text()
+            page_number = int(page_number_str)
+            page_numbers.append(page_number)
+    ##        if 'start=' in page_link_html:
+    ##            page_offset_str = re.search('start=(\d+)', page_link_html).group(1)
+    ##            page_offset = int(page_offset_str)
+    ##            offsets.append(page_offset)
+        last_page_number = max(page_numbers)
+        topic_info['pages'] = last_page_number
+        topics.append(topic_info)
+        continue
+    logging.debug('topics: {0}'.format(topics))
+    return topics
 
 
-##def parse_thread_page(html):
-##    """Extract data from each post on a thread page"""
-##    page_soup = BeautifulSoup.BeautifulSoup(html)
-##    bs_posts = page_soup.find_all(re.compile('div id = "p\d+"'))
-##    posts = []
-##    for bs_post in bs_posts:
-##        post_html = str(bs_post)
-##        post = {
-##            'time_of_retreival':str(time.time()),
-##            'post_time': None,
-##            'board_id': re.search('<a\ href=\"./report\.php\?f\=(\d+)', post_html).group(1),
-##            'thread_id': re.search('<h2><a\shref="./viewtopic.php\?f=21&amp;t=(\d+)">([^<]+)</a></h2>', page_html, re.MULTILINE|re.IGNORECASE).group(1),
-##            'thread_title': re.search('<h2><a\shref="./viewtopic.php\?f=21&amp;t=(\d+)">([^<]+)</a></h2>', page_html, re.MULTILINE|re.IGNORECASE).group(2),
-##            'post_id': re.search('id="p(\d+)"', post_html).group(1),
-##            'post_html': post_html,
-##
-##        }
-##        posts.append(post)
-##        continue
-##    logging.debug('repr(posts): {0}'.format(repr(posts)))
-##    return posts
+def list_board_threads(requests_session, board_id, output_file_path):
+    logging.info('Listing threads from board_id:{0} to output_file_path: {1}'.format(board_id, output_file_path))
+    if os.path.dirname(output_file_path) and (not os.path.exists(os.path.dirname(output_file_path))):
+        os.makedirs(os.path.dirname(output_file_path))
 
+    threads = []
+    last_page_threads = [None]
+    for page_num in xrange(1, 10):# TODO: Increase to a few thousand after testing
+        # Generate page URL
+        offset = page_num*THREADS_PER_PAGE
+        page_url = '{forum_base_url}/viewforum.php?f={board_id}&start={offset}'.format(
+            forum_base_url=FORUM_BASE_URL, board_id=board_id, offset=offset)
 
-def process_thread(requests_session, board_id, thread_id, output_path):
-    """Load each page of a thread and parse each page"""
-    logging.info('Processing thread: {0} from board: {1}'.format(thread_id, board_id))
-
-    thread = {}
-    thread['grabbing_user'] = config.username
-    thread['board_id'] = board_id
-    thread['thread_id'] = thread_id
-    thread['posts'] = []
-
-    for page_number in xrange(0, 2000):# 2K pages is unexpectedly high
-        offset = page_number*config.posts_per_page
-        # Load page
-        page_url = '{forum_base_url}/viewtopic.php?f={board_id}&t={thread_id}&start={offset}'.format(
-            forum_base_url=config.forum_base_url, board_id=board_id, thread_id=thread_id, offset=offset)
-        thread_page_response = fetch(
+        # Load this page's threads
+        thread_listing_response = fetch(
             requests_session,
             url=page_url,
-            method='get',
-            data=None,
+            method='post',
             expect_status=200,
-            headers=None
         )
         save_file(
-            file_path = os.path.join('debug', 'thread_page_response.htm'),
-            data = thread_page_response.content,
+            file_path = os.path.join("debug","thread_listing_response.html"),
+            data = thread_listing_response.content,
             force_save = True,
-            allow_fail = False
+            allow_fail = True
         )
 
-        # Parse post data from page
-        page_posts = parsers.parse_thread_page(
-            page_html=thread_page_response.content,
+        # Parse out thread IDs
+        this_page_threads = parse_threads_listing_page(
+            html=thread_listing_response.content,
             board_id=board_id,
-            topic_id=thread_id,
-            offset=offset,
-        )
-        # Stop at the end of the thread
-        if (1):# TODO
-            logging.error('!DEBUG BREAK!')
-            logging.info('No more pages to process for this topic.')
+            posts_per_page=15
+            )
+        threads += this_page_threads
+
+        # Detect the end of the listing
+        if (last_page_threads == this_page_threads):
+            logging.info('Reached the end of the thread lisitng.')
             break
+        else:
+            last_page_threads = this_page_threads
         continue
-    # Save thread data
-    logging.debug('thread: {0!r}'.format(thread))
-    logging.info('Processed thread: {0} from board: {1}'.format(thread_id, board_id))
-    return
+    logging.debug('Found {0} threads.'.format(len(threads)))
+    # Write thread IDs to a file
+    with open(output_file_path, 'wb') as f:
+        f.write(json.dumps(threads))
 
-
-def process_threads(requests_session, input_file_path, output_path):
-    """Process the threads listed in the given file"""
-    with open(input_file_path, 'r') as f:
-        for line in f:
-            # Extract info from line
-            # board_id.thread_id\n
-            line = line.strip()
-            b, t = line.split('.')
-            board_id, thread_id = int(b), int(t)
-            # Process thread
-            process_thread(requests_session, board_id, thread_id, output_path)
-            continue
-
+    logging.info('Listed threads from board_id:{0} to output_file_path: {1}'.format(board_id, output_file_path))
     return
 
 
 def main():
     try:
-        setup_logging(log_file_path=os.path.join('debug','process_threads_log.txt'))
-##        # Accept CLI args
-##        parser = argparse.ArgumentParser()
-##        parser.add_argument('list_path', help='list_path',
-##                        type=int)
-##        args = parser.parse_args()
-##        input_file_path = args.list_path
-        input_file_path = os.path.join('debug', 'board_21_threads.txt')
+        setup_logging(log_file_path=os.path.join('debug','vs_test_make_threads_lists_log.txt'))
 
         # Init Requests session
         requests_session = requests.Session()
 
-        # Log us in
-        phpbb_login(requests_session)
-
-        process_thread(requests_session=requests_session, board_id=38, thread_id=45427, output_path=config.output_path)# debug
-
-        # Process supplied threads
-        process_threads(
-            requests_session,
-            input_file_path,
-            output_path=config.output_path
+        # List the threads in this subforum
+        list_board_threads(
+            requests_session=requests_session,
+            board_id=6,
+            output_file_path='threads.json'
         )
-
         sys.exit(0)# Everything went fine.
 
     except Exception as e:# Log fatal exceptions
