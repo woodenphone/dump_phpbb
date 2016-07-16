@@ -415,6 +415,28 @@ class TestPhpbbB6T2259706ffset15(unittest.TestCase):
 
 
 
+class TestThreadLevelPphbbB6T_(unittest.TestCase):
+    """phpBB v3"""
+    def setUp(self):
+        self.board_id = 6
+        self.topic_id = 2259706
+        self.html_path = os.path.join('tests', '')
+        with open(self.html_path, 'r') as f:
+            self.page_html = f.read()
+        self.thread = parsers.parse_thread_level_items(
+            page_one_html=self.page_html,
+            board_id=self.board_id,
+            topic_id=self.topic_id,
+        )
+        return
+
+    def test_thread_level(self):
+        self.assertEqual(len(self.thread['board_id']), 6)
+        self.assertEqual(len(self.thread['thread_id']), '')
+        self.assertEqual(len(self.thread['title']), '')
+        return
+
+
 def main():
     unittest.main()
 

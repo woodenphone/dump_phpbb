@@ -82,6 +82,10 @@ def parse_thread_level_items(page_one_html, board_id, thread_id):
     thread_title = thread_title_element.text()
     thread['title'] = thread_title
 
+    # Determing if thread is normal, sticky, announcement, or global announcement
+
+    thread['topic_type']
+
     return thread
 
 

@@ -237,8 +237,8 @@ def phpbb_login(requests_session):
 def process_thread(requests_session, board_id, thread_id, output_path, posts_per_page, pages):
     """Load each page of a thread and parse each page"""
     logging.info('Processing thread: {0} from board: {1}'.format(thread_id, board_id))
-    assert(pages > 0)
-    assert(posts_per_page > 0)
+    assert(2000 > pages > 0)# Must be at least one page, and 2000 is unexpectedly high
+    assert(posts_per_page > 0)# Zero is just silly.
 
     thread_filepath = os.path.join(output_path, 'b{b}'.format(b=board_id), 'b{b}.t{t}.json'.format(b=board_id, t=thread_id))
 
@@ -249,6 +249,7 @@ def process_thread(requests_session, board_id, thread_id, output_path, posts_per
     thread['thread_id'] = thread_id
     thread['posts'] = []# Filled in later on in this function
 
+    last_page_posts = []#
     # Process the posts in the thread
     for page_number in xrange(0, 2000):# 2K pages is unexpectedly high
         offset = page_number*posts_per_page
@@ -282,17 +283,23 @@ def process_thread(requests_session, board_id, thread_id, output_path, posts_per
         thread['posts'] += this_page_posts
 
         # Stop at the end of the thread
-        if (len(this_page_posts) < config.posts_per_page):
+        for this_page_posts in this_page_posts:# Catch duplicate post IDs
+            for last_page_post in last_page_posts:
+                if this_page_post['post_id'] == last_page_post['post_id']:
+                    logging.info('A post on this page has the same ID as one on the last, meaning were at the end of the thread')
+                    logging.debug('this_page_post: {0}, last_page_post: {1}'.format(this_page_post, last_page_post))
+                    break
+
+        if (len(this_page_posts) < config.posts_per_page):# Catch unfilled page
             logging.info('This page had less than the maxumim posts per page and so is the last page.! No more pages to process for this topic.')
             break
-        elif (page_number >= pages):
-            logging.info('Expected number of pages reached, {0} of {0}'.format(page_number, pages))
-            break
-        else:
-            continue
+##        elif (page_number >= pages):# Unreliable, posts could have been added since input data was collected
+##            logging.info('Expected number of pages reached, {0} of {0}'.format(page_number, pages))
+##            break
+        continue
 
     # Save data to file
-    logging.debug('thread: {0!r}'.format(thread))
+    #logging.debug('thread: {0!r}'.format(thread))
     save_file(
         file_path = thread_filepath,
         data = json.dumps(thread),
@@ -307,7 +314,11 @@ def process_thread(requests_session, board_id, thread_id, output_path, posts_per
 def process_threads(thread_info_filepath, output_path):
     with open(thread_info_filepath, 'rb') as f:
         threads = json.loads(f.read())
+    c = 0
     for thread in threads:
+        c += 1
+        if c % 100 == 0:
+            logging.info('{0} threads processed'.format(c))
         process_thread(
             output_path=output_path,
             board_id=thread['board_id'],
