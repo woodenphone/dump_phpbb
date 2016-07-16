@@ -101,6 +101,7 @@ def parse_thread_page(page_html, board_id, topic_id, offset):
     posts = []
     # With the post IDs, we can generate paths to the items we want
     for post_id in post_ids:
+        #print('post_id: {0}'.format(post_id))
         post = {
             'post_id': post_id,
             'time_of_retreival': str( time.time() ),
@@ -117,7 +118,7 @@ def parse_thread_page(page_html, board_id, topic_id, offset):
 
         # Get the Username
     ##    username_path = '#p{pid} > div > div.postbody > p > strong > a'.format(pid=post_id)
-        username_path = '.author strong a'
+        username_path = '.author strong'
         username_element = p(username_path)
         username = username_element.text()
         assert(len(username) >= 1)
@@ -125,11 +126,15 @@ def parse_thread_page(page_html, board_id, topic_id, offset):
 
         # Get the userID
     ##    userid_path = '#p{pid} > div > div.postbody > p > strong > a'.format(pid=post_id)
-        userid_path = '.author'
+        userid_path = '.author strong'
         userid_element = p(userid_path)
         userid_html = userid_element.outer_html()
-        userid = re.search('./memberlist.php\?mode=viewprofile&amp;u=(\d+)(?:&amp;sid=\w+)?', userid_html, re.IGNORECASE|re.MULTILINE).group(1)
-        assert(len(userid) >= 1)
+        if ('href' not in userid_html):
+            print('No userID for this post! post_id: {0}'.format(post_id))
+            userid = None
+        else:
+            userid = re.search('./memberlist.php\?mode=viewprofile&amp;u=(\d+)(?:&amp;sid=\w+)?', userid_html, re.IGNORECASE|re.MULTILINE).group(1)
+            assert(len(userid) >= 1)
         post['userid'] = userid
 
         # Get the post time
@@ -178,7 +183,15 @@ def parse_thread_page(page_html, board_id, topic_id, offset):
                 #print('attachment_child_outer_html: {0!r}'.format(attachment_child_outer_html))
 
                 # Find the url of this attachment
-                attachment_dl_url = re.search('"(./download/file\.php\?id=\d+(?:&amp;mode=view|&amp;sid=\w+)*)"', attachment_child_outer_html).group(1)
+                if (
+                    ('href' not in attachment_child_outer_html) and
+                    ('src' not in attachment_child_outer_html) and
+                    ('[<div.inline-attachment>]' == repr(attachment_child))
+                    ):
+                    print('No download URL for this attachment!')
+                    attachment_dl_url = None# This can happen sometimes in quotes
+                else:
+                    attachment_dl_url = re.search('"(./download/file\.php\?id=\d+(?:&amp;mode=view|&amp;sid=\w+)*)"', attachment_child_outer_html).group(1)
                 attachment['dl_url'] = attachment_dl_url
 
                 # Find the comment for this attachment, if there is a comment for it
@@ -205,7 +218,6 @@ def parse_thread_page(page_html, board_id, topic_id, offset):
         else:
             post_attachments = None
         post['attachments'] = post_attachments
-
 
         # Get the signature
         signature_path = '#sig{pid}'.format(pid=post_id)

@@ -234,9 +234,11 @@ def phpbb_login(requests_session):
 ##    return posts
 
 
-def process_thread(requests_session, board_id, thread_id, output_path):
+def process_thread(requests_session, board_id, thread_id, output_path, posts_per_page, pages):
     """Load each page of a thread and parse each page"""
     logging.info('Processing thread: {0} from board: {1}'.format(thread_id, board_id))
+    assert(pages > 0)
+    assert(posts_per_page > 0)
 
     thread_filepath = os.path.join(output_path, 'b{b}'.format(b=board_id), 'b{b}.t{t}.json'.format(b=board_id, t=thread_id))
 
@@ -249,7 +251,7 @@ def process_thread(requests_session, board_id, thread_id, output_path):
 
     # Process the posts in the thread
     for page_number in xrange(0, 2000):# 2K pages is unexpectedly high
-        offset = page_number*config.posts_per_page
+        offset = page_number*posts_per_page
         # Load page
         page_url = '{forum_base_url}/viewtopic.php?f={board_id}&t={thread_id}&start={offset}'.format(
             forum_base_url=config.forum_base_url, board_id=board_id, thread_id=thread_id, offset=offset)
@@ -281,8 +283,10 @@ def process_thread(requests_session, board_id, thread_id, output_path):
 
         # Stop at the end of the thread
         if (len(this_page_posts) < config.posts_per_page):
-##            logging.error('!DEBUG BREAK!')
             logging.info('This page had less than the maxumim posts per page and so is the last page.! No more pages to process for this topic.')
+            break
+        elif (page_number >= pages):
+            logging.info('Expected number of pages reached, {0} of {0}'.format(page_number, pages))
             break
         else:
             continue

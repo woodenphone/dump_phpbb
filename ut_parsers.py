@@ -291,6 +291,127 @@ class TestAryionB53T2182Offset2560(unittest.TestCase):
 
 
 
+class TestPhpbbB6T362219ffset270(unittest.TestCase):
+    """phpBB v3 """
+    def setUp(self):
+        self.board_id = 6
+        self.topic_id = 362219
+        self.offset = 270
+        self.html_path = os.path.join('tests', 'phpbb.b6.t362219.offset270.htm')
+        with open(self.html_path, 'r') as f:
+            self.page_html = f.read()
+        self.posts = parsers.parse_thread_page(
+            page_html=self.page_html,
+            board_id=self.board_id,
+            topic_id=self.topic_id,
+            offset=self.offset
+        )
+        return
+
+    def test_thread_level(self):
+        self.assertEqual(len(self.posts), 15)# Should be 20 posts
+        return
+    def test_post_userids(self):
+        self.assertEqual(self.posts[0]['userid'], '874305')
+        self.assertEqual(self.posts[1]['userid'], '956185')
+        self.assertEqual(self.posts[2]['userid'], '329351')
+        self.assertEqual(self.posts[3]['userid'], '882465')
+        self.assertEqual(self.posts[7]['userid'], None)# No user ID for this post
+        return
+    def test_post_usernames(self):
+        self.assertEqual(self.posts[0]['username'], 'koimaster')
+        self.assertEqual(self.posts[1]['username'], '4Teach')
+        self.assertEqual(self.posts[2]['username'], 'vamsy')
+        self.assertEqual(self.posts[3]['username'], 'Snorlaxative')
+        self.assertEqual(self.posts[4]['username'], 'DeepUnderground')
+        self.assertEqual(self.posts[7]['username'], 'scottlpool2003')# No user ID for this post
+        return
+    def test_post_titles(self):
+        self.assertEqual(self.posts[0]['title'], 'Re: The hardest question of all... how do you get new users?')
+        self.assertEqual(self.posts[1]['title'], 'Re: The hardest question of all... how do you get new users?')
+        self.assertEqual(self.posts[3]['title'], 'Re: The hardest question of all... how do you get new users?')
+        self.assertEqual(self.posts[4]['title'], 'Re: The hardest question of all... how do you get new users?')
+        return
+    def test_thread_attachments_alt_text(self):
+##        self.assertEqual(self.posts[6]['attachments'][0]['alt_text'], u'SaintxTail-314679-LizardLord0001.jpg')
+##        self.assertEqual(self.posts[4]['attachments'][0]['alt_text'], u'1380945683696.jpg')
+        return
+    def test_thread_attachments_count(self):
+        self.assertEqual(self.posts[0]['attachments'], None)
+        self.assertEqual(self.posts[1]['attachments'], None)
+        self.assertEqual(self.posts[2]['attachments'], None)
+        self.assertEqual(self.posts[3]['attachments'], None)
+        return
+    def test_thread_attachments_dl_url(self):
+##        self.assertEqual(self.posts[4]['attachments'][0]['dl_url'], u'./download/file.php?id=144003&amp;sid=c5d626da13ef107f1162db58be359167&amp;mode=view')
+##        self.assertEqual(self.posts[6]['attachments'][0]['dl_url'], u'./download/file.php?id=144290&amp;sid=c5d626da13ef107f1162db58be359167&amp;mode=view')
+        return
+    def test_thread_attachments_title(self):
+##        self.assertEqual(self.posts[4]['attachments'][0]['title'], u'1380945683696.jpg (454.6 KiB) Viewed 16271 times')
+##        self.assertEqual(self.posts[6]['attachments'][0]['title'], u'SaintxTail-314679-LizardLord0001.jpg (636.63 KiB) Viewed 14886 times')
+        return
+
+
+
+
+class TestPhpbbB6T2259706ffset15(unittest.TestCase):
+    """phpBB v3
+    https://www.phpbb.com/community/viewtopic.php?f=6&t=2259706&start=15
+    Has an attachment class without any file/link/image"""
+    def setUp(self):
+        self.board_id = 6
+        self.topic_id = 2259706
+        self.offset = 15
+        self.html_path = os.path.join('tests', 'phpbb.b6.t2259706.offset15.htm')
+        with open(self.html_path, 'r') as f:
+            self.page_html = f.read()
+        self.posts = parsers.parse_thread_page(
+            page_html=self.page_html,
+            board_id=self.board_id,
+            topic_id=self.topic_id,
+            offset=self.offset
+        )
+        return
+
+    def test_thread_level(self):
+        self.assertEqual(len(self.posts), 15)# Should be 20 posts
+        return
+    def test_post_userids(self):
+        self.assertEqual(self.posts[0]['userid'], '182473')
+        self.assertEqual(self.posts[11]['userid'], '1136425')
+        self.assertEqual(self.posts[13]['userid'], '1136425')
+        return
+    def test_post_usernames(self):
+        self.assertEqual(self.posts[0]['username'], 'Lumpy Burgertushie')
+        self.assertEqual(self.posts[11]['username'], 'Danielx64')
+        self.assertEqual(self.posts[13]['username'], 'Danielx64')
+        return
+    def test_post_titles(self):
+        self.assertEqual(self.posts[0]['title'], 'Re: Speedtest')
+        self.assertEqual(self.posts[11]['title'], 'Re: Speedtest')
+        self.assertEqual(self.posts[13]['title'], 'Re: Speedtest')
+        return
+    def test_thread_attachments_alt_text(self):
+        self.assertEqual(self.posts[11]['attachments'][0]['alt_text'], None)# Attachment is strange in this post
+        self.assertEqual(self.posts[13]['attachments'][0]['alt_text'], u'3775542717.png')
+        return
+    def test_thread_attachments_count(self):
+        self.assertEqual(self.posts[0]['attachments'], None)
+        self.assertEqual(self.posts[1]['attachments'], None)
+        self.assertEqual(self.posts[2]['attachments'], None)
+        self.assertEqual(self.posts[3]['attachments'], None)
+        self.assertEqual(len(self.posts[11]['attachments']), 1)# Attachment is strange in this post
+        self.assertEqual(len(self.posts[13]['attachments']), 3)
+        return
+    def test_thread_attachments_dl_url(self):
+        self.assertEqual(self.posts[11]['attachments'][0]['dl_url'], None)# Attachment is strange in this post
+        self.assertEqual(self.posts[13]['attachments'][0]['dl_url'], u'./download/file.php?id=159886&amp;sid=5f585129d9f3e20dde9a82ebe4facd8d')
+        return
+    def test_thread_attachments_title(self):
+        self.assertEqual(self.posts[11]['attachments'][0]['title'], None)# Attachment is strange in this post
+        self.assertEqual(self.posts[13]['attachments'][0]['title'], None)
+        return
+
 
 
 

@@ -1,7 +1,10 @@
 debug/
 un_git/
 download/
+wpull_test/
+json_test/
 *.pyc
 config.py
 accounts.py
 threads.json
+*.config.py
