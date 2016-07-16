@@ -215,7 +215,7 @@ def list_board_threads(requests_session, board_id, output_file_path):
 
     threads = []
     last_page_threads = [None]
-    for page_num in xrange(1, 10):# TODO: Increase to a few thousand after testing
+    for page_num in xrange(1, 200):# TODO: Increase to a few thousand after testing
         # Generate page URL
         offset = page_num*THREADS_PER_PAGE
         page_url = '{forum_base_url}/viewforum.php?f={board_id}&start={offset}'.format(
@@ -249,6 +249,10 @@ def list_board_threads(requests_session, board_id, output_file_path):
             break
         else:
             last_page_threads = this_page_threads
+        # Stop after n threads are collected
+        if len(threads) == 1000:
+            logging.info('Weve got enough threads.')
+            break
         continue
     logging.debug('Found {0} threads.'.format(len(threads)))
     # Write thread IDs to a file

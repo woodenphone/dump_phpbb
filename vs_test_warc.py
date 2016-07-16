@@ -119,7 +119,7 @@ def run_wpull(output_path, url_list_path):
 ##    "--page-requisites",#
 
     "--warc-file", warc_path,
-    "--warc-append"
+    "--warc-append",
     "--warc-header", "operator: Anonarchive",
 ##    "--warc-header", "digiartistsdomain-img-dld-script-version: %s" % (VERSION),
 ##    "--warc-header", "digiartistsdomain-dld-script-sha1: %s" % (RUNNER_SHA1),# In case the version string is forgotten
@@ -131,7 +131,7 @@ def run_wpull(output_path, url_list_path):
 
     # Run the command
     logging.debug('wpull_args%r' % (wpull_args))
-    #subprocess.check_call(wpull_args)
+    subprocess.check_call(wpull_args)
     logging.debug('Finished running wpull')
     return
 

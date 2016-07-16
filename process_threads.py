@@ -18,6 +18,7 @@ import random
 import argparse
 import sys
 import re
+import json
 # libs
 import requests
 #from bs4 import BeautifulSoup
@@ -237,12 +238,16 @@ def process_thread(requests_session, board_id, thread_id, output_path):
     """Load each page of a thread and parse each page"""
     logging.info('Processing thread: {0} from board: {1}'.format(thread_id, board_id))
 
+    thread_filepath = os.path.join(output_path, 'b{b}'.format(b=board_id), 'b{b}.t{t}.json'.format(b=board_id, t=thread_id))
+
     thread = {}
+    # Record thread-level information
     thread['grabbing_user'] = config.username
     thread['board_id'] = board_id
     thread['thread_id'] = thread_id
-    thread['posts'] = []
+    thread['posts'] = []# Filled in later on in this function
 
+    # Process the posts in the thread
     for page_number in xrange(0, 2000):# 2K pages is unexpectedly high
         offset = page_number*config.posts_per_page
         # Load page
@@ -264,37 +269,49 @@ def process_thread(requests_session, board_id, thread_id, output_path):
         )
 
         # Parse post data from page
-        page_posts = parsers.parse_thread_page(
+        this_page_posts = parsers.parse_thread_page(
             page_html=thread_page_response.content,
             board_id=board_id,
             topic_id=thread_id,
             offset=offset,
         )
+        #logging.debug('this_page_posts: {0}'.format(this_page_posts))
+        logging.debug('len(this_page_posts): {0}'.format(len(this_page_posts)))
+        thread['posts'] += this_page_posts
+
         # Stop at the end of the thread
-        if (1):# TODO
-            logging.error('!DEBUG BREAK!')
-            logging.info('No more pages to process for this topic.')
+        if (len(this_page_posts) < config.posts_per_page):
+##            logging.error('!DEBUG BREAK!')
+            logging.info('This page had less than the maxumim posts per page and so is the last page.! No more pages to process for this topic.')
             break
-        continue
-    # Save thread data
+        else:
+            continue
+
+    # Save data to file
     logging.debug('thread: {0!r}'.format(thread))
+    save_file(
+        file_path = thread_filepath,
+        data = json.dumps(thread),
+        force_save = True,
+        allow_fail = False
+    )
+
     logging.info('Processed thread: {0} from board: {1}'.format(thread_id, board_id))
     return
 
 
-def process_threads(requests_session, input_file_path, output_path):
-    """Process the threads listed in the given file"""
-    with open(input_file_path, 'r') as f:
-        for line in f:
-            # Extract info from line
-            # board_id.thread_id\n
-            line = line.strip()
-            b, t = line.split('.')
-            board_id, thread_id = int(b), int(t)
-            # Process thread
-            process_thread(requests_session, board_id, thread_id, output_path)
-            continue
-
+def process_threads(thread_info_filepath, output_path):
+    with open(thread_info_filepath, 'rb') as f:
+        threads = json.loads(f.read())
+    for thread in threads:
+        process_thread(
+            output_path=output_path,
+            board_id=thread['board_id'],
+            thread_id=thread['topic_id'],
+            posts_per_page=thread['posts_per_page'],
+            pages=thread['pages']
+        )
+        continue
     return
 
 
@@ -307,7 +324,7 @@ def main():
 ##                        type=int)
 ##        args = parser.parse_args()
 ##        input_file_path = args.list_path
-        input_file_path = os.path.join('debug', 'board_21_threads.txt')
+        input_file_path = os.path.join('debug', 'threads.json')
 
         # Init Requests session
         requests_session = requests.Session()
@@ -315,12 +332,12 @@ def main():
         # Log us in
         phpbb_login(requests_session)
 
-        process_thread(requests_session=requests_session, board_id=38, thread_id=45427, output_path=config.output_path)# debug
+        #process_thread(requests_session=requests_session, board_id=38, thread_id=45427, output_path=config.output_path)# debug
 
         # Process supplied threads
         process_threads(
-            requests_session,
-            input_file_path,
+            requests_session=requests_session,
+            input_file_path=input_file_path,
             output_path=config.output_path
         )
 
