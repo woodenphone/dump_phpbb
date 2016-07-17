@@ -42,7 +42,6 @@ from pyquery import PyQuery
 ##
 ##
 ##class PostParser():# TODO
-##    """Parser for individual posts"""
 ##    user_id = None
 ##
 ##    def __init__(self, topic_page_html, post_id):
@@ -82,9 +81,13 @@ def parse_thread_level_items(page_one_html, board_id, thread_id):
     thread_title = thread_title_element.text()
     thread['title'] = thread_title
 
-    # Determing if thread is normal, sticky, announcement, or global announcement
 
-    thread['topic_type']
+
+    # Check if locked
+    if ('title="This topic is locked, you cannot edit posts or make further replies."' in page_html):
+        thread['locked'] = True
+    else:
+        thread['locked'] = False
 
     return thread
 

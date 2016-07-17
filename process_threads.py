@@ -234,7 +234,19 @@ def phpbb_login(requests_session):
 ##    return posts
 
 
-def process_thread(requests_session, board_id, thread_id, output_path, posts_per_page, pages):
+def check_if_locked(page_1_html):
+    # Try to determine if topic is locked
+    locked_element = t('[class~=locked]')
+    locked_search = re.search('style="background-image: url(./styles/prosilver/imageset/topic_\w+_locked.gif)', row.outer_html())
+    print('locked_search: {0!r}'.format(locked_search))
+    if (locked_element or locked_search):
+        return True
+    else:
+        return False
+
+
+def process_thread(requests_session, board_id, thread_id, output_path, posts_per_page, pages,
+    locked=None, thread_type=None, ):
     """Load each page of a thread and parse each page"""
     logging.info('Processing thread: {0} from board: {1}'.format(thread_id, board_id))
     assert(2000 > pages > 0)# Must be at least one page, and 2000 is unexpectedly high
@@ -248,6 +260,8 @@ def process_thread(requests_session, board_id, thread_id, output_path, posts_per
     thread['board_id'] = board_id
     thread['thread_id'] = thread_id
     thread['posts'] = []# Filled in later on in this function
+    thread['locked'] = locked# We might get this in the args
+    thread['thread_type'] = thread_type# We might get this in the args
 
     last_page_posts = []#
     # Process the posts in the thread
@@ -270,6 +284,16 @@ def process_thread(requests_session, board_id, thread_id, output_path, posts_per
             force_save = True,
             allow_fail = False
         )
+
+        # Thread-level things
+        if page_number == 0:
+            # Determine if thread is locked
+            if check_if_locked(page_1_html=thread_page_response.content):
+                thread['locked'] = True# We might get this in the args
+            else:
+                thread['locked'] = False# We might get this in the args
+            #
+
 
         # Parse post data from page
         this_page_posts = parsers.parse_thread_page(

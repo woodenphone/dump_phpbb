@@ -29,7 +29,8 @@ posts_per_page = 15
 board_id = 6
 
 
-file_path = os.path.join('tests', 'phpbb.viewforum.f6.offset0.htm')
+#file_path = os.path.join('tests', 'phpbb.viewforum.f6.offset0.htm')
+file_path = os.path.join('tests', 'phpbb.b64.listing.htm')
 
 with open(file_path, 'r') as f:
     page_html = f.read()
@@ -39,13 +40,19 @@ d = PyQuery(page_html)
 topics = []
 rows = d('.topiclist .row')
 for row in rows.items():
-    topic_info = {'posts_per_page': posts_per_page}
+    topic_info = {
+        'posts_per_page': posts_per_page,
+        'locked': None,
+        'board_id': board_id,
+        'topic_id': None,
+        'topic_type': None,
+    }
+
     t = PyQuery(row.outer_html())
 
     # Get the link to the topic (Always exists)
     page_1_link_html = t('.topictitle').outer_html()
     topic_id = re.search(';t=(\d+)', page_1_link_html).group(1)
-    topic_info['board_id'] = board_id
     topic_info['topic_id'] = topic_id
 
     # Get any links to subsequent pages
@@ -62,6 +69,30 @@ for row in rows.items():
 ##            offsets.append(page_offset)
     last_page_number = max(page_numbers)
     topic_info['pages'] = last_page_number
+
+    # Find if the topic is a sticky/announcement/etc
+    sticky_element = t('[class~=sticky]')
+    announce_element = t('[class~=announce]')
+
+    print('sticky_element: {0!r}'.format(sticky_element))
+    print('announce_element: {0!r}'.format(announce_element))
+    if sticky_element:
+        topic_info['thread_type'] = 'sticky'
+    elif locked_element:
+        topic_info['thread_type'] = 'announce'
+    else:
+        topic_info['thread_type'] = 'normal'
+
+    # Try to determine if topic is locked
+    locked_element = t('[class~=locked]')
+    locked_search = re.search('style="background-image: url(./styles/prosilver/imageset/topic_\w+_locked.gif)', row.outer_html())
+    print('locked_search: {0!r}'.format(locked_search))
+    if (locked_element or locked_search):
+        topic_info['locked'] = True
+    else:
+        topic_info['locked'] = False
+
+
     topics.append(topic_info)
     continue
 

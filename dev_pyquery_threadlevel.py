@@ -26,16 +26,13 @@ from pyquery import PyQuery
 #from bs4 import BeautifulSoup
 
 
-#file_path = os.path.join('debug','thread_page_response.htm')
-file_path = os.path.join('debug','thread_page_response.b53.t2182.start2580.htm')
-file_path = os.path.join('tests','aryion.b38.t45427.htm')
+
+#file_path = os.path.join('tests','aryion.b38.t45427.htm')
 #file_path = os.path.join('tests', 'phpbb.b64.t2377101.htm')
-file_path = os.path.join('tests', 'aryion.b38.t44962.htm')
-file_path = os.path.join('tests', 'phpbb.b64.t2103285.htm')
-file_path = os.path.join('tests', 'electricalaudio.b5.t64830.htm')
-file_path = os.path.join('tests', 'aryion.b53.t2182.offset2560.htm')
-file_path = os.path.join('tests', 'phpbb.b6.t362219.offset270.htm')
-file_path = os.path.join('tests', 'phpbb.b6.t2259706.offset15.htm')
+#file_path = os.path.join('tests', 'aryion.b38.t44962.htm')
+#file_path = os.path.join('tests', 'phpbb.b64.t2103285.htm')
+#file_path = os.path.join('tests', 'electricalaudio.b5.t64830.htm')
+file_path = os.path.join('tests', 'phpbb.b14.t2111378.htm')
 
 with open(file_path, 'r') as f:
     page_html = f.read()
@@ -77,6 +74,10 @@ post_ids = re.findall('<div\sid="p(\d+)"\sclass="post\s(?:has-profile\s)?bg\d(?:
 print('Found {0} post_ids'.format(len(post_ids)))
 print('post_ids: {0!r}'.format(post_ids))
 
+
+# Check if locked
+if ('title="This topic is locked, you cannot edit posts or make further replies."' in page_html):
+    thread['locked'] = 1
 
 
 print('thread: {0!r}'.format(thread))
