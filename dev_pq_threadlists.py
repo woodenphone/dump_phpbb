@@ -78,15 +78,16 @@ for row in rows.items():
     print('announce_element: {0!r}'.format(announce_element))
     if sticky_element:
         topic_info['thread_type'] = 'sticky'
-    elif locked_element:
+    elif announce_element:
         topic_info['thread_type'] = 'announce'
     else:
         topic_info['thread_type'] = 'normal'
 
     # Try to determine if topic is locked
-    locked_element = t('[class~=locked]')
-    locked_search = re.search('style="background-image: url(./styles/prosilver/imageset/topic_\w+_locked.gif)', row.outer_html())
-    print('locked_search: {0!r}'.format(locked_search))
+    locked_element = t('[class~=locked]')# Is there a class with 'locked' in the name?
+    locked_search = re.search('style="background-image: url([\.\w\d/]+/topic_\w+_locked.gif)', row.outer_html())
+    #print('locked_element: {0!r}'.format(locked_element))
+    #print('locked_search: {0!r}'.format(locked_search))
     if (locked_element or locked_search):
         topic_info['locked'] = True
     else:
@@ -97,7 +98,7 @@ for row in rows.items():
     continue
 
 
-
+print('topics: {0!r}'.format(topics))
 
 
 

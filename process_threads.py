@@ -348,7 +348,10 @@ def process_threads(thread_info_filepath, output_path):
             board_id=thread['board_id'],
             thread_id=thread['topic_id'],
             posts_per_page=thread['posts_per_page'],
-            pages=thread['pages']
+            pages=thread['pages'],
+            locked=thread['locked'],
+            thread_type=thread['thread_type']
+
         )
         continue
     return

@@ -23,6 +23,7 @@ import json
 import requests
 from pyquery import PyQuery
 # local
+import parsers
 #import config
 
 THREADS_PER_PAGE = 25
@@ -172,42 +173,6 @@ def fetch(requests_session, url, method='get', data=None, expect_status=200, hea
     raise Exception('Giving up!')
 
 
-
-def parse_threads_listing_page(html, board_id, posts_per_page):
-    d = PyQuery(html)
-
-    topics = []
-    rows = d('.topiclist .row')
-    for row in rows.items():
-        topic_info = {'posts_per_page': posts_per_page}
-        t = PyQuery(row.outer_html())
-
-        # Get the link to the topic (Always exists)
-        page_1_link_html = t('.topictitle').outer_html()
-        topic_id = re.search(';t=(\d+)', page_1_link_html).group(1)
-        topic_info['board_id'] = board_id
-        topic_info['topic_id'] = topic_id
-
-        # Get any links to subsequent pages
-        page_numbers = [1]
-        page_links = t('.pagination a')
-        for page_link in page_links.items():
-            page_link_html = page_link.outer_html()
-            page_number_str = page_link.text()
-            page_number = int(page_number_str)
-            page_numbers.append(page_number)
-    ##        if 'start=' in page_link_html:
-    ##            page_offset_str = re.search('start=(\d+)', page_link_html).group(1)
-    ##            page_offset = int(page_offset_str)
-    ##            offsets.append(page_offset)
-        last_page_number = max(page_numbers)
-        topic_info['pages'] = last_page_number
-        topics.append(topic_info)
-        continue
-    logging.debug('topics: {0}'.format(topics))
-    return topics
-
-
 def list_board_threads(requests_session, board_id, output_file_path):
     logging.info('Listing threads from board_id:{0} to output_file_path: {1}'.format(board_id, output_file_path))
     if os.path.dirname(output_file_path) and (not os.path.exists(os.path.dirname(output_file_path))):
@@ -235,8 +200,8 @@ def list_board_threads(requests_session, board_id, output_file_path):
             allow_fail = True
         )
 
-        # Parse out thread IDs
-        this_page_threads = parse_threads_listing_page(
+        # Parse out thread data
+        this_page_threads = parsers.parse_threads_listing_page(
             html=thread_listing_response.content,
             board_id=board_id,
             posts_per_page=15

@@ -66,6 +66,64 @@ from pyquery import PyQuery
 
 
 
+
+
+def parse_threads_listing_page(html, board_id, posts_per_page):
+    """Extract data about threads from the board thread list page
+    Return a list of dicts for each thread listed on the page
+    Things this needs to extract:
+        topic ID
+        ?Number of pages?
+        Locked status
+        Topic type
+    """
+
+    d = PyQuery(html)
+
+    topics = []
+    rows = d('.topiclist .row')
+    for row in rows.items():
+        topic_info = { # Value of None is unknown/undefined
+            'posts_per_page': posts_per_page,
+            'board_id': None,
+            'topic_id': None,
+            'pages': None,
+            'locked': None,
+            'topic_type': None, # announcement/normal/etc
+        }
+        t = PyQuery(row.outer_html())
+
+        # Get the link to the topic (Always exists)
+        page_1_link_html = t('.topictitle').outer_html()
+        topic_id = re.search(';t=(\d+)', page_1_link_html).group(1)
+        topic_info['board_id'] = board_id
+        topic_info['topic_id'] = topic_id
+
+        # Get any links to subsequent pages
+        page_numbers = [1]
+        page_links = t('.pagination a')
+        for page_link in page_links.items():
+            page_link_html = page_link.outer_html()
+            page_number_str = page_link.text()
+            page_number = int(page_number_str)
+            page_numbers.append(page_number)
+    ##        if 'start=' in page_link_html:
+    ##            page_offset_str = re.search('start=(\d+)', page_link_html).group(1)
+    ##            page_offset = int(page_offset_str)
+    ##            offsets.append(page_offset)
+        last_page_number = max(page_numbers)
+        topic_info['pages'] = last_page_number
+        topics.append(topic_info)
+        continue
+    logging.debug('topics: {0}'.format(topics))
+    return topics
+
+
+
+
+
+
+
 def parse_thread_level_items(page_one_html, board_id, thread_id):
     """Parse out information that is more thread-level than post-level.
     ex. Thread name, reported number of pages,

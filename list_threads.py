@@ -18,9 +18,11 @@ import random
 import argparse
 import sys
 import re
+import json
 # libs
 import requests
 # local
+import parsers
 import config
 
 
@@ -208,21 +210,14 @@ def phpbb_login(requests_session):
     return
 
 
-def parse_threads_listing_page(html):
-    # <a href="./viewtopic.php?f=86&amp;t=23065"
-    thread_id_list = re.findall('<a\shref="./viewtopic.php\?f=\d+\&amp;t=(\d+)"', html, re.IGNORECASE | re.MULTILINE)
-    logging.debug('parse_threads_listing_page() thread_id_list: {0}'.format(thread_id_list))
-    return thread_id_list
-
-
-def list_board_threads(requests_session, board_id, output_file_path):
+def list_board_threads(requests_session, board_id, output_file_path, maxumum_threads=1000):
     logging.info('Listing threads from board_id:{0} to output_file_path: {1}'.format(board_id, output_file_path))
-    if not os.path.exists(os.path.dirname(output_file_path)):
+    if os.path.dirname(output_file_path) and (not os.path.exists(os.path.dirname(output_file_path))):
         os.makedirs(os.path.dirname(output_file_path))
 
-    thread_ids = []
-    last_page_thread_ids = [None]
-    for page_num in xrange(1, 500):# TODO: Increase to a few thousand after testing
+    threads = []
+    last_page_threads = [None]
+    for page_num in xrange(1, 200):# TODO: Increase to a few thousand after testing
         # Generate page URL
         offset = page_num*config.threads_per_page
         page_url = '{forum_base_url}/viewforum.php?f={board_id}&start={offset}'.format(
@@ -242,27 +237,32 @@ def list_board_threads(requests_session, board_id, output_file_path):
             allow_fail = True
         )
 
-        # Parse out thread IDs
-        this_page_thread_ids = parse_threads_listing_page(html=thread_listing_response.content)
-        thread_ids += this_page_thread_ids
+        # Parse out thread data
+        this_page_threads = parsers.parse_threads_listing_page(
+            html=thread_listing_response.content,
+            board_id=board_id,
+            posts_per_page=15
+            )
+        threads += this_page_threads
 
         # Detect the end of the listing
-        if (last_page_thread_ids == this_page_thread_ids):
+        if (last_page_threads == this_page_threads):
             logging.info('Reached the end of the thread lisitng.')
             break
         else:
-            last_page_thread_ids = this_page_thread_ids
+            last_page_threads = this_page_threads
+        # Stop after n threads are collected
+        if len(threads) >= maxumum_threads:
+            logging.info('Weve got enough threads.')
+            break
         continue
-    logging.debug('Found {0} threads.'.format(len(thread_ids)))
+    logging.debug('Found {0} threads.'.format(len(threads)))
     # Write thread IDs to a file
-    with open(output_file_path, 'w') as f:
-        for thread_id in thread_ids:
-            # board_id.thread_id\n
-            f.write('{0}.{1}\n'.format(board_id, thread_id))
+    with open(output_file_path, 'wb') as f:
+        f.write(json.dumps(threads))
 
     logging.info('Listed threads from board_id:{0} to output_file_path: {1}'.format(board_id, output_file_path))
     return
-
 
 def main():
     try:
@@ -273,19 +273,22 @@ def main():
 ##                        type=int)
 ##        args = parser.parse_args()
 ##        board_id = args.board_id
-        board_id = 21
+        board_id = 6
 
         # Init Requests session
         requests_session = requests.Session()
 
         # Log us in
-        phpbb_login(requests_session)
+        if config.username:
+            phpbb_login(requests_session)
+        else:
+            logging.warning('No username provided to log in with, not logging in.')
 
         # List the threads in this subforum
         list_board_threads(
             requests_session=requests_session,
             board_id=board_id,
-            output_file_path=os.path.join('debug', 'board_{0}_threads.txt'.format(board_id))
+            output_file_path=os.path.join('debug', 'board_{0}_threads.json'.format(board_id))
         )
         sys.exit(0)# Everything went fine.
 
