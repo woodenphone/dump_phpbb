@@ -15,7 +15,7 @@ import os
 import parsers
 
 
-class TestPostsAryionB38T44962(unittest.TestCase):
+class TestViewtopicAryionB38T44962(unittest.TestCase):
     """phpBB v3 https://aryion.com/forum/viewtopic.php?f=38&t=44962"""
     def setUp(self):
         self.board_id = 38
@@ -65,7 +65,7 @@ class TestPostsAryionB38T44962(unittest.TestCase):
 
 
 
-class TestPostsPhpbbB64T2377101(unittest.TestCase):
+class TestViewtopicPhpbbB64T2377101(unittest.TestCase):
     """phpBB v3 https://www.phpbb.com/community/viewtopic.php?f=64&t=2377101&sid=531f6eb2847580e38563fecc8d1880b1"""
     def setUp(self):
         self.board_id = 64
@@ -168,7 +168,7 @@ class TestPostsPhpbbB64T2377101(unittest.TestCase):
 
 
 
-class TestPostsElectricalaudioB5T64830(unittest.TestCase):
+class TestViewtopicElectricalaudioB5T64830(unittest.TestCase):
     """phpBB v3 http://www.electricalaudio.com/phpBB3/viewtopic.php?f=5&t=64830"""
     def setUp(self):
         self.board_id = 5
@@ -214,7 +214,7 @@ class TestPostsElectricalaudioB5T64830(unittest.TestCase):
 
 
 
-class TestPostsAryionB53T2182Offset2560(unittest.TestCase):
+class TestViewtopicAryionB53T2182Offset2560(unittest.TestCase):
     """phpBB v3 https://aryion.com/forum/viewtopic.php?f=53&t=2182&start=2560"""
     def setUp(self):
         self.board_id = 53
@@ -276,8 +276,8 @@ class TestPostsAryionB53T2182Offset2560(unittest.TestCase):
         self.assertEqual(self.posts[14]['attachments'], None)
         self.assertEqual(len(self.posts[15]['attachments']), 10)
         self.assertEqual(len(self.posts[16]['attachments']), 16)
-        self.assertEqual(len(self.posts[17]['attachments']), 14)
-        self.assertEqual(len(self.posts[18]['attachments']), 9)
+        self.assertEqual(len(self.posts[17]['attachments']), 7)
+        self.assertEqual(len(self.posts[18]['attachments']), 8)
         self.assertEqual(self.posts[19]['attachments'], None)
         return
     def test_thread_attachments_dl_url(self):
@@ -288,10 +288,36 @@ class TestPostsAryionB53T2182Offset2560(unittest.TestCase):
         self.assertEqual(self.posts[4]['attachments'][0]['title'], u'1380945683696.jpg (454.6 KiB) Viewed 16271 times')
         self.assertEqual(self.posts[6]['attachments'][0]['title'], u'SaintxTail-314679-LizardLord0001.jpg (636.63 KiB) Viewed 14886 times')
         return
+    def test_attachment_class(self):
+        self.assertEqual(self.posts[4]['attachments'][0]['class'], 'thumbnail')
+
+        self.assertEqual(self.posts[6]['attachments'][0]['class'], 'thumbnail')
+        self.assertEqual(self.posts[6]['attachments'][1]['class'], 'thumbnail')
+        self.assertEqual(self.posts[6]['attachments'][2]['class'], 'thumbnail')
+        self.assertEqual(self.posts[6]['attachments'][3]['class'], 'thumbnail')
+
+        self.assertEqual(self.posts[17]['attachments'][0]['class'], 'inline-attachment')#https://aryion.com/forum/viewtopic.php?f=53&t=2182&start=2560#p2427846
+        self.assertEqual(self.posts[17]['attachments'][1]['class'], 'inline-attachment')
+        self.assertEqual(self.posts[17]['attachments'][2]['class'], 'inline-attachment')
+        self.assertEqual(self.posts[17]['attachments'][3]['class'], 'inline-attachment')
+        self.assertEqual(self.posts[17]['attachments'][4]['class'], 'inline-attachment')
+        self.assertEqual(self.posts[17]['attachments'][5]['class'], 'inline-attachment')
+        self.assertEqual(self.posts[17]['attachments'][6]['class'], 'inline-attachment')
+        self.assertEqual(self.posts[17]['attachments'][7]['class'], 'inline-attachment')
+
+        self.assertEqual(self.posts[18]['attachments'][0]['class'], 'thumbnail')
+        self.assertEqual(self.posts[18]['attachments'][1]['class'], 'thumbnail')
+        self.assertEqual(self.posts[18]['attachments'][2]['class'], 'thumbnail')
+        self.assertEqual(self.posts[18]['attachments'][3]['class'], 'file')
+        self.assertEqual(self.posts[18]['attachments'][4]['class'], 'thumbnail')
+        self.assertEqual(self.posts[18]['attachments'][5]['class'], 'thumbnail')
+        self.assertEqual(self.posts[18]['attachments'][6]['class'], 'thumbnail')
+        self.assertEqual(self.posts[18]['attachments'][7]['class'], 'thumbnail')
+        return
 
 
 
-class TestPostsPhpbbB6T362219ffset270(unittest.TestCase):
+class TestViewtopicPhpbbB6T362219ffset270(unittest.TestCase):
     """phpBB v3 """
     def setUp(self):
         self.board_id = 6
@@ -354,7 +380,7 @@ class TestPostsPhpbbB6T362219ffset270(unittest.TestCase):
 
 
 
-class TestPostsPhpbbB6T2259706ffset15(unittest.TestCase):
+class TestViewtopicPhpbbB6T2259706ffset15(unittest.TestCase):
     """phpBB v3
     https://www.phpbb.com/community/viewtopic.php?f=6&t=2259706&start=15
     Has an attachment class without any file/link/image"""
@@ -662,6 +688,61 @@ class TestViewtopicChichlidforumf4t246181(unittest.TestCase):
         self.assertEqual(self.posts[14]['attachments'], None)
         return
 
+
+
+class TestViewtopicPhpbbB6T2259706ffset15(unittest.TestCase):
+    """phpBB v3
+    https://aryion.com/forum/viewtopic.php?f=38&t=695
+    Really old, 2005"""
+    def setUp(self):
+        self.board_id = 38
+        self.topic_id = 695
+        self.offset = 0
+        self.html_path = os.path.join('tests', 'aryion.viewtopic.f38.t695.htm')
+        with open(self.html_path, 'r') as f:
+            self.page_html = f.read()
+        self.posts = parsers.parse_thread_page(
+            page_html=self.page_html,
+            board_id=self.board_id,
+            topic_id=self.topic_id,
+            offset=self.offset
+        )
+        return
+
+    def test_thread_level(self):
+        self.assertEqual(len(self.posts), 6)
+        return
+    def test_post_userids(self):
+        self.assertEqual(self.posts[0]['userid'], '958')
+        self.assertEqual(self.posts[1]['userid'], '3')
+        self.assertEqual(self.posts[2]['userid'], '823')
+        return
+    def test_post_usernames(self):
+        self.assertEqual(self.posts[0]['username'], 'ress_q_puma')
+        self.assertEqual(self.posts[1]['username'], 'Eka')
+        self.assertEqual(self.posts[2]['username'], 'Ai_ga_Kowai')
+        return
+    def test_post_titles(self):
+        self.assertEqual(self.posts[0]['title'], 'My attempt at vore.')
+        self.assertEqual(self.posts[1]['title'], '')
+        self.assertEqual(self.posts[2]['title'], '')
+        return
+    def test_thread_attachments_alt_text(self):
+        self.assertEqual(self.posts[0]['attachments'][0]['alt_text'], u'folly.jpg')
+        return
+    def test_thread_attachments_count(self):
+        print('attachment: {0!r}'.format(self.posts[0]['attachments']))
+        self.assertEqual(len(self.posts[0]['attachments']), 1)
+        self.assertEqual(self.posts[1]['attachments'], None)
+        self.assertEqual(self.posts[2]['attachments'], None)
+        self.assertEqual(self.posts[3]['attachments'], None)
+        return
+    def test_thread_attachments_dl_url(self):
+        self.assertEqual(self.posts[0]['attachments'][0]['dl_url'], './download/file.php?id=630&amp;sid=9a7595219b9215d9c273b8c13457343b')
+        return
+    def test_thread_attachments_title(self):
+        self.assertEqual(self.posts[0]['attachments'][0]['title'], None)
+        return
 
 
 

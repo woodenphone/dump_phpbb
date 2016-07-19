@@ -34,8 +34,9 @@ file_path = os.path.join('tests', 'aryion.b38.t44962.htm')
 file_path = os.path.join('tests', 'phpbb.b64.t2103285.htm')
 file_path = os.path.join('tests', 'electricalaudio.b5.t64830.htm')
 file_path = os.path.join('tests', 'aryion.b53.t2182.offset2560.htm')
-file_path = os.path.join('tests', 'phpbb.b6.t362219.offset270.htm')
-file_path = os.path.join('tests', 'phpbb.b6.t2259706.offset15.htm')
+##file_path = os.path.join('tests', 'phpbb.b6.t362219.offset270.htm')
+##file_path = os.path.join('tests', 'phpbb.b6.t2259706.offset15.htm')
+##file_path = os.path.join('tests', 'aryion.viewtopic.f38.t695.htm')
 
 with open(file_path, 'r') as f:
     page_html = f.read()
@@ -153,7 +154,7 @@ for post_id in post_ids:
     # #p2404876 > div > div.postbody > dl
 ##    attachment_path = '#p{pid} > div > div.postbody > dl > dd > dl'.format(pid=post_id)
 ##    attachment_path = 'div > div.postbody > dl > dd > dl'
-    attachment_path = '.attach-image , .inline-attachment, .thumbnail, .file'
+    attachment_path = '.inline-attachment, .thumbnail, .file'
     attachment_elements = p(attachment_path)
     if attachment_elements:
         post_attachments = []
@@ -161,6 +162,18 @@ for post_id in post_ids:
             attachment = {}
             attachment_child_outer_html = attachment_child.outer_html()
             #print('attachment_child_outer_html: {0!r}'.format(attachment_child_outer_html))
+
+
+            # Record the type/class of attachment
+            if attachment_child.has_class('thumbnail'):
+                attachment_class='thumbnail'
+            elif attachment_child.has_class('inline-attachment'):
+                attachment_class='inline-attachment'
+            elif attachment_child.has_class('file'):
+                attachment_class='file'
+            else:
+                raise Exception('Unexpected attachment class.')
+            attachment['class'] = attachment_class
 
             # Find the url of this attachment
             if (

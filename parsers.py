@@ -158,14 +158,14 @@ def parse_thread_page(page_html, board_id, topic_id, offset):
 
     # Get post IDs
     post_ids = re.findall('<div\sid="p(\d+)"\sclass="post\s(?:has-profile\s)?bg\d(?:\s*online\s*)?">', page_html)
-    #print('Found {0} post_ids'.format(len(post_ids)))
-    #print('post_ids: {0!r}'.format(post_ids))
+    print('Found {0} post_ids'.format(len(post_ids)))
+    print('post_ids: {0!r}'.format(post_ids))
 
     # Get post level information
     posts = []
     # With the post IDs, we can generate paths to the items we want
     for post_id in post_ids:
-        #print('post_id: {0}'.format(post_id))
+        print('post_id: {0}'.format(post_id))
         post = {
             'post_id': post_id,
             'time_of_retreival': str( time.time() ),
@@ -237,7 +237,7 @@ def parse_thread_page(page_html, board_id, topic_id, offset):
         # #p2404876 > div > div.postbody > dl
     ##    attachment_path = '#p{pid} > div > div.postbody > dl > dd > dl'.format(pid=post_id)
     ##    attachment_path = 'div > div.postbody > dl > dd > dl'
-        attachment_path = '.attach-image , .inline-attachment, .thumbnail, .file'
+        attachment_path = '.inline-attachment, .thumbnail, .file'
         attachment_elements = p(attachment_path)
         if attachment_elements:
             post_attachments = []
@@ -245,6 +245,18 @@ def parse_thread_page(page_html, board_id, topic_id, offset):
                 attachment = {}
                 attachment_child_outer_html = attachment_child.outer_html()
                 #print('attachment_child_outer_html: {0!r}'.format(attachment_child_outer_html))
+
+
+                # Record the type/class of attachment
+                if attachment_child.has_class('thumbnail'):
+                    attachment_class='thumbnail'
+                elif attachment_child.has_class('inline-attachment'):
+                    attachment_class='inline-attachment'
+                elif attachment_child.has_class('file'):
+                    attachment_class='file'
+                else:
+                    raise Exception('Unexpected attachment class.')
+                attachment['class'] = attachment_class
 
                 # Find the url of this attachment
                 if (
