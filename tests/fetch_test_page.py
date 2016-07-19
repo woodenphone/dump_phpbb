@@ -172,7 +172,7 @@ def fetch(requests_session, url, method='get', data=None, expect_status=200, hea
 
 def main():
     requests_session = requests.Session()
-    page_url = 'http://arstechnica.com/civis/viewforum.php?f=6'
+    page_url = 'http://www.cichlid-forum.com/phpbb/viewtopic.php?f=4&t=246181'
     thread_page_response = fetch(
         requests_session,
         url=page_url,

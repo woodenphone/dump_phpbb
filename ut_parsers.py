@@ -614,53 +614,53 @@ class TestListingChichlidforumB4(unittest.TestCase):
 
 
 
-##class TestListingChichlidforumB4(unittest.TestCase):
-##    """phpBB v3
-##    http://arstechnica.com/civis/viewforum.php?f=6
-##    Normal viewforum page"""
-##    def setUp(self):
-##        self.board_id = 6
-##        self.posts_per_page = 20
-##        self.html_path = os.path.join('tests', 'arstechnica-civis.viewforum.b6.htm')
-##        with open(self.html_path, 'r') as f:
-##            self.page_html = f.read()
-##        self.topics = parsers.parse_threads_listing_page(
-##            html=self.page_html,
-##            board_id=self.board_id,
-##            posts_per_page=self.posts_per_page
-##        )
-##        return
-##
-##    def test_number_of_threads_found(self):
-##        self.assertEqual(len(self.topics), 40)
-##    def test_locked_detection(self):
-##        self.assertEqual(self.topics[0]['locked'], True)
-##        self.assertEqual(self.topics[1]['locked'], True)
-##        self.assertEqual(self.topics[2]['locked'], True)
-##        self.assertEqual(self.topics[3]['locked'], True)
-##        self.assertEqual(self.topics[4]['locked'], False)
-##        self.assertEqual(self.topics[25]['locked'], False)
-##        self.assertEqual(self.topics[39]['locked'], False)
-##        return
-##    def test_announcement_detection(self):
-##        self.assertEqual(self.topics[0]['thread_type'], 'gloabalannounce')
-##        self.assertEqual(self.topics[1]['thread_type'], 'normal')
-##        self.assertEqual(self.topics[2]['thread_type'], 'normal')
-##        self.assertEqual(self.topics[3]['thread_type'], 'normal')
-##        self.assertEqual(self.topics[4]['thread_type'], 'normal')
-##        self.assertEqual(self.topics[5]['thread_type'], 'normal')
-##        self.assertEqual(self.topics[25]['thread_type'], 'normal')
-##        self.assertEqual(self.topics[39]['thread_type'], 'normal')
-##        return
-##    def test_topic_id_detection(self):
-##        #print('topics: {0!r}'.format(self.topics))
-##        self.assertEqual(self.topics[0]['topic_id'], '307234')
-##        self.assertEqual(self.topics[1]['topic_id'], '255444')
-##        self.assertEqual(self.topics[2]['topic_id'], '55031')
-##        self.assertEqual(self.topics[3]['topic_id'], '34722')
-##        self.assertEqual(self.topics[4]['topic_id'], '51141')
-##        self.assertEqual(self.topics[39]['topic_id'], '67172')
-##        return
+class TestViewtopicChichlidforumf4t246181(unittest.TestCase):
+    """phpBB v3
+    http://www.cichlid-forum.com/phpbb/viewtopic.php?f=4&t=246181
+    Normal viewtopic page"""
+    def setUp(self):
+        self.board_id = 4
+        self.topic_id = 246181
+        self.offset = 0
+        self.html_path = os.path.join('tests', 'cichlid-forum.viewtopic.f4.t246181.htm')
+        with open(self.html_path, 'r') as f:
+            self.page_html = f.read()
+        self.posts = parsers.parse_thread_page(
+            page_html=self.page_html,
+            board_id=self.board_id,
+            topic_id=self.topic_id,
+            offset=self.offset
+        )
+        return
+    def test_thread_level(self):
+        self.assertEqual(len(self.posts), 15)# Should be 20 posts
+        return
+    def test_post_userids(self):
+        self.assertEqual(self.posts[0]['userid'], '75869')
+        self.assertEqual(self.posts[1]['userid'], '68437')
+        self.assertEqual(self.posts[2]['userid'], '75869')
+        self.assertEqual(self.posts[3]['userid'], '68437')
+        self.assertEqual(self.posts[14]['userid'], '75869')
+        return
+    def test_post_usernames(self):
+        self.assertEqual(self.posts[0]['username'], 'orau22')
+        self.assertEqual(self.posts[1]['username'], 'jd lover')
+        self.assertEqual(self.posts[2]['username'], 'orau22')
+        self.assertEqual(self.posts[3]['username'], 'jd lover')
+        self.assertEqual(self.posts[14]['username'], 'orau22')
+        return
+    def test_post_titles(self):
+        self.assertEqual(self.posts[0]['title'], 'Tank Cycling w/ Dr. Tim\'s One and Only')
+        self.assertEqual(self.posts[1]['title'], "Re: Tank Cycling w/ Dr. Tim's One and Only")
+        self.assertEqual(self.posts[3]['title'], "Re: Tank Cycling w/ Dr. Tim's One and Only")
+        self.assertEqual(self.posts[14]['title'], "Re: Tank Cycling w/ Dr. Tim's One and Only")
+        return
+    def test_thread_attachments_count(self):
+        self.assertEqual(self.posts[0]['attachments'], None)
+        self.assertEqual(self.posts[1]['attachments'], None)
+        self.assertEqual(self.posts[2]['attachments'], None)
+        self.assertEqual(self.posts[14]['attachments'], None)
+        return
 
 
 
