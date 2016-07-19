@@ -83,20 +83,19 @@ def parse_threads_listing_page(html, board_id, posts_per_page):
     topics = []
     rows = d('.topiclist .row')
     for row in rows.items():
-        topic_info = { # Value of None is unknown/undefined
+        topic_info = {
             'posts_per_page': posts_per_page,
-            'board_id': None,
-            'topic_id': None,
-            'pages': None,
             'locked': None,
-            'topic_type': None, # announcement/normal/etc
+            'board_id': board_id,
+            'topic_id': None,
+            'topic_type': None,
         }
+
         t = PyQuery(row.outer_html())
 
         # Get the link to the topic (Always exists)
         page_1_link_html = t('.topictitle').outer_html()
         topic_id = re.search(';t=(\d+)', page_1_link_html).group(1)
-        topic_info['board_id'] = board_id
         topic_info['topic_id'] = topic_id
 
         # Get any links to subsequent pages
@@ -113,9 +112,41 @@ def parse_threads_listing_page(html, board_id, posts_per_page):
     ##            offsets.append(page_offset)
         last_page_number = max(page_numbers)
         topic_info['pages'] = last_page_number
+
+        # Find if the topic is a sticky/announcement/etc
+        # Sticky detection
+        sticky_element = t('[class*=sticky]')# Match substring
+        #print('sticky_element: {0!r}'.format(sticky_element))
+
+        # Announcement detection
+        # background-image: url(./styles/grey3_3_0_0/imageset/announce_read.gif); background-repeat: no-repeat;
+        announce_search = re.search('/[\w_]*announce[\w_]*\.gif', row.outer_html())
+        announce_element = t('[class*=announce]')# Match substring
+        #print('announce_search: {0!r}'.format(announce_search))
+        #print('announce_element: {0!r}'.format(announce_element))
+
+        if sticky_element:
+            topic_info['thread_type'] = 'sticky'
+        elif (announce_element or announce_search):
+            topic_info['thread_type'] = 'announce'
+        else:
+            topic_info['thread_type'] = 'normal'
+
+        # Try to determine if topic is locked
+        # Is there a class with 'locked' in the name?
+        locked_element = t('[class*=locked]')# Match substring
+        locked_search = re.search('/topic_\w+_locked.gif', row.outer_html())
+        #print('locked_element: {0!r}'.format(locked_element))
+        #print('locked_search: {0!r}'.format(locked_search))
+        if (locked_element or locked_search):
+            topic_info['locked'] = True
+        else:
+            topic_info['locked'] = False
+
+
         topics.append(topic_info)
         continue
-    logging.debug('topics: {0}'.format(topics))
+    #print('topics: {0!r}'.format(topics))
     return topics
 
 
@@ -159,8 +190,8 @@ def parse_thread_page(page_html, board_id, topic_id, offset):
 
     # Get post IDs
     post_ids = re.findall('<div\sid="p(\d+)"\sclass="post\s(?:has-profile\s)?bg\d(?:\s*online\s*)?">', page_html)
-    print('Found {0} post_ids'.format(len(post_ids)))
-    print('post_ids: {0!r}'.format(post_ids))
+    #print('Found {0} post_ids'.format(len(post_ids)))
+    #print('post_ids: {0!r}'.format(post_ids))
 
     # Get post level information
     posts = []

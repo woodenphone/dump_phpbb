@@ -1,0 +1,1177 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-gb" xml:lang="en-gb">
+  <head>
+    <title>Audio/Visual Club - Ars Technica OpenForum</title>
+
+    <!-- Begin CSS -->
+    <link rel="stylesheet" href="//cdn.arstechnica.net/civis/ars/theme/forum.css?v=48" type="text/css" />
+    <!--[if IE]>
+    <link rel="stylesheet" href="//cdn.arstechnica.net/civis/ars/theme/forum.ie.css?v=2" type="text/css" />
+    <![endif] -->
+    <!-- End CSS --><!-- Begin Metadata -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" /><script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){var o=e[n]={exports:{}};t[n][0].call(o.exports,function(e){var o=t[n][1][e];return r(o||e)},o,o.exports)}return e[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<n.length;o++)r(n[o]);return r}({1:[function(t,e,n){function r(){}function o(t,e,n){return function(){return i(t,[(new Date).getTime()].concat(u(arguments)),e?null:this,n),e?void 0:this}}var i=t("handle"),a=t(2),u=t(3),c=t("ee").get("tracer"),f=NREUM;"undefined"==typeof window.newrelic&&(newrelic=f);var s=["setPageViewName","setCustomAttribute","finished","addToTrace","inlineHit"],p="api-",l=p+"ixn-";a(s,function(t,e){f[e]=o(p+e,!0,"api")}),f.addPageAction=o(p+"addPageAction",!0),e.exports=newrelic,f.interaction=function(){return(new r).get()};var d=r.prototype={createTracer:function(t,e){var n={},r=this,o="function"==typeof e;return i(l+"tracer",[Date.now(),t,n],r),function(){if(c.emit((o?"":"no-")+"fn-start",[Date.now(),r,o],n),o)try{return e.apply(this,arguments)}finally{c.emit("fn-end",[Date.now()],n)}}}};a("setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(t,e){d[e]=o(l+e)}),newrelic.noticeError=function(t){"string"==typeof t&&(t=new Error(t)),i("err",[t,(new Date).getTime()])}},{}],2:[function(t,e,n){function r(t,e){var n=[],r="",i=0;for(r in t)o.call(t,r)&&(n[i]=e(r,t[r]),i+=1);return n}var o=Object.prototype.hasOwnProperty;e.exports=r},{}],3:[function(t,e,n){function r(t,e,n){e||(e=0),"undefined"==typeof n&&(n=t?t.length:0);for(var r=-1,o=n-e||0,i=Array(o<0?0:o);++r<o;)i[r]=t[e+r];return i}e.exports=r},{}],ee:[function(t,e,n){function r(){}function o(t){function e(t){return t&&t instanceof r?t:t?u(t,a,i):i()}function n(n,r,o){t&&t(n,r,o);for(var i=e(o),a=l(n),u=a.length,c=0;c<u;c++)a[c].apply(i,r);var s=f[m[n]];return s&&s.push([w,n,r,i]),i}function p(t,e){g[t]=l(t).concat(e)}function l(t){return g[t]||[]}function d(t){return s[t]=s[t]||o(n)}function v(t,e){c(t,function(t,n){e=e||"feature",m[n]=e,e in f||(f[e]=[])})}var g={},m={},w={on:p,emit:n,get:d,listeners:l,context:e,buffer:v};return w}function i(){return new r}var a="nr@context",u=t("gos"),c=t(2),f={},s={},p=e.exports=o();p.backlog=f},{}],gos:[function(t,e,n){function r(t,e,n){if(o.call(t,e))return t[e];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(t,e,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return t[e]=r,r}var o=Object.prototype.hasOwnProperty;e.exports=r},{}],handle:[function(t,e,n){function r(t,e,n,r){o.buffer([t],r),o.emit(t,e,n)}var o=t("ee").get("handle");e.exports=r,r.ee=o},{}],id:[function(t,e,n){function r(t){var e=typeof t;return!t||"object"!==e&&"function"!==e?-1:t===window?0:a(t,i,function(){return o++})}var o=1,i="nr@id",a=t("gos");e.exports=r},{}],loader:[function(t,e,n){function r(){if(!h++){var t=y.info=NREUM.info,e=s.getElementsByTagName("script")[0];if(t&&t.licenseKey&&t.applicationID&&e){c(m,function(e,n){t[e]||(t[e]=n)});var n="https"===g.split(":")[0]||t.sslForHttp;y.proto=n?"https://":"http://",u("mark",["onload",a()],null,"api");var r=s.createElement("script");r.src=y.proto+t.agent,e.parentNode.insertBefore(r,e)}}}function o(){"complete"===s.readyState&&i()}function i(){u("mark",["domContent",a()],null,"api")}function a(){return(new Date).getTime()}var u=t("handle"),c=t(2),f=window,s=f.document,p="addEventListener",l="attachEvent",d=f.XMLHttpRequest,v=d&&d.prototype;NREUM.o={ST:setTimeout,CT:clearTimeout,XHR:d,REQ:f.Request,EV:f.Event,PR:f.Promise,MO:f.MutationObserver},t(1);var g=""+location,m={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-963.min.js"},w=d&&v&&v[p]&&!/CriOS/.test(navigator.userAgent),y=e.exports={offset:a(),origin:g,features:{},xhrWrappable:w};s[p]?(s[p]("DOMContentLoaded",i,!1),f[p]("load",r,!1)):(s[l]("onreadystatechange",o),f[l]("onload",r)),u("mark",["firstbyte",a()],null,"api");var h=0},{}]},{},["loader"]);</script>
+    
+    <meta name="viewport" content="width=device-width" />
+    
+    <link rel="SHORTCUT ICON" href="//cdn.arstechnica.net/civis/ars/theme/favicon.ico"/>
+    <link rel="icon" type="image/vnd.microsoft.icon" href="//cdn.arstechnica.net/civis/ars/theme/favicon.ico" />
+    
+    <!-- End Metadata -->
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-31997-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+      })();
+
+    </script>
+    
+    <!--[if IE 8]>
+      <style type="text/css">
+        #message-box textarea {
+          min-width: 98%;
+          max-width: 98%;
+          width: 100px;
+        }
+      </style>
+    <![endif]-->
+  </head>
+  <body id="ars-forum">
+    <div id="page">
+      
+        <div id="daehtsam-da" style="width:auto;text-align:center;height:90px;overflow:hidden;">
+        <div id="topBanner728x90_frame" style="display:inline-block"></div>
+        </div>
+      
+      <div id="page-header">
+        <div id="masthead">
+          <div id="logo"><a href="./index.php?sid=6e990d7ffd4a46bd353b583913ee98d7"><img src="//cdn.arstechnica.net/civis/ars/theme/images/logo.png" alt="" /></a></div>
+          
+            <div id="anonymous-panel">
+              <div id="anonymous-message">
+                <p>Welcome to the Ars OpenForum.</p>
+              </div>
+              <div id="anonymous-links">
+                <ul>
+                  <li class="register"><a href="./ucp.php?mode=register&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Register</a></li>
+                  <li class="login"><a href="./ucp.php?mode=login&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;autoredirect=1&amp;return_to=%2Fcivis%2Fviewforum.php%3Ff%3D6">Login</a></li>
+                </ul>
+              </div>
+            </div>
+          
+        </div>
+        
+        <div id="forum-links"><a href="http://arstechnica.com/old/content/2000/01/postguide.ars">Posting Guidelines</a> | <a href="/mods/">Contact Moderators</a>
+        </div>
+
+        
+          <div class="breadcrumb-jumpbox">
+            <div class="breadcrumb"><a href="http://arstechnica.com/">Ars Technica</a> &gt; <a href="./index.php?sid=6e990d7ffd4a46bd353b583913ee98d7">Forums</a> &gt; <a href="./viewforum.php?f=5&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Hardware  &amp; Tweaking</a> &gt; <a href="./viewforum.php?f=6&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Audio/Visual Club</a>
+</div>
+  <div class="jumpbox">
+    <form method="get" name="jumpbox" action="./viewforum.php?sid=6e990d7ffd4a46bd353b583913ee98d7" onsubmit="if($('.autosubmit', this).value == -1){return false;}">
+      <div>
+        <span class="jumptext">Jump to:</span>
+        <select class="autosubmit" name="f">
+          
+            <option value="-1">Select a forum</option>
+          <option value="-1">------------------</option>
+            <option value="5">Hardware  &amp; Tweaking</option>
+          
+            <option value="6" selected="selected">&nbsp; &nbsp;Audio/Visual Club</option>
+          
+            <option value="7">&nbsp; &nbsp;Case and Cooling Fetish</option>
+          
+            <option value="8">&nbsp; &nbsp;CPU &amp; Motherboard Technologia</option>
+          
+            <option value="9">&nbsp; &nbsp;Mobile Computing Outpost</option>
+          
+            <option value="10">&nbsp; &nbsp;Networking Matrix</option>
+          
+            <option value="11">&nbsp; &nbsp;Other Hardware</option>
+          
+            <option value="12">&nbsp; &nbsp;Agora Classifieds</option>
+          
+            <option value="53">&nbsp; &nbsp;Ars DIY Forum (Name TBD!)</option>
+          
+            <option value="13">Operating Systems &amp; Software</option>
+          
+            <option value="14">&nbsp; &nbsp;Battlefront</option>
+          
+            <option value="15">&nbsp; &nbsp;Microsoft OS &amp; Software Colloquium</option>
+          
+            <option value="16">&nbsp; &nbsp;Linux Kung Fu</option>
+          
+            <option value="17">&nbsp; &nbsp;Windows Technical Mojo</option>
+          
+            <option value="18">&nbsp; &nbsp;Distributed Computing Arcana</option>
+          
+            <option value="19">&nbsp; &nbsp;Macintoshian Achaia</option>
+          
+            <option value="20">&nbsp; &nbsp;Programmer's Symposium</option>
+          
+            <option value="21">&nbsp; &nbsp;The Server Room</option>
+          
+            <option value="1">Ars Lykaion</option>
+          
+            <option value="22">&nbsp; &nbsp;Gaming, Extra Strength Caplets</option>
+          
+            <option value="23">&nbsp; &nbsp;The Lounge</option>
+          
+            <option value="24">&nbsp; &nbsp;The Soap Box</option>
+          
+            <option value="25">&nbsp; &nbsp;The Boardroom</option>
+          
+            <option value="26">&nbsp; &nbsp;The Observatory</option>
+          
+            <option value="3">&nbsp; &nbsp;Ars Help &amp; Feedback</option>
+          
+            <option value="30">Ars Subscription Member Areas</option>
+          
+            <option value="38">&nbsp; &nbsp;Image Galleries</option>
+          
+        </select>
+        <input type="submit" value="Go" class="downlevel" />
+      </div>
+    </form>
+  </div>
+
+          </div>
+        
+      </div>
+      <div id="page-body">
+  <div class="moderators"><strong>Moderators:</strong> <a href="./memberlist.php?mode=viewprofile&amp;u=16416&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Xevion</a>, <a href="./memberlist.php?mode=viewprofile&amp;u=4508&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Deffexor</a>, <a href="./memberlist.php?mode=viewprofile&amp;u=3028&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">stickmewithneedles</a></div>
+
+
+<div id="top-actionbar" class="actionbar">
+  
+      <div class="board-actions">
+        <div class="new-topic-button"><a href="./posting.php?mode=post&amp;f=6&amp;sid=6e990d7ffd4a46bd353b583913ee98d7"><img src="//cdn.arstechnica.net/civis/ars/imageset/en/button_topic_new.png" alt="Post new topic" title="Post new topic" /></a></div>
+        <div class="new-poll-button"><a href=""></a></div>
+        <!-- <div class="quick-reply-button"><a href=""></a></div> -->
+      </div>
+    
+  <div class="subscribe-actions">
+    <div class="mark-read"><a href="">Mark all read</a></div>
+  </div>
+  
+    <div class="pager">
+      <li class="selected">1</li><li><a href="http://arstechnica.com/civis/./viewforum.php?f=6&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=40">2</a></li><li><a href="http://arstechnica.com/civis/./viewforum.php?f=6&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=80">3</a></li><span class="page-dots"> ... </span><li><a href="http://arstechnica.com/civis/./viewforum.php?f=6&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=83240">2082</a></li>&nbsp;&nbsp;<a href="./viewforum.php?f=6&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=40">Next</a>
+    </div>
+  
+    <div class="search">
+      <form method="post" id="topic-search" action="./search.php?sid=6e990d7ffd4a46bd353b583913ee98d7">
+        <div>
+          <input type="text" name="keywords" id="search_keywords" size="20" value="Search this forum" onclick="if(this.value=='Search this forum')this.value='';" onblur="if(this.value=='')this.value='Search this forum';" />
+          <input type="hidden" value="6" name="fid[]" />
+          <input type="hidden" value="msgonly" name="sf" />
+        </div>
+      </form>
+    </div>
+</div>
+
+
+  <div id="content">
+    
+      <table class="topic-list" width="100%" cellspacing="0">
+        <tr>
+          <th class="status-head"><img src="//cdn.arstechnica.net/civis/ars/theme/images/pages.png" alt="Status" /></th>
+          <th class="topic-head">Topic</th>
+          <th class="author-head">Topic starter</th>
+          <th class="replies-head">Replies</th>
+          <th class="views-head">Views</th>
+          <th class="last-post-head">Last post</th>
+        </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1303999&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/sticky_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Mon Jan 04, 2016 11:09 am"
+                href="./viewtopic.php?f=6&amp;t=1303999&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle important">HDTV shopping thread for 2016</a>
+              <span class="pager"><a href="./viewtopic.php?f=6&amp;t=1303999&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">1</a><span class="page-sep">, </span><a href="./viewtopic.php?f=6&amp;t=1303999&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=40">2</a><span class="page-sep">, </span><a href="./viewtopic.php?f=6&amp;t=1303999&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=80">3</a><span class="page-sep">, </span><a href="./viewtopic.php?f=6&amp;t=1303999&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=120">4</a><span class="page-sep">, </span><a href="./viewtopic.php?f=6&amp;t=1303999&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=160">5</a></span>
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=14629&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Happysin</a></td>
+            <td class="topic-replies" width="50">167</td>
+            <td class="topic-views" width="50">20458</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Mon Jul 18, 2016 9:33 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1303999&amp;p=31563849&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31563849">dogwitch</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1231727&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/sticky_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Mon Jan 20, 2014 10:27 pm"
+                href="./viewtopic.php?f=6&amp;t=1231727&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle important">Before You Ask Which Camera You Should Buy...</a>
+              <span class="pager"><a href="./viewtopic.php?f=6&amp;t=1231727&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">1</a><span class="page-dots"> ... </span><a href="./viewtopic.php?f=6&amp;t=1231727&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=200">6</a><span class="page-sep">, </span><a href="./viewtopic.php?f=6&amp;t=1231727&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=240">7</a><span class="page-sep">, </span><a href="./viewtopic.php?f=6&amp;t=1231727&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=280">8</a></span>
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=232156&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Jokotai</a></td>
+            <td class="topic-replies" width="50">316</td>
+            <td class="topic-views" width="50">301354</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Wed Jul 13, 2016 2:08 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1231727&amp;p=31536629&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31536629">Digger</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1216769&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Mon Sep 02, 2013 1:56 pm"
+                href="./viewtopic.php?f=6&amp;t=1216769&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Next GPU releases</a>
+              <span class="pager"><a href="./viewtopic.php?f=6&amp;t=1216769&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">1</a><span class="page-dots"> ... </span><a href="./viewtopic.php?f=6&amp;t=1216769&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=5800">146</a><span class="page-sep">, </span><a href="./viewtopic.php?f=6&amp;t=1216769&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=5840">147</a><span class="page-sep">, </span><a href="./viewtopic.php?f=6&amp;t=1216769&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=5880">148</a></span>
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=48071&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Ephemeron</a></td>
+            <td class="topic-replies" width="50">5899</td>
+            <td class="topic-views" width="50">578374</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Mon Jul 18, 2016 10:56 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1216769&amp;p=31564031&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31564031">DeedlitCryogenic</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1274515&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Mon Mar 23, 2015 11:04 pm"
+                href="./viewtopic.php?f=6&amp;t=1274515&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">The *new* Perpetual Photography Thread</a>
+              <span class="pager"><a href="./viewtopic.php?f=6&amp;t=1274515&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">1</a><span class="page-dots"> ... </span><a href="./viewtopic.php?f=6&amp;t=1274515&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=2040">52</a><span class="page-sep">, </span><a href="./viewtopic.php?f=6&amp;t=1274515&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=2080">53</a><span class="page-sep">, </span><a href="./viewtopic.php?f=6&amp;t=1274515&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=2120">54</a></span>
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=4508&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Deffexor</a></td>
+            <td class="topic-replies" width="50">2145</td>
+            <td class="topic-views" width="50">138545</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Mon Jul 18, 2016 10:42 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1274515&amp;p=31564005&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31564005">naql</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1274775&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Tue Mar 24, 2015 9:47 am"
+                href="./viewtopic.php?f=6&amp;t=1274775&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">The *new* Perpetual Photo Accessory thread</a>
+              <span class="pager"><a href="./viewtopic.php?f=6&amp;t=1274775&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">1</a><span class="page-dots"> ... </span><a href="./viewtopic.php?f=6&amp;t=1274775&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=680">18</a><span class="page-sep">, </span><a href="./viewtopic.php?f=6&amp;t=1274775&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=720">19</a><span class="page-sep">, </span><a href="./viewtopic.php?f=6&amp;t=1274775&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=760">20</a></span>
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=4508&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Deffexor</a></td>
+            <td class="topic-replies" width="50">782</td>
+            <td class="topic-views" width="50">67682</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Mon Jul 18, 2016 9:43 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1274775&amp;p=31563883&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31563883">RobDickinson</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1322311&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Fri Jul 15, 2016 9:44 am"
+                href="./viewtopic.php?f=6&amp;t=1322311&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Security Camera Recommendation?</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=496763&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">breakingnews</a></td>
+            <td class="topic-replies" width="50">1</td>
+            <td class="topic-views" width="50">158</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Mon Jul 18, 2016 7:37 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1322311&amp;p=31563471&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31563471">Cruzmisl</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1322413&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Sun Jul 17, 2016 3:53 pm"
+                href="./viewtopic.php?f=6&amp;t=1322413&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">House window mount for webcam</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=12628&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Coleman</a></td>
+            <td class="topic-replies" width="50">8</td>
+            <td class="topic-views" width="50">211</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Mon Jul 18, 2016 3:04 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1322413&amp;p=31561841&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31561841">DuronBoy</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1322477&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Mon Jul 18, 2016 10:47 am"
+                href="./viewtopic.php?f=6&amp;t=1322477&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Nikon d7000 onion-skin over existing JPG?</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=9458&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">stevenkan</a></td>
+            <td class="topic-replies" width="50">1</td>
+            <td class="topic-views" width="50">120</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Mon Jul 18, 2016 12:17 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1322477&amp;p=31560077&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31560077">Andrewcw</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1322419&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Sun Jul 17, 2016 5:33 pm"
+                href="./viewtopic.php?f=6&amp;t=1322419&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Mac Options for Organizing Photos</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=504941&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">ultrared0</a></td>
+            <td class="topic-replies" width="50">2</td>
+            <td class="topic-views" width="50">157</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Mon Jul 18, 2016 9:56 am</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1322419&amp;p=31559021&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31559021">Coleman</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1322363&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Sat Jul 16, 2016 4:54 am"
+                href="./viewtopic.php?f=6&amp;t=1322363&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Dell Monitor odd issue</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=42460&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Wudan Master</a></td>
+            <td class="topic-replies" width="50">6</td>
+            <td class="topic-views" width="50">290</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Mon Jul 18, 2016 4:58 am</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1322363&amp;p=31557455&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31557455">Wudan Master</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1322409&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Sun Jul 17, 2016 2:17 pm"
+                href="./viewtopic.php?f=6&amp;t=1322409&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">water cooled 4k 60fps gaming htpc build (i5 6600k, gtx1080, fractal define nano s)</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=45794&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">10k</a></td>
+            <td class="topic-replies" width="50">5</td>
+            <td class="topic-views" width="50">256</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Sun Jul 17, 2016 11:05 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1322409&amp;p=31557157&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31557157">10k</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1322389&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Sat Jul 16, 2016 11:22 pm"
+                href="./viewtopic.php?f=6&amp;t=1322389&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Turning an old iPhone 4s into a time lapse camera?</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=9458&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">stevenkan</a></td>
+            <td class="topic-replies" width="50">1</td>
+            <td class="topic-views" width="50">192</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Sun Jul 17, 2016 9:13 am</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1322389&amp;p=31555511&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31555511">bluloo</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1321777&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Sun Jul 10, 2016 10:05 am"
+                href="./viewtopic.php?f=6&amp;t=1321777&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">1More Triple Driver in-ear?</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=6038&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Wrakkenruan</a></td>
+            <td class="topic-replies" width="50">7</td>
+            <td class="topic-views" width="50">554</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Sun Jul 17, 2016 5:54 am</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1321777&amp;p=31555259&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31555259">BlackHex</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1322225&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Thu Jul 14, 2016 3:02 pm"
+                href="./viewtopic.php?f=6&amp;t=1322225&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">iPhone Audio over BT Pitch Shift? Or is it just me?</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=9458&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">stevenkan</a></td>
+            <td class="topic-replies" width="50">5</td>
+            <td class="topic-views" width="50">288</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Sat Jul 16, 2016 8:24 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1322225&amp;p=31554829&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31554829">keltor</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1321275&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Sun Jul 03, 2016 10:24 pm"
+                href="./viewtopic.php?f=6&amp;t=1321275&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">HTPC options - used Mac Mini?</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=552247&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">dechenko1993</a></td>
+            <td class="topic-replies" width="50">4</td>
+            <td class="topic-views" width="50">759</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Sat Jul 16, 2016 5:19 am</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1321275&amp;p=31553137&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31553137">U-99</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1322239&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Thu Jul 14, 2016 4:23 pm"
+                href="./viewtopic.php?f=6&amp;t=1322239&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Dell Optiplex 760 dual monitor help!!!</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=553679&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Quintin</a></td>
+            <td class="topic-replies" width="50">10</td>
+            <td class="topic-views" width="50">299</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Fri Jul 15, 2016 2:03 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1322239&amp;p=31550589&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31550589">Hat Monster</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1321691&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Fri Jul 08, 2016 8:24 am"
+                href="./viewtopic.php?f=6&amp;t=1321691&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">DIY split cables working only one at a time</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=552805&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">audiosplit</a></td>
+            <td class="topic-replies" width="50">14</td>
+            <td class="topic-views" width="50">888</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Fri Jul 15, 2016 1:35 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1321691&amp;p=31550313&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31550313">continuum</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1321877&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Mon Jul 11, 2016 5:29 pm"
+                href="./viewtopic.php?f=6&amp;t=1321877&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Sony STR-DE425 speakers advice</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=553291&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">MaximusMKD</a></td>
+            <td class="topic-replies" width="50">18</td>
+            <td class="topic-views" width="50">552</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Fri Jul 15, 2016 1:31 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1321877&amp;p=31550285&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31550285">DuronBoy</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1322199&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Thu Jul 14, 2016 10:33 am"
+                href="./viewtopic.php?f=6&amp;t=1322199&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Trailing Edge Technology User Looking Into Internet Rado</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=546213&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">mikeb_60</a></td>
+            <td class="topic-replies" width="50">3</td>
+            <td class="topic-views" width="50">292</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Fri Jul 15, 2016 1:08 am</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1322199&amp;p=31546391&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31546391">Drizzt321</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1322081&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Wed Jul 13, 2016 11:11 am"
+                href="./viewtopic.php?f=6&amp;t=1322081&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">How does one upload &gt;4G file to Youtube?</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=1907&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Saint</a></td>
+            <td class="topic-replies" width="50">7</td>
+            <td class="topic-views" width="50">430</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Wed Jul 13, 2016 11:10 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1322081&amp;p=31539101&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31539101">continuum</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1320111&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Sun Jun 19, 2016 2:51 pm"
+                href="./viewtopic.php?f=6&amp;t=1320111&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Need input Roku 3 or Apple TV 3 to replace PS3 for DLNA streaming</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=217438&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">orionquest</a></td>
+            <td class="topic-replies" width="50">30</td>
+            <td class="topic-views" width="50">1950</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Wed Jul 13, 2016 7:35 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1320111&amp;p=31538493&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31538493">keltor</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1321601&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Thu Jul 07, 2016 12:25 pm"
+                href="./viewtopic.php?f=6&amp;t=1321601&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Slicing photos for multi-canvas collage?</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=9458&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">stevenkan</a></td>
+            <td class="topic-replies" width="50">21</td>
+            <td class="topic-views" width="50">869</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Wed Jul 13, 2016 4:05 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1321601&amp;p=31537399&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31537399">alohadave</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1322119&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Wed Jul 13, 2016 3:22 pm"
+                href="./viewtopic.php?f=6&amp;t=1322119&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Opinions on surveillance cameras</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=553591&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">jay41</a></td>
+            <td class="topic-replies" width="50">1</td>
+            <td class="topic-views" width="50">242</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Wed Jul 13, 2016 3:34 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1322119&amp;p=31537199&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31537199">Carhole</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1321987&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Tue Jul 12, 2016 9:28 am"
+                href="./viewtopic.php?f=6&amp;t=1321987&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Cambridge Soundworks PC Works 2.1 sub not working</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=553391&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">mik00052</a></td>
+            <td class="topic-replies" width="50">1</td>
+            <td class="topic-views" width="50">247</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Tue Jul 12, 2016 2:57 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1321987&amp;p=31530271&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31530271">continuum</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1321219&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Sat Jul 02, 2016 12:02 pm"
+                href="./viewtopic.php?f=6&amp;t=1321219&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Any way to screencast from an Android phone to TV by a dongle?</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=8117&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Maxer</a></td>
+            <td class="topic-replies" width="50">16</td>
+            <td class="topic-views" width="50">1131</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Tue Jul 12, 2016 11:38 am</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1321219&amp;p=31528355&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31528355">Maxer</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1321881&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Mon Jul 11, 2016 6:03 pm"
+                href="./viewtopic.php?f=6&amp;t=1321881&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Professional printing and framing lab....</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=18823&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">VictorChan</a></td>
+            <td class="topic-replies" width="50">2</td>
+            <td class="topic-views" width="50">315</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Mon Jul 11, 2016 6:57 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1321881&amp;p=31524853&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31524853">VictorChan</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1321125&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Fri Jul 01, 2016 4:54 am"
+                href="./viewtopic.php?f=6&amp;t=1321125&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Speaker Upgrade from VXT4s</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=11142&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Swiftwing</a></td>
+            <td class="topic-replies" width="50">6</td>
+            <td class="topic-views" width="50">717</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Sun Jul 10, 2016 8:24 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1321125&amp;p=31519337&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31519337">Officer</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1320259&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Wed Jun 15, 2016 9:04 am"
+                href="./viewtopic.php?f=6&amp;t=1320259&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Wireless studio headphones</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=145080&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">thomahawk</a></td>
+            <td class="topic-replies" width="50">9</td>
+            <td class="topic-views" width="50">1088</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Fri Jul 08, 2016 7:10 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1320259&amp;p=31514053&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31514053">wco81</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1321715&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Wed Jul 06, 2016 8:13 am"
+                href="./viewtopic.php?f=6&amp;t=1321715&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Foscam as baby monitor?</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=39189&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">RGrizzzz</a></td>
+            <td class="topic-replies" width="50">1</td>
+            <td class="topic-views" width="50">385</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Fri Jul 08, 2016 12:45 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1321715&amp;p=31511463&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31511463">continuum</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1321607&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Thu Jul 07, 2016 1:46 pm"
+                href="./viewtopic.php?f=6&amp;t=1321607&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Testing in wall cables before drywall</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=6074&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">LimpBagel</a></td>
+            <td class="topic-replies" width="50">7</td>
+            <td class="topic-views" width="50">642</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Fri Jul 08, 2016 11:15 am</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1321607&amp;p=31510601&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31510601">TomXP411</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1321431&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Tue Jul 05, 2016 1:12 pm"
+                href="./viewtopic.php?f=6&amp;t=1321431&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Cabinet speaker Technics SB-LX7, sound cutting in and out</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=37401&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">HexRei</a></td>
+            <td class="topic-replies" width="50">2</td>
+            <td class="topic-views" width="50">447</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Fri Jul 08, 2016 9:55 am</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1321431&amp;p=31509783&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31509783">HexRei</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1318955&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Tue Jun 07, 2016 12:26 pm"
+                href="./viewtopic.php?f=6&amp;t=1318955&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Looking for someone with an SVHS, a TBC and a good capture card.</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=13809&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Master Burrfoot</a></td>
+            <td class="topic-replies" width="50">12</td>
+            <td class="topic-views" width="50">1680</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Thu Jul 07, 2016 9:44 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1318955&amp;p=31506907&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31506907">Sven77</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1321261&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Sun Jul 03, 2016 4:03 pm"
+                href="./viewtopic.php?f=6&amp;t=1321261&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Add 2 speakers to an old stereo setup to make it 4.0?</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=508261&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">phaolo</a></td>
+            <td class="topic-replies" width="50">18</td>
+            <td class="topic-views" width="50">1075</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Thu Jul 07, 2016 5:47 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1321261&amp;p=31505813&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31505813">Coleman</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=11&amp;t=1321627&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_moved.png" width="17" height="17" alt="Moved topic" title="Moved topic" /></a>
+              
+            </td>
+            <td class="topic-title">
+              Moved:  
+              <a title="Posted: Thu Jul 07, 2016 4:23 pm"
+                href="./viewtopic.php?f=11&amp;t=1321627&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Continuous Ink Systems that don't suck? (for a DesignJet 111)</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=9458&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">stevenkan</a></td>
+            <td class="topic-replies" width="50">3</td>
+            <td class="topic-views" width="50">674</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Fri Jul 08, 2016 4:31 am</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=11&amp;t=1321627&amp;p=31507833&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31507833">Hat Monster</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1321603&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Thu Jul 07, 2016 12:55 pm"
+                href="./viewtopic.php?f=6&amp;t=1321603&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Question about setting up display for home office</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=40768&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">mebeSajid</a></td>
+            <td class="topic-replies" width="50">0</td>
+            <td class="topic-views" width="50">367</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Thu Jul 07, 2016 12:55 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1321603&amp;p=31503499&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31503499">mebeSajid</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1320151&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Mon Jun 20, 2016 9:11 am"
+                href="./viewtopic.php?f=6&amp;t=1320151&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Buying the last of the 1080P TV's</a>
+              <span class="pager"><a href="./viewtopic.php?f=6&amp;t=1320151&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">1</a><span class="page-sep">, </span><a href="./viewtopic.php?f=6&amp;t=1320151&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=40">2</a></span>
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=51554&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Starbuck79</a></td>
+            <td class="topic-replies" width="50">47</td>
+            <td class="topic-views" width="50">3094</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Thu Jul 07, 2016 12:40 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1320151&amp;p=31503339&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31503339">redleader</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1319789&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Wed Jun 15, 2016 4:37 pm"
+                href="./viewtopic.php?f=6&amp;t=1319789&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">IP Camera</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=4656&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Relayer</a></td>
+            <td class="topic-replies" width="50">27</td>
+            <td class="topic-views" width="50">2596</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Tue Jul 05, 2016 11:18 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1319789&amp;p=31492481&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31492481">Ostracus</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1321411&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Tue Jul 05, 2016 9:27 am"
+                href="./viewtopic.php?f=6&amp;t=1321411&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">Cheapest 4K video card?</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=15171&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">flypenfly</a></td>
+            <td class="topic-replies" width="50">8</td>
+            <td class="topic-views" width="50">746</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Tue Jul 05, 2016 1:38 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1321411&amp;p=31490751&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31490751">flypenfly</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=36595&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Sat Oct 11, 2008 2:53 pm"
+                href="./viewtopic.php?f=6&amp;t=36595&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">The Perpetual Guitar Thread</a>
+              <span class="pager"><a href="./viewtopic.php?f=6&amp;t=36595&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">1</a><span class="page-dots"> ... </span><a href="./viewtopic.php?f=6&amp;t=36595&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=5920">149</a><span class="page-sep">, </span><a href="./viewtopic.php?f=6&amp;t=36595&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=5960">150</a><span class="page-sep">, </span><a href="./viewtopic.php?f=6&amp;t=36595&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=6000">151</a></span>
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=48881&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">npHardProblem</a></td>
+            <td class="topic-replies" width="50">6029</td>
+            <td class="topic-views" width="50">745548</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Mon Jul 04, 2016 7:07 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=36595&amp;p=31486933&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31486933">9600man</a></div>
+            </td>
+          </tr>
+        
+          <tr class="">
+            <td class="topic-status">
+              <a rel="nofollow" href="./viewtopic.php?f=6&amp;t=1320847&amp;view=unread&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#unread"><img src="//cdn.arstechnica.net/civis/ars/imageset/topic_read.png" width="17" height="17" alt="No unread posts" title="No unread posts" /></a>
+              
+            </td>
+            <td class="topic-title">
+              
+              <a title="Posted: Tue Jun 28, 2016 11:09 am"
+                href="./viewtopic.php?f=6&amp;t=1320847&amp;sid=6e990d7ffd4a46bd353b583913ee98d7" class="topictitle">AMD RX 480</a>
+              
+            </td>
+            <td class="topic-author" width="130"><a href="./memberlist.php?mode=viewprofile&amp;u=95874&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">alewisa</a></td>
+            <td class="topic-replies" width="50">10</td>
+            <td class="topic-views" width="50">1585</td>
+            <td class="topic-last-post" width="140">
+              <div class="last-post-time">Mon Jul 04, 2016 4:28 pm</div>
+              <div class="last-post-author">by <a href="./viewtopic.php?f=6&amp;t=1320847&amp;p=31486671&amp;sid=6e990d7ffd4a46bd353b583913ee98d7#p31486671">oatmeal</a></div>
+            </td>
+          </tr>
+        
+    
+      </table>
+    
+  </div>
+  
+  <div id="bottom-actionbar" class="actionbar body">
+    
+      <div class="pager">
+        <li class="selected">1</li><li><a href="http://arstechnica.com/civis/./viewforum.php?f=6&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=40">2</a></li><li><a href="http://arstechnica.com/civis/./viewforum.php?f=6&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=80">3</a></li><span class="page-dots"> ... </span><li><a href="http://arstechnica.com/civis/./viewforum.php?f=6&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=83240">2082</a></li>&nbsp;&nbsp;<a href="./viewforum.php?f=6&amp;sid=6e990d7ffd4a46bd353b583913ee98d7&amp;start=40">Next</a>
+      </div>
+    
+  </div>
+
+
+<div class="breadcrumb-jumpbox">
+  <div class="breadcrumb"><a href="http://arstechnica.com/">Ars Technica</a> &gt; <a href="./index.php?sid=6e990d7ffd4a46bd353b583913ee98d7">Forums</a> &gt; <a href="./viewforum.php?f=5&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Hardware  &amp; Tweaking</a> &gt; <a href="./viewforum.php?f=6&amp;sid=6e990d7ffd4a46bd353b583913ee98d7">Audio/Visual Club</a>
+</div>
+  <div class="jumpbox">
+    <form method="get" name="jumpbox" action="./viewforum.php?sid=6e990d7ffd4a46bd353b583913ee98d7" onsubmit="if($('.autosubmit', this).value == -1){return false;}">
+      <div>
+        <span class="jumptext">Jump to:</span>
+        <select class="autosubmit" name="f">
+          
+            <option value="-1">Select a forum</option>
+          <option value="-1">------------------</option>
+            <option value="5">Hardware  &amp; Tweaking</option>
+          
+            <option value="6" selected="selected">&nbsp; &nbsp;Audio/Visual Club</option>
+          
+            <option value="7">&nbsp; &nbsp;Case and Cooling Fetish</option>
+          
+            <option value="8">&nbsp; &nbsp;CPU &amp; Motherboard Technologia</option>
+          
+            <option value="9">&nbsp; &nbsp;Mobile Computing Outpost</option>
+          
+            <option value="10">&nbsp; &nbsp;Networking Matrix</option>
+          
+            <option value="11">&nbsp; &nbsp;Other Hardware</option>
+          
+            <option value="12">&nbsp; &nbsp;Agora Classifieds</option>
+          
+            <option value="53">&nbsp; &nbsp;Ars DIY Forum (Name TBD!)</option>
+          
+            <option value="13">Operating Systems &amp; Software</option>
+          
+            <option value="14">&nbsp; &nbsp;Battlefront</option>
+          
+            <option value="15">&nbsp; &nbsp;Microsoft OS &amp; Software Colloquium</option>
+          
+            <option value="16">&nbsp; &nbsp;Linux Kung Fu</option>
+          
+            <option value="17">&nbsp; &nbsp;Windows Technical Mojo</option>
+          
+            <option value="18">&nbsp; &nbsp;Distributed Computing Arcana</option>
+          
+            <option value="19">&nbsp; &nbsp;Macintoshian Achaia</option>
+          
+            <option value="20">&nbsp; &nbsp;Programmer's Symposium</option>
+          
+            <option value="21">&nbsp; &nbsp;The Server Room</option>
+          
+            <option value="1">Ars Lykaion</option>
+          
+            <option value="22">&nbsp; &nbsp;Gaming, Extra Strength Caplets</option>
+          
+            <option value="23">&nbsp; &nbsp;The Lounge</option>
+          
+            <option value="24">&nbsp; &nbsp;The Soap Box</option>
+          
+            <option value="25">&nbsp; &nbsp;The Boardroom</option>
+          
+            <option value="26">&nbsp; &nbsp;The Observatory</option>
+          
+            <option value="3">&nbsp; &nbsp;Ars Help &amp; Feedback</option>
+          
+            <option value="30">Ars Subscription Member Areas</option>
+          
+            <option value="38">&nbsp; &nbsp;Image Galleries</option>
+          
+        </select>
+        <input type="submit" value="Go" class="downlevel" />
+      </div>
+    </form>
+  </div>
+
+</div>
+
+</div>
+      <div id="page-footer">
+        <div id="latest-stories"></div>
+        <div id="footer">
+          <p><a href="/contact-us/">Contact Us</a> | <a href="http://arstechnica.com/">Ars Technica</a></p>
+<p><strong>&copy; Ars Technica 1998-2016</strong></p>
+<p>Powered by <a href="http://www.phpbb.com/">phpBB</a> and...</p>
+<p><a href="http://www.servercentral.com/" title="SC is awesome!"><img src="//cdn.arstechnica.net/forums/forum-powered.png" alt="Ars OpenForum powered by Server Central" /></a></p>
+<p class="notice">&copy; 2016 Cond&eacute; Nast. All rights reserved<br/>
+  Use of this Site constitutes acceptance of our <a href="http://www.condenast.com/privacy-policy" target="_blank">User Agreement</a> (effective 3/21/12) and <a href="http://www.condenast.com/privacy-policy#privacypolicy" target="_blank">Privacy Policy</a> (effective 3/21/12), and <a href="/amendment-to-conde-nast-user-agreement-privacy-policy/">Ars Technica Addendum (effective 5/17/2012)</a><br>
+  <a href="http://www.condenast.com/privacy-policy#privacypolicy-california" target="_blank">Your California Privacy Rights</a><br/>
+  The material on this site may not be reproduced, distributed, transmitted, cached or otherwise used, except with the prior written permission of Cond&eacute; Nast.<br/>
+  <a href="http://www.condenast.com/privacy-policy#privacypolicy-optout" target="_blank">Ad Choices</a><img width="10" height="10" border="0" src="//cdn.arstechnica.net/public/v6/styles/light/images/footer/ad_choices_arrow.png">
+</p>
+        </div>
+      </div>
+    </div>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script src="//cdn.arstechnica.net/civis/ars/theme/scripts/forums.js?v=35"></script>
+
+  <script>
+    $(document).ready(function() {
+      if(ars !== undefined){
+        ars.init();//Tadow!
+      }
+      if(phpbb !== undefined) {
+        p = new phpbb();
+        p.init();
+      }
+    });
+
+    $(window).on("load", function() {
+      if ("s" in window && s.bc && document.body && "removeEventListener" in document.body) {
+        document.body.removeEventListener('click', s.bc, true);
+        document.body.removeEventListener('click', s.bc, false);
+      }
+    });
+  </script>
+
+  
+  <script type="text/javascript" src="//cdn.arstechnica.net/ads/js/cn.dart.bun.min.js"></script>
+  <script type="text/javascript">
+    CN.dart.inlineConfig["ars"]["constellation"]["parallax"]["generateAdCall"] = false;
+    CN.dart.inlineConfig["ars"]["constellation"]["crown"]["generateAdCall"] = false;
+
+    CN.site.init({
+      code:  "ars",
+      title: "Ars",
+      name:  "ars",
+      env:   "PROD",
+      debug: false
+    });
+    CN.dart.init({
+      site: CN.site.name + '.dart',
+      zone: 'forums_av_club',
+      kws: ['forums']
+    });
+
+    CN.dart.call('topBanner', {sz: '728x90', kws: [], collapse: true});
+
+    var slots = CN.dart.getGPTAds();
+    for (var i=0; i < slots.length; i++) {
+      if (slots[i]['adname'] == "interstitial1x1") {
+        slots.splice(i, 1);
+        break;
+      }
+    }
+  </script>
+  
+
+  <noscript>
+    <style type="text/css">.downlevel{ display: auto; }</style>
+  </noscript><!-- Begin comScore Tag --> 
+  <script type="text/javascript"> 
+  // do it on window.load because this shit is so unreliable it holds up page load regularly
+  $(window).on("load", function(){
+    var cs_url = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js?c1=2&c2=6035094&c3=&c4=&c5=&c6=&c15=";
+    $.getScript(cs_url, function(){ return });
+  });
+  </script> 
+  <noscript> 
+  <img src="http://b.scorecardresearch.com/b?c1=2&c2=6035094&c3=&c4=&c5=&c6=&c15=&cv=1.3&cj=1" style="display:none"
+  width="1" height="1" alt="" /> 
+  </noscript> 
+  <!-- End comScore Tag --> 
+
+  <script type="text/javascript">
+    var digitalData = {
+      section: "forums",
+      keywords: {display: ""}
+    };
+  </script>
+  <!-- Adobe Tag Mgr. -->
+  <script src="//assets.adobedtm.com/6372cf21ef88ee60bc2977a4898dcb5c7945a212/satelliteLib-56a425e07376b6977c987d46ef46ba636a6e2036.js"></script>
+
+  <script type="text/javascript">_satellite.pageBottom();</script>
+  <script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"2facee05ce","applicationID":"26427541","transactionName":"ZQFUZEtVW0VWU01QCVxLY0JQG1ZfQVlKFhBbAUFWVkZAWxlAUUk=","queueTime":0,"applicationTime":349,"atts":"SUZXEgNPSEs=","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
+</html>
