@@ -24,48 +24,34 @@ from pyquery import PyQuery
 
 
 
-
-##class TopicParser():# TODO
-##    """Parser for whole topics"""
-##    def __init__(self, board_id, topic_id):
-##        self.topic = {}
-##        return
-##
-##    def ParsePage(self, page_html, offset):
-##        """Parse a single page from the topic and add the results to the internal thread object"""
-##        return {}
-##
-##    def GetThreadObj(self):
-##        return self.topic
-##
-##
-##
-##
-##class PostParser():# TODO
-##    user_id = None
-##
-##    def __init__(self, topic_page_html, post_id):
-##        self.topic_page_html = topic_page_html
-##        self.post_id = post_id
-##        # Parse the post
-##        self.post_userid = self.find_userid()
-##        return
-##
-##    def ParsePost(self, post_obj):
-##        """TODO"""
-##        raise Exception('TODO: impliment these things')
-##
-##
-##
-##    def find_userid(self):
-##        userid_path = '#p{pid} > div > div.postbody > p > strong > a'.format(pid=post_id)
-##        userid_element = d(userid_path)
-##        userid_html = userid_element.outer_html()
-##        userid = re.search('memberlist.php\?mode=viewprofile&amp;u=(\d+)', userid_html).group(1)
-##        return userid
+# from dev_pq_threadlists.py
+def viewforum_detect_if_locked(post_query_obj):
+    locked_element = post_query_obj('[class*=locked]')# Match substring
+    locked_search = re.search('/topic_\w+_locked.gif', post_query_obj.outer_html())
+    return (locked_element or locked_search)
 
 
+def viewforum_detect_if_globalannounce(post_query_obj):
+    globalannounce_element = post_query_obj('[class*=global-announce]')# Match substring
+    return bool(globalannounce_element)
 
+
+def viewforum_detect_if_announce(post_query_obj):
+    announce_search = re.search('/[\w_]*announce[\w_]*\.gif', post_query_obj.outer_html())
+    announce_element = post_query_obj('[class*=announce]')# Match substring
+    return (announce_search or announce_element)
+
+
+def viewforum_detect_if_sticky(post_query_obj):
+    sticky_element = post_query_obj('[class*=sticky]')# Match substring
+    return bool(sticky_element)
+
+
+def viewforum_detect_if_locked(post_query_obj):
+    locked_element = post_query_obj('[class*=locked]')# Match substring
+    locked_img_search = re.search('/topic_\w+_locked.gif', post_query_obj.outer_html())
+    locked_message_element = post_query_obj('[title*="This topic is locked, you cannot edit posts or make further replies."]')# Match substring
+    return (locked_element or locked_img_search or locked_message_element)
 
 
 def parse_threads_listing_page(html, board_id, posts_per_page):
@@ -106,39 +92,21 @@ def parse_threads_listing_page(html, board_id, posts_per_page):
             page_number_str = page_link.text()
             page_number = int(page_number_str)
             page_numbers.append(page_number)
-    ##        if 'start=' in page_link_html:
-    ##            page_offset_str = re.search('start=(\d+)', page_link_html).group(1)
-    ##            page_offset = int(page_offset_str)
-    ##            offsets.append(page_offset)
         last_page_number = max(page_numbers)
         topic_info['pages'] = last_page_number
 
         # Find if the topic is a sticky/announcement/etc
-        # Sticky detection
-        sticky_element = t('[class*=sticky]')# Match substring
-        #print('sticky_element: {0!r}'.format(sticky_element))
-
-        # Announcement detection
-        # background-image: url(./styles/grey3_3_0_0/imageset/announce_read.gif); background-repeat: no-repeat;
-        announce_search = re.search('/[\w_]*announce[\w_]*\.gif', row.outer_html())
-        announce_element = t('[class*=announce]')# Match substring
-        #print('announce_search: {0!r}'.format(announce_search))
-        #print('announce_element: {0!r}'.format(announce_element))
-
-        if sticky_element:
-            topic_info['thread_type'] = 'sticky'
-        elif (announce_element or announce_search):
+        if viewforum_detect_if_globalannounce(post_query_obj=t):
+            topic_info['thread_type'] = 'global-announce'
+        elif viewforum_detect_if_announce(post_query_obj=t):
             topic_info['thread_type'] = 'announce'
+        elif viewforum_detect_if_sticky(post_query_obj=t):
+            topic_info['thread_type'] = 'sticky'
         else:
             topic_info['thread_type'] = 'normal'
 
         # Try to determine if topic is locked
-        # Is there a class with 'locked' in the name?
-        locked_element = t('[class*=locked]')# Match substring
-        locked_search = re.search('/topic_\w+_locked.gif', row.outer_html())
-        #print('locked_element: {0!r}'.format(locked_element))
-        #print('locked_search: {0!r}'.format(locked_search))
-        if (locked_element or locked_search):
+        if viewforum_detect_if_locked(post_query_obj=t):
             topic_info['locked'] = True
         else:
             topic_info['locked'] = False
@@ -148,7 +116,7 @@ def parse_threads_listing_page(html, board_id, posts_per_page):
         continue
     #print('topics: {0!r}'.format(topics))
     return topics
-
+# /from dev_pq_threadlists.py
 
 
 

@@ -26,16 +26,6 @@ from pyquery import PyQuery
 
 
 
-
-
-
-
-
-
-
-
-
-
 def viewforum_detect_if_locked(post_query_obj):
     locked_element = post_query_obj('[class*=locked]')# Match substring
     locked_search = re.search('/topic_\w+_locked.gif', post_query_obj.outer_html())
@@ -59,9 +49,10 @@ def viewforum_detect_if_sticky(post_query_obj):
 
 
 def viewforum_detect_if_locked(post_query_obj):
-    locked_element = t('[class*=locked]')# Match substring
-    locked_search = re.search('/topic_\w+_locked.gif', row.outer_html())
-    return (locked_element or locked_search)
+    locked_element = post_query_obj('[class*=locked]')# Match substring
+    locked_img_search = re.search('/topic_\w+_locked.gif', post_query_obj.outer_html())
+    locked_message_element = post_query_obj('[title*="This topic is locked, you cannot edit posts or make further replies."]')# Match substring
+    return (locked_element or locked_img_search or locked_message_element)
 
 
 
@@ -109,27 +100,10 @@ for row in rows.items():
         page_number_str = page_link.text()
         page_number = int(page_number_str)
         page_numbers.append(page_number)
-##        if 'start=' in page_link_html:
-##            page_offset_str = re.search('start=(\d+)', page_link_html).group(1)
-##            page_offset = int(page_offset_str)
-##            offsets.append(page_offset)
     last_page_number = max(page_numbers)
     topic_info['pages'] = last_page_number
 
     # Find if the topic is a sticky/announcement/etc
-##    # Global announcement detection
-##
-##    # Sticky detection
-##    sticky_element = t('[class*=sticky]')# Match substring
-##    #print('sticky_element: {0!r}'.format(sticky_element))
-##
-##    # Announcement detection
-##    # background-image: url(./styles/grey3_3_0_0/imageset/announce_read.gif); background-repeat: no-repeat;
-##    announce_search = re.search('/[\w_]*announce[\w_]*\.gif', row.outer_html())
-##    announce_element = t('[class*=announce]')# Match substring
-##    #print('announce_search: {0!r}'.format(announce_search))
-##    #print('announce_element: {0!r}'.format(announce_element))
-
     if viewforum_detect_if_globalannounce(post_query_obj=t):
         topic_info['thread_type'] = 'global-announce'
     elif viewforum_detect_if_announce(post_query_obj=t):
@@ -140,11 +114,6 @@ for row in rows.items():
         topic_info['thread_type'] = 'normal'
 
     # Try to determine if topic is locked
-##    # Is there a class with 'locked' in the name?
-##    locked_element = t('[class*=locked]')# Match substring
-##    locked_search = re.search('/topic_\w+_locked.gif', row.outer_html())
-##    #print('locked_element: {0!r}'.format(locked_element))
-##    #print('locked_search: {0!r}'.format(locked_search))
     if viewforum_detect_if_locked(post_query_obj=t):
         topic_info['locked'] = True
     else:

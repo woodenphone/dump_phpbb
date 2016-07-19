@@ -591,9 +591,9 @@ class TestListingChichlidforumB4(unittest.TestCase):
         self.assertEqual(self.topics[52]['locked'], False)
         return
     def test_announcement_detection(self):
-        self.assertEqual(self.topics[0]['thread_type'], 'gloabalannounce')
-        self.assertEqual(self.topics[1]['thread_type'], 'gloabalannounce')
-        self.assertEqual(self.topics[2]['thread_type'], 'gloabalannounce')
+        self.assertEqual(self.topics[0]['thread_type'], 'global-announce')
+        self.assertEqual(self.topics[1]['thread_type'], 'announce')
+        self.assertEqual(self.topics[2]['thread_type'], 'announce')
         self.assertEqual(self.topics[3]['thread_type'], 'sticky')
         self.assertEqual(self.topics[4]['thread_type'], 'normal')
         self.assertEqual(self.topics[5]['thread_type'], 'normal')
