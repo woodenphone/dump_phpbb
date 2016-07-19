@@ -605,62 +605,62 @@ class TestListingChichlidforumB4(unittest.TestCase):
         #print('topics: {0!r}'.format(self.topics))
         self.assertEqual(self.topics[0]['topic_id'], '307234')
         self.assertEqual(self.topics[1]['topic_id'], '255444')
-        self.assertEqual(self.topics[2]['topic_id'], '55031')
-        self.assertEqual(self.topics[3]['topic_id'], '34722')
-        self.assertEqual(self.topics[4]['topic_id'], '51141')
-        self.assertEqual(self.topics[50]['topic_id'], '67172')
+        self.assertEqual(self.topics[2]['topic_id'], '125185')
+        self.assertEqual(self.topics[3]['topic_id'], '239823')
+        self.assertEqual(self.topics[4]['topic_id'], '391585')
+        self.assertEqual(self.topics[50]['topic_id'], '389066')
         self.assertEqual(self.topics[52]['topic_id'], '388033')
         return
 
 
 
-class TestListingChichlidforumB4(unittest.TestCase):
-    """phpBB v3
-    http://arstechnica.com/civis/viewforum.php?f=6
-    Normal viewforum page"""
-    def setUp(self):
-        self.board_id = 6
-        self.posts_per_page = 20
-        self.html_path = os.path.join('tests', 'arstechnica-civis.viewforum.b6.htm')
-        with open(self.html_path, 'r') as f:
-            self.page_html = f.read()
-        self.topics = parsers.parse_threads_listing_page(
-            html=self.page_html,
-            board_id=self.board_id,
-            posts_per_page=self.posts_per_page
-        )
-        return
-
-    def test_number_of_threads_found(self):
-        self.assertEqual(len(self.topics), 40)
-    def test_locked_detection(self):
-        self.assertEqual(self.topics[0]['locked'], True)
-        self.assertEqual(self.topics[1]['locked'], True)
-        self.assertEqual(self.topics[2]['locked'], True)
-        self.assertEqual(self.topics[3]['locked'], True)
-        self.assertEqual(self.topics[4]['locked'], False)
-        self.assertEqual(self.topics[25]['locked'], False)
-        self.assertEqual(self.topics[39]['locked'], False)
-        return
-    def test_announcement_detection(self):
-        self.assertEqual(self.topics[0]['thread_type'], 'gloabalannounce')
-        self.assertEqual(self.topics[1]['thread_type'], 'normal')
-        self.assertEqual(self.topics[2]['thread_type'], 'normal')
-        self.assertEqual(self.topics[3]['thread_type'], 'normal')
-        self.assertEqual(self.topics[4]['thread_type'], 'normal')
-        self.assertEqual(self.topics[5]['thread_type'], 'normal')
-        self.assertEqual(self.topics[25]['thread_type'], 'normal')
-        self.assertEqual(self.topics[39]['thread_type'], 'normal')
-        return
-    def test_topic_id_detection(self):
-        #print('topics: {0!r}'.format(self.topics))
-        self.assertEqual(self.topics[0]['topic_id'], '307234')
-        self.assertEqual(self.topics[1]['topic_id'], '255444')
-        self.assertEqual(self.topics[2]['topic_id'], '55031')
-        self.assertEqual(self.topics[3]['topic_id'], '34722')
-        self.assertEqual(self.topics[4]['topic_id'], '51141')
-        self.assertEqual(self.topics[39]['topic_id'], '67172')
-        return
+##class TestListingChichlidforumB4(unittest.TestCase):
+##    """phpBB v3
+##    http://arstechnica.com/civis/viewforum.php?f=6
+##    Normal viewforum page"""
+##    def setUp(self):
+##        self.board_id = 6
+##        self.posts_per_page = 20
+##        self.html_path = os.path.join('tests', 'arstechnica-civis.viewforum.b6.htm')
+##        with open(self.html_path, 'r') as f:
+##            self.page_html = f.read()
+##        self.topics = parsers.parse_threads_listing_page(
+##            html=self.page_html,
+##            board_id=self.board_id,
+##            posts_per_page=self.posts_per_page
+##        )
+##        return
+##
+##    def test_number_of_threads_found(self):
+##        self.assertEqual(len(self.topics), 40)
+##    def test_locked_detection(self):
+##        self.assertEqual(self.topics[0]['locked'], True)
+##        self.assertEqual(self.topics[1]['locked'], True)
+##        self.assertEqual(self.topics[2]['locked'], True)
+##        self.assertEqual(self.topics[3]['locked'], True)
+##        self.assertEqual(self.topics[4]['locked'], False)
+##        self.assertEqual(self.topics[25]['locked'], False)
+##        self.assertEqual(self.topics[39]['locked'], False)
+##        return
+##    def test_announcement_detection(self):
+##        self.assertEqual(self.topics[0]['thread_type'], 'gloabalannounce')
+##        self.assertEqual(self.topics[1]['thread_type'], 'normal')
+##        self.assertEqual(self.topics[2]['thread_type'], 'normal')
+##        self.assertEqual(self.topics[3]['thread_type'], 'normal')
+##        self.assertEqual(self.topics[4]['thread_type'], 'normal')
+##        self.assertEqual(self.topics[5]['thread_type'], 'normal')
+##        self.assertEqual(self.topics[25]['thread_type'], 'normal')
+##        self.assertEqual(self.topics[39]['thread_type'], 'normal')
+##        return
+##    def test_topic_id_detection(self):
+##        #print('topics: {0!r}'.format(self.topics))
+##        self.assertEqual(self.topics[0]['topic_id'], '307234')
+##        self.assertEqual(self.topics[1]['topic_id'], '255444')
+##        self.assertEqual(self.topics[2]['topic_id'], '55031')
+##        self.assertEqual(self.topics[3]['topic_id'], '34722')
+##        self.assertEqual(self.topics[4]['topic_id'], '51141')
+##        self.assertEqual(self.topics[39]['topic_id'], '67172')
+##        return
 
 
 
