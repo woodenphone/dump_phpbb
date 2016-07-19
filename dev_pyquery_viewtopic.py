@@ -26,70 +26,103 @@ from pyquery import PyQuery
 #from bs4 import BeautifulSoup
 
 
-#file_path = os.path.join('debug','thread_page_response.htm')
-file_path = os.path.join('debug','thread_page_response.b53.t2182.start2580.htm')
-file_path = os.path.join('tests','aryion.b38.t45427.htm')
-#file_path = os.path.join('tests', 'phpbb.b64.t2377101.htm')
-file_path = os.path.join('tests', 'aryion.b38.t44962.htm')
-file_path = os.path.join('tests', 'phpbb.b64.t2103285.htm')
-file_path = os.path.join('tests', 'electricalaudio.b5.t64830.htm')
-file_path = os.path.join('tests', 'aryion.b53.t2182.offset2560.htm')
-##file_path = os.path.join('tests', 'phpbb.b6.t362219.offset270.htm')
-##file_path = os.path.join('tests', 'phpbb.b6.t2259706.offset15.htm')
-##file_path = os.path.join('tests', 'aryion.viewtopic.f38.t695.htm')
-
-with open(file_path, 'r') as f:
-    page_html = f.read()
-
-d = PyQuery(page_html)
 
 
 
 
-# Get thread level information
-thread = {}
-
-# Get the thread title
-thread_title_path = 'h2 > a'
-thread_title_element = d(thread_title_path)
-assert(thread_title_element)
-thread_title = thread_title_element.text()
-thread['title'] = thread_title
-
-# Get the thread ID
-thread_id_path = 'h2 > a'
-thread_id_element = d(thread_id_path)
-thread_id_html = thread_id_element.outer_html()
-assert(thread_id_html)
-thread_id = re.search('<a\shref="./viewtopic\.php\?f=\d+&amp;t=(\d+)(?:&amp;start=\d+)?(?:&amp;sid=\w+)?">', thread_id_html).group(1)
-thread['thread_id'] = thread_id
-
-# Get the board ID
-board_id_path = 'h2 > a'
-board_id_element = d(board_id_path)
-board_id_html = board_id_element.outer_html()
-assert(board_id_html)
-board_id = re.search('<a\shref="./viewtopic\.php\?f=(\d+)&amp;t=\d+(?:&amp;start=\d+)?(?:&amp;sid=\w+)?">', board_id_html).group(1)
-thread['board_id'] = board_id
 
 
-# Get post IDs
-post_ids = re.findall('<div\sid="p(\d+)"\sclass="post\s(?:has-profile\s)?bg\d(?:\s*online\s*)?">', page_html)
-print('Found {0} post_ids'.format(len(post_ids)))
-print('post_ids: {0!r}'.format(post_ids))
 
-# Get post level information
-posts = []
-# With the post IDs, we can generate paths to the items we want
-for post_id in post_ids:
-    print('post_id: {0}'.format(post_id))
+
+
+
+
+
+
+
+def parse_attachment(attachment_child):
+    """Parse one attachment
+    Return the extracted information as a dict"""
+    attachment = {}
+    attachment_child_outer_html = attachment_child.outer_html()
+    #print('attachment_child_outer_html: {0!r}'.format(attachment_child_outer_html))
+
+
+    # Record the type/class of attachment
+    if attachment_child.has_class('thumbnail'):
+        attachment_class='thumbnail'
+    elif attachment_child.has_class('inline-attachment'):
+        attachment_class='inline-attachment'
+    elif attachment_child.has_class('file'):
+        attachment_class='file'
+    else:
+        raise Exception('Unexpected attachment class.')
+    attachment['class'] = attachment_class
+
+    # Find the url of this attachment
+    if (
+        ('href' not in attachment_child_outer_html) and
+        ('src' not in attachment_child_outer_html) and
+        ('[<div.inline-attachment>]' == repr(attachment_child))
+        ):
+        print('No download URL for this attachment!')
+        attachment_dl_url = None# This can happen sometimes in quotes
+    else:
+        attachment_dl_url = re.search('"(./download/file\.php\?id=\d+(?:&amp;mode=view|&amp;sid=\w+)*)"', attachment_child_outer_html).group(1)
+    attachment['dl_url'] = attachment_dl_url
+
+    # Find the comment for this attachment, if there is a comment for it
+    attachment_comment = attachment_child.text()
+    #print('attachment_comment: {0!r}'.format(attachment_comment))
+    attachment['comment'] = attachment_comment
+
+    # Attachment title
+    if 'title="' in attachment_child_outer_html:# Some don't have this
+        attachment_title = re.search('title="([^"]*)"', attachment_child_outer_html).group(1)
+    else:
+        attachment_title = None
+    attachment['title'] = attachment_title
+
+    # Find the alt text for the attachment, if there is one
+    if 'alt="' in attachment_child_outer_html:# Some don't have this
+        attachment_alt_text = re.search('alt="([^"]*)"', attachment_child_outer_html).group(1)
+    else:
+        attachment_alt_text = None
+    attachment['alt_text'] = attachment_alt_text
+
+    return attachment
+
+
+def parse_attachments(p):
+    """Parse attachments for one post
+    Return the extracted information as a list of dicts"""
+    # Find all the attachments in the post (if any) (There can be 0, 1 2, 3,... attachments per post)
+    # inline-attachment:    #p1053528 > div > div.postbody > div > div > dl > dt > img
+    # attachbox:            #p2404876 > div > div.postbody > dl > dd > dl > dt > a
+    # attachbox(text file): #p2467990 > div > div.postbody > dl > dd > dl > dt > a
+    # #p2404876 > div > div.postbody > dl
+##    attachment_path = '#p{pid} > div > div.postbody > dl > dd > dl'.format(pid=post_id)
+##    attachment_path = 'div > div.postbody > dl > dd > dl'
+    attachment_path = '.inline-attachment, .thumbnail, .file'
+    attachment_elements = p(attachment_path)
+    if attachment_elements:
+        attachment_dicts = []
+        for attachment_child in attachment_elements.items():
+            attachment = parse_attachment(attachment_child)
+            attachment_dicts.append(attachment)
+            continue
+        return attachment_dicts
+    else:
+        return None
+
+
+def parse_post(post_id, p):
+    """Parse a single post
+    Return the extracted information as a dict"""
     post = {
         'post_id': post_id,
         'time_of_retreival': str( time.time() ),
     }
-    # Lock ourselves to only this one post
-    post_outer_html = d('#p{pid}'.format(pid=post_id)).outer_html()
-    p = PyQuery(post_outer_html)
     # Get the title of the post
 ##    post_title_path = '#p{pid} > div > div.postbody > h3 > a'.format(pid=post_id)
     post_title_path = 'div > div.postbody h3 a'
@@ -147,69 +180,7 @@ for post_id in post_ids:
     else:
         post['avatar_url'] = None
 
-    # Find all the attachments in the post (if any) (There can be 0, 1 2, 3,... attachments per post)
-    # inline-attachment:    #p1053528 > div > div.postbody > div > div > dl > dt > img
-    # attachbox:            #p2404876 > div > div.postbody > dl > dd > dl > dt > a
-    # attachbox(text file): #p2467990 > div > div.postbody > dl > dd > dl > dt > a
-    # #p2404876 > div > div.postbody > dl
-##    attachment_path = '#p{pid} > div > div.postbody > dl > dd > dl'.format(pid=post_id)
-##    attachment_path = 'div > div.postbody > dl > dd > dl'
-    attachment_path = '.inline-attachment, .thumbnail, .file'
-    attachment_elements = p(attachment_path)
-    if attachment_elements:
-        post_attachments = []
-        for attachment_child in attachment_elements.items():
-            attachment = {}
-            attachment_child_outer_html = attachment_child.outer_html()
-            #print('attachment_child_outer_html: {0!r}'.format(attachment_child_outer_html))
-
-
-            # Record the type/class of attachment
-            if attachment_child.has_class('thumbnail'):
-                attachment_class='thumbnail'
-            elif attachment_child.has_class('inline-attachment'):
-                attachment_class='inline-attachment'
-            elif attachment_child.has_class('file'):
-                attachment_class='file'
-            else:
-                raise Exception('Unexpected attachment class.')
-            attachment['class'] = attachment_class
-
-            # Find the url of this attachment
-            if (
-                ('href' not in attachment_child_outer_html) and
-                ('src' not in attachment_child_outer_html) and
-                ('[<div.inline-attachment>]' == repr(attachment_child))
-                ):
-                print('No download URL for this attachment!')
-                attachment_dl_url = None# This can happen sometimes in quotes
-            else:
-                attachment_dl_url = re.search('"(./download/file\.php\?id=\d+(?:&amp;mode=view|&amp;sid=\w+)*)"', attachment_child_outer_html).group(1)
-            attachment['dl_url'] = attachment_dl_url
-
-            # Find the comment for this attachment, if there is a comment for it
-            attachment_comment = attachment_child.text()
-            #print('attachment_comment: {0!r}'.format(attachment_comment))
-            attachment['comment'] = attachment_comment
-
-            # Attachment title
-            if 'title="' in attachment_child_outer_html:# Some don't have this
-                attachment_title = re.search('title="([^"]*)"', attachment_child_outer_html).group(1)
-            else:
-                attachment_title = None
-            attachment['title'] = attachment_title
-
-            # Find the alt text for the attachment, if there is one
-            if 'alt="' in attachment_child_outer_html:# Some don't have this
-                attachment_alt_text = re.search('alt="([^"]*)"', attachment_child_outer_html).group(1)
-            else:
-                attachment_alt_text = None
-            attachment['alt_text'] = attachment_alt_text
-
-            post_attachments.append(attachment)
-            continue
-    else:
-        post_attachments = None
+    post_attachments = parse_attachments(p)
     post['attachments'] = post_attachments
 
     # Get the signature
@@ -217,22 +188,95 @@ for post_id in post_ids:
     signature_element = p(signature_path)
     signature = signature_element.outer_html()
     post['signature'] = signature
+    return post
 
 
-    # Store the post object away
-    posts.append(post)
-##    if len(posts) == 200:# DEBUG
-##        break# Stop at first post for debug
-    continue
-#print('posts: {0!r}'.format(posts))
+def parse_topic(page_html):
+    """Parse a single page of posts
+    return the information from the page as a dict"""
+    d = PyQuery(page_html)
 
-thread['posts'] = posts
+    # Get thread level information
+    topic_dict = {}
 
-print('thread: {0!r}'.format(thread))
+    # Get the thread title
+    thread_title_path = 'h2 > a'
+    thread_title_element = d(thread_title_path)
+    assert(thread_title_element)
+    thread_title = thread_title_element.text()
+    topic_dict['title'] = thread_title
+
+    # Get the thread ID
+    thread_id_path = 'h2 > a'
+    thread_id_element = d(thread_id_path)
+    thread_id_html = thread_id_element.outer_html()
+    assert(thread_id_html)
+    thread_id = re.search('<a\shref="./viewtopic\.php\?f=\d+&amp;t=(\d+)(?:&amp;start=\d+)?(?:&amp;sid=\w+)?">', thread_id_html).group(1)
+    topic_dict['thread_id'] = thread_id
+
+    # Get the board ID
+    board_id_path = 'h2 > a'
+    board_id_element = d(board_id_path)
+    board_id_html = board_id_element.outer_html()
+    assert(board_id_html)
+    board_id = re.search('<a\shref="./viewtopic\.php\?f=(\d+)&amp;t=\d+(?:&amp;start=\d+)?(?:&amp;sid=\w+)?">', board_id_html).group(1)
+    topic_dict['board_id'] = board_id
+
+
+    # Get post IDs
+    post_ids = re.findall('<div\sid="p(\d+)"\sclass="post\s(?:has-profile\s)?bg\d(?:\s*online\s*)?">', page_html)
+    print('Found {0} post_ids'.format(len(post_ids)))
+    print('post_ids: {0!r}'.format(post_ids))
+
+    # Get post level information
+    posts = []
+    # With the post IDs, we can generate paths to the items we want
+    for post_id in post_ids:
+        #print('post_id: {0}'.format(post_id))
+        # Lock ourselves to only this one post
+        post_outer_html = d('#p{pid}'.format(pid=post_id)).outer_html()
+        p = PyQuery(post_outer_html)
+        # Parse the post
+        post = parse_post(post_id, p)
+        # Store the post object away
+        posts.append(post)
+    ##    if len(posts) == 200:# DEBUG
+    ##        break# Stop at first post for debug
+        continue
+    #print('posts: {0!r}'.format(posts))
+
+    topic_dict['posts'] = posts
+
+    print('thread: {0!r}'.format(topic_dict))
+    return topic_dict
 
 
 
 
+
+
+
+
+
+
+#file_path = os.path.join('debug','thread_page_response.htm')
+file_path = os.path.join('debug','thread_page_response.b53.t2182.start2580.htm')
+file_path = os.path.join('tests','aryion.b38.t45427.htm')
+#file_path = os.path.join('tests', 'phpbb.b64.t2377101.htm')
+file_path = os.path.join('tests', 'aryion.b38.t44962.htm')
+file_path = os.path.join('tests', 'phpbb.b64.t2103285.htm')
+file_path = os.path.join('tests', 'electricalaudio.b5.t64830.htm')
+file_path = os.path.join('tests', 'aryion.b53.t2182.offset2560.htm')
+##file_path = os.path.join('tests', 'phpbb.b6.t362219.offset270.htm')
+##file_path = os.path.join('tests', 'phpbb.b6.t2259706.offset15.htm')
+##file_path = os.path.join('tests', 'aryion.viewtopic.f38.t695.htm')
+
+with open(file_path, 'r') as f:
+    page_html = f.read()
+
+
+
+parse_topic(page_html)
 
 
 
