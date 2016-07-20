@@ -690,7 +690,7 @@ class TestViewtopicChichlidforumf4t246181(unittest.TestCase):
 
 
 
-class TestViewtopicPhpbbB6T2259706ffset15(unittest.TestCase):
+class TestViewtopicAryionB38T695(unittest.TestCase):
     """phpBB v3
     https://aryion.com/forum/viewtopic.php?f=38&t=695
     Really old, 2005"""
@@ -731,7 +731,7 @@ class TestViewtopicPhpbbB6T2259706ffset15(unittest.TestCase):
         self.assertEqual(self.posts[0]['attachments'][0]['alt_text'], u'folly.jpg')
         return
     def test_thread_attachments_count(self):
-        print('attachment: {0!r}'.format(self.posts[0]['attachments']))
+        #print('attachment: {0!r}'.format(self.posts[0]['attachments']))
         self.assertEqual(len(self.posts[0]['attachments']), 1)
         self.assertEqual(self.posts[1]['attachments'], None)
         self.assertEqual(self.posts[2]['attachments'], None)

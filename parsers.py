@@ -20,7 +20,8 @@ import sys
 import re
 # libs
 from pyquery import PyQuery
-
+# Local
+import parse_viewtopic
 
 
 
@@ -154,6 +155,10 @@ def parse_thread_level_items(page_one_html, board_id, thread_id):
 def parse_thread_page(page_html, board_id, topic_id, offset):
     """Parse a page of posts.
     Return a list of dicts, each dict being the values for a single post."""
+
+    return parse_viewtopic.parse_topic(page_html)
+
+
     d = PyQuery(page_html)
 
     # Get post IDs
