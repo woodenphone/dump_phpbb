@@ -8,13 +8,14 @@ phpbb things:
     https://wiki.phpbb.com/Tables
     https://wiki.phpbb.com/Table.phpbb_topics
     https://wiki.phpbb.com/Table.phpbb_posts
+    https://github.com/phpbb/phpbb/blob/3.1.x/phpBB/styles/prosilver/template/attachment.html
 
 Useful things:
     http://www.w3schools.com/cssref/css_selectors.asp
 
 
 
-
+Probably going to need to redo attachment stuff with this in mind: https://github.com/phpbb/phpbb/blob/3.1.x/phpBB/styles/prosilver/template/attachment.html
 
 
 

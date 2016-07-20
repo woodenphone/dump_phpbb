@@ -80,6 +80,7 @@ def get_attachment_title(attachment_child_outer_html):
         attachment_title = None
     return attachment_title
 
+
 def get_attachment_alt_text(attachment_child_outer_html):
     # Find the alt text for the attachment, if there is one
     if 'alt="' in attachment_child_outer_html:# Some don't have this
