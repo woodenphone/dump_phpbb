@@ -15,8 +15,9 @@ import os
 import parse_viewtopic
 
 
-class TestViewtopicAryionB38T44962(unittest.TestCase):
-    """phpBB v3 https://aryion.com/forum/viewtopic.php?f=38&t=44962"""
+class TestViewtopic_Aryion_B55_T11882_Offset30(unittest.TestCase):
+    """phpBB v3
+    https://aryion.com/forum/viewtopic.php?f=55&t=11882"""
     def setUp(self):
         self.board_id = 55
         self.topic_id = 11882
@@ -32,7 +33,7 @@ class TestViewtopicAryionB38T44962(unittest.TestCase):
         )
         return
     def test_thread_level(self):
-        self.assertEqual(len(self.posts), 15)# Should be 20 posts
+        self.assertEqual(len(self.posts), 15)
         return
     def test_swf_attachment(self):
         self.assertEqual(self.posts[0]['attachments'][0]['type'], 'S_FLASH_FILE')
