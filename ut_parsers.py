@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # Name:        module1
-# Purpose:
+# Purpose: tests for parsers.py
 #
 # Author:      User
 #

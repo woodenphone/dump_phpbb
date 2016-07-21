@@ -67,6 +67,7 @@ class AttachmentsParser():
         ts = self.p('.thumbnail')
         print('S_THUMBNAIL: {0!r}'.format(ts))
         attachment_dicts = []
+        raise Exception('NotImplimentedYet')
         return attachment_dicts
 
     def parse_s_image(self):
@@ -106,6 +107,7 @@ class AttachmentsParser():
         ts = self.p('.file .postlink')
         print('S_FILE: {0!r}'.format(ts))
         attachment_dicts = []
+        raise Exception('NotImplimentedYet')
         return attachment_dicts
 
     def parse_s_wm_file(self):
@@ -113,17 +115,18 @@ class AttachmentsParser():
         ts = self.p('object[id*=wmstream]')
         print('S_WM_FILE: {0!r}'.format(ts))
         attachment_dicts = []
+        raise Exception('NotImplimentedYet')
         return attachment_dicts
 
     def parse_s_flash_file(self):
         #<!-- ELSEIF _file.S_FLASH_FILE -->
-        ts = self.p('object embed[type*=shockwave-flash]')
+        ts = self.p('.inline-attachment > object embed[type*=shockwave-flash], .attachbox > object embed[type*=shockwave-flash]')
         print('parse_s_flash_file() ts: {0!r}'.format(ts))
         attachment_dicts = []
         for cont in ts.items():
             attachment = {'type': 'S_FLASH_FILE'}
             print('parse_s_flash_file() cont: {0!r}'.format(cont))
-            snip = cont.parent().outer_html()
+            snip = cont.parent().parent().outer_html()# div[class=inline-attachment] > ? > object > embed
             print('parse_s_flash_file() snip: {0!r}'.format(snip))
 
             # <embed src="{_file.U_VIEW_LINK}" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" width="{_file.WIDTH}" height="{_file.HEIGHT}" play="true" loop="true" quality="high" allowscriptaccess="never" allownetworking="internal"></embed>
@@ -131,6 +134,7 @@ class AttachmentsParser():
             attachment['U_VIEW_LINK'] = vl_w_h_search.group(1)
             attachment['WIDTH'] = vl_w_h_search.group(2)
             attachment['HEIGHT'] = vl_w_h_search.group(3)
+
 
             print('parse_s_flash_file() attachment: {0!r}'.format(attachment))
             attachment_dicts.append(attachment)
@@ -141,6 +145,7 @@ class AttachmentsParser():
         ts = self.p('object[id*=qtstream]')
         print('S_QUICKTIME_FILE: {0!r}'.format(ts))
         attachment_dicts = []
+        raise Exception('NotImplimentedYet')
         return attachment_dicts
 
     def parse_s_rm_file(self):
@@ -148,6 +153,7 @@ class AttachmentsParser():
         ts = self.p('object[id*=rmstream]')
         print('S_RM_FILE: {0!r}'.format(ts))
         attachment_dicts = []
+        raise Exception('NotImplimentedYet')
         return attachment_dicts
 
 
@@ -156,13 +162,13 @@ class AttachmentsParser():
         self.p = PyQuery(self.post_html)
 
         attachment_dicts = []
-        attachment_dicts += self.parse_s_thumbnails()
+        #attachment_dicts += self.parse_s_thumbnails()
         attachment_dicts += self.parse_s_image()
-        attachment_dicts += self.parse_s_file()
-        attachment_dicts += self.parse_s_wm_file()
+        #attachment_dicts += self.parse_s_file()
+        #attachment_dicts += self.parse_s_wm_file()
         attachment_dicts += self.parse_s_flash_file()
-        attachment_dicts += self.parse_s_quicktime_file()
-        attachment_dicts += self.parse_s_rm_file()
+        #attachment_dicts += self.parse_s_quicktime_file()
+        #attachment_dicts += self.parse_s_rm_file()
 
         print('parse_attachments() attachment_dicts: {0!r}'.format(attachment_dicts))
         return attachment_dicts
