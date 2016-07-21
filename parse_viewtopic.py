@@ -142,7 +142,7 @@ class Post():
         userid_element = self.p(userid_path)
         userid_html = userid_element.outer_html()
         if ('href' not in userid_html):
-            print('No userID for this post! p.outer_html(): {0!r}'.format(self.p.outer_html()))
+            #print('No userID for this post! p.outer_html(): {0!r}'.format(self.p.outer_html()))
             userid = None
         else:
             userid = re.search('./memberlist.php\?mode=viewprofile&amp;u=(\d+)(?:&amp;sid=\w+)?', userid_html, re.IGNORECASE|re.MULTILINE).group(1)
@@ -254,7 +254,7 @@ class Topic():
     def get_topic_id(self):
         # Get the thread ID
         thread_id_path = 'h2 > a'
-        print('get_topic_id() self.d: {0!r}'.format(self.d))
+        #print('get_topic_id() self.d: {0!r}'.format(self.d))
         thread_id_element = self.d(thread_id_path)
         thread_id_html = thread_id_element.outer_html()
         assert(thread_id_html)
@@ -275,8 +275,8 @@ class Topic():
     def get_post_ids(self):
         # Get post IDs
         post_ids = re.findall('<div\sid="p(\d+)"\sclass="post\s(?:has-profile\s)?bg\d(?:\s*online\s*)?">', self.page_html)
-        print('Found {0} post_ids'.format(len(post_ids)))
-        print('post_ids: {0!r}'.format(post_ids))
+        #print('Found {0} post_ids'.format(len(post_ids)))
+        #print('post_ids: {0!r}'.format(post_ids))
         return post_ids
     # /Topic level stuff
 
@@ -291,12 +291,12 @@ class Topic():
 
         self.d = PyQuery(self.page_html)
 
-        # Get thread level information
-        topic_dict = {}
-
-        topic_dict['title'] = self.get_topic_title()
-        topic_dict['thread_id'] = self.get_topic_id()
-        topic_dict['board_id'] = self.get_board_id()
+##        # Get thread level information
+##        topic_dict = {}
+##
+##        topic_dict['title'] = self.get_topic_title()
+##        topic_dict['thread_id'] = self.get_topic_id()
+##        topic_dict['board_id'] = self.get_board_id()
 
         post_ids = self.get_post_ids()
 
@@ -318,7 +318,7 @@ class Topic():
             continue
         #print('posts: {0!r}'.format(posts))
 
-        topic_dict['posts'] = posts
+        #topic_dict['posts'] = posts
 
         #print('thread: {0!r}'.format(topic_dict))
         return posts
@@ -368,6 +368,7 @@ if __name__ == '__main__':
     file_path = os.path.join('tests', 'phpbb.b6.t362219.offset270.htm')
     file_path = os.path.join('tests', 'aryion.viewtopic.f38.t695.htm')
     file_path = os.path.join('tests', 'phpbb.b6.t362219.offset270.htm')
+    file_path = os.path.join('tests', 'cichlid-forum.viewtopic.f4.t246181.htm')
 
 
     with open(file_path, 'r') as f:

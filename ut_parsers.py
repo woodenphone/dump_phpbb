@@ -422,6 +422,7 @@ class TestViewtopicPhpbbB6T2259706ffset15(unittest.TestCase):
         self.assertEqual(self.posts[13]['attachments'][0]['alt_text'], u'3775542717.png')
         return
     def test_thread_attachments_count(self):
+        print("self.posts[13]['attachments']: {0!r}".format(self.posts[13]['attachments']))
         self.assertEqual(self.posts[0]['attachments'], None)
         self.assertEqual(self.posts[1]['attachments'], None)
         self.assertEqual(self.posts[2]['attachments'], None)
