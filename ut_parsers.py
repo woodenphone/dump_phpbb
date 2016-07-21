@@ -747,6 +747,45 @@ class TestViewtopicAryionB38T695(unittest.TestCase):
 
 
 
+class TestViewtopicAryionB38T44962(unittest.TestCase):
+    """phpBB v3
+    http://aryion.com/forum/viewtopic.php?f=55&t=11882&start=30"""
+    def setUp(self):
+        self.board_id = 55
+        self.topic_id = 11882
+        self.offset = 30
+        self.html_path = os.path.join('tests', 'aryion.viewtopic.f55.t11882.offset30.htm')
+        with open(self.html_path, 'r') as f:
+            self.page_html = f.read()
+        self.posts = parse_viewtopic.parse_thread_page(
+            page_html=self.page_html,
+            board_id=self.board_id,
+            topic_id=self.topic_id,
+            offset=self.offset
+        )
+        return
+    def test_thread_level(self):
+        self.assertEqual(len(self.posts), 20)# Should be 20 posts
+        return
+    def test_thread_attachments_alt_text(self):
+        self.assertEqual(self.posts[0]['attachments'][0]['alt_text'], u'folly.jpg')
+        return
+    def test_thread_attachments_count(self):
+        #print('attachment: {0!r}'.format(self.posts[0]['attachments']))
+        self.assertEqual(len(self.posts[0]['attachments']), 1)
+        self.assertEqual(self.posts[1]['attachments'], None)
+        self.assertEqual(self.posts[2]['attachments'], None)
+        self.assertEqual(self.posts[3]['attachments'], None)
+        return
+    def test_thread_attachments_dl_url(self):
+        self.assertEqual(self.posts[0]['attachments'][0]['dl_url'], './download/file.php?id=630&amp;sid=9a7595219b9215d9c273b8c13457343b')
+        return
+    def test_thread_attachments_title(self):
+        self.assertEqual(self.posts[0]['attachments'][0]['title'], None)
+        return
+
+
+
 
 
 def main():

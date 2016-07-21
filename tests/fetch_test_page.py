@@ -172,7 +172,7 @@ def fetch(requests_session, url, method='get', data=None, expect_status=200, hea
 
 def main():
     requests_session = requests.Session()
-    page_url = 'https://aryion.com/forum/viewtopic.php?f=38&t=695'
+    page_url = 'http://aryion.com/forum/viewtopic.php?f=55&t=11882&start=30'
     thread_page_response = fetch(
         requests_session,
         url=page_url,
