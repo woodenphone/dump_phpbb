@@ -21,7 +21,7 @@ class TestViewtopicAryionB38T44962(unittest.TestCase):
         self.board_id = 55
         self.topic_id = 11882
         self.offset = 30
-        self.html_path = os.path.join('tests', 'aryion.viewtopic.f55.t11882.offset30.htm')
+        self.html_path = os.path.join('tests', 'aryion.viewtopic.f55.t11882.offset30.htm')# has swf attachment
         with open(self.html_path, 'r') as f:
             self.page_html = f.read()
         self.posts = parse_viewtopic.parse_thread_page(

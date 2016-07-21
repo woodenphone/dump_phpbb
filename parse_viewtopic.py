@@ -51,6 +51,33 @@ from pyquery import PyQuery
 ##        return attachment
 
 
+
+
+class AttachboxParser():
+    """Parse attachbox style attachments"""
+    # TODO Write code for inline attachments
+    def find_attachbox_attachments(self):
+        """Must not include ANY inline attachments"""
+        pass
+
+
+class InlineattachmentParser():
+    """Parse inline attachments, generated from BBcode"""
+    # TODO: Move code to here
+    def find_inline_attachments(self):
+        """Must not include ANY attachbox attachments"""
+        pass
+    def parse_inline_attachments(self, post_html):
+        self.post_html = post_html
+        attachment_dicts = []
+        inline_attachments = self.find_inline_attachments()
+        for inline_attachment in inline_attachments:
+            pass
+            #attachment_dicts += TODO
+        return attachment_dicts
+
+
+
 class AttachmentsParser():
     """
     Parse attachments from one post.
@@ -120,7 +147,7 @@ class AttachmentsParser():
 
     def parse_s_flash_file(self):
         #<!-- ELSEIF _file.S_FLASH_FILE -->
-        ts = self.p('.inline-attachment > object embed[type*=shockwave-flash], .attachbox > object embed[type*=shockwave-flash]')
+        ts = self.p('.inline-attachment > object embed[type*=shockwave-flash], .attachbox > dt > object embed[type*=shockwave-flash]')
         print('parse_s_flash_file() ts: {0!r}'.format(ts))
         attachment_dicts = []
         for cont in ts.items():
@@ -541,7 +568,9 @@ if __name__ == '__main__':
     #file_path = os.path.join('tests', 'phpbb.b6.t362219.offset270.htm')
     #file_path = os.path.join('tests', 'cichlid-forum.viewtopic.f4.t246181.htm')
     #file_path = os.path.join('tests', 'phpbb.b6.t2259706.offset15.htm')
-    file_path = os.path.join('tests', 'aryion.viewtopic.f55.t11882.offset30.htm')
+    file_path = os.path.join('tests', 'aryion.viewtopic.f55.t11882.offset30.htm')# has swf attachment
+    file_path = os.path.join('tests', 'aryion.viewtopic.f79.t17592.htm')# has swf attachment
+
 
 
     with open(file_path, 'r') as f:
