@@ -156,7 +156,7 @@ def parse_thread_page(page_html, board_id, topic_id, offset):
     """Parse a page of posts.
     Return a list of dicts, each dict being the values for a single post."""
 
-    return parse_viewtopic.parse_topic(page_html)
+    return parse_viewtopic.parse_thread_page(page_html, board_id, topic_id, offset)
 
 
     d = PyQuery(page_html)
