@@ -56,24 +56,231 @@ from pyquery import PyQuery
 class AttachboxParser():
     """Parse attachbox style attachments"""
     # TODO Write code for inline attachments
-    def find_attachbox_attachments(self):
+
+    def parse_s_thumbnails(self):
+        #<!-- IF _file.S_THUMBNAIL -->
+        ts = self.p('.attachbox .thumbnail')
+        print('S_THUMBNAIL: {0!r}'.format(ts))
+        attachment_dicts = []
+        raise Exception('NotImplimentedYet')
+        return attachment_dicts
+
+    def parse_s_image(self):
+        #<!-- IF _file.S_IMAGE -->
+        ts = self.p('.attachbox .file .attach-image')
+        print('S_IMAGE: {0!r}'.format(ts))
+        attachment_dicts = []
+        for cont in ts.items():
+            attachment = {'type': 'S_IMAGE', 'location':'attachbox'}
+            print('cont: {0!r}'.format(cont))
+            snip = cont.parent().outer_html()
+            print('snip: {0!r}'.format(snip))
+
+            # <dt class="attach-image"><img src="{_file.U_INLINE_LINK}" class="postimage" alt="{_file.DOWNLOAD_NAME}"
+            il_dn_search = re.search('<dt\sclass="attach-image"><img src="([^"]+)"(?:\sclass="postimage")?\salt="([^"]+)"', snip)
+            attachment['U_INLINE_LINK'] = il_dn_search.group(1)
+            attachment['DOWNLOAD_NAME'] = il_dn_search.group(2)
+
+            # <!-- IF _file.COMMENT --><dd><em>{_file.COMMENT}</em></dd><!-- ENDIF -->
+            comment_search = re.search('<dd><em>(.+)</em></dd>', snip)
+            if comment_search:
+                 comment = comment_search.group(1)
+            else: comment = None
+            attachment['COMMENT'] = comment
+
+            # dd>{_file.DOWNLOAD_NAME} ({_file.FILESIZE} {_file.SIZE_LANG}) {_file.L_DOWNLOAD_COUNT}</dd>
+            dn_fs_sl_dc_search = re.search('<dd>([^"]+)\s(([^"]+)\s([^"]+))\s([^"]+)</dd>', snip)
+            attachment['DOWNLOAD_NAME'] = il_dn_search.group(1)
+            attachment['FILESIZE'] = il_dn_search.group(2)
+            attachment['SIZE_LANG'] = il_dn_search.group(3)
+            attachment['L_DOWNLOAD_COUNT'] = il_dn_search.group(4)
+            attachment_dicts.append(attachment)
+        return attachment_dicts
+
+    def parse_s_file(self):
+        #<!-- IF _file.S_FILE -->
+        ts = self.p('.attachbox .file .postlink')
+        print('S_FILE: {0!r}'.format(ts))
+        attachment_dicts = []
+        raise Exception('NotImplimentedYet')
+        return attachment_dicts
+
+    def parse_s_wm_file(self):
+        #<!-- IF _file.S_WM_FILE -->
+        ts = self.p('.attachbox object[id*=wmstream]')
+        print('S_WM_FILE: {0!r}'.format(ts))
+        attachment_dicts = []
+        raise Exception('NotImplimentedYet')
+        return attachment_dicts
+
+    def parse_s_flash_file(self):
+        #<!-- ELSEIF _file.S_FLASH_FILE -->
+        ts = self.p('.attachbox  object embed[type*=shockwave-flash]')
+        print('parse_s_flash_file() ts: {0!r}'.format(ts))
+        attachment_dicts = []
+        for cont in ts.items():
+            attachment = {'type': 'S_FLASH_FILE', 'location':'attachbox'}
+            print('parse_s_flash_file() cont: {0!r}'.format(cont))
+            snip = cont.parent().parent().outer_html()# div[class=inline-attachment] > ? > object > embed
+            print('parse_s_flash_file() snip: {0!r}'.format(snip))
+
+            # <embed src="{_file.U_VIEW_LINK}" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" width="{_file.WIDTH}" height="{_file.HEIGHT}" play="true" loop="true" quality="high" allowscriptaccess="never" allownetworking="internal"></embed>
+            vl_w_h_search = re.search('<embed src="([^"]+)"\stype="application/x-shockwave-flash"\spluginspage="(?:[^"]+)"\swidth="([^"]+)"\sheight="([^"]+)"', snip)
+            attachment['U_VIEW_LINK'] = vl_w_h_search.group(1)
+            attachment['WIDTH'] = vl_w_h_search.group(2)
+            attachment['HEIGHT'] = vl_w_h_search.group(3)
+
+
+            print('parse_s_flash_file() attachment: {0!r}'.format(attachment))
+            attachment_dicts.append(attachment)
+        return attachment_dicts
+
+    def parse_s_quicktime_file(self):
+        #<!-- ELSEIF _file.S_QUICKTIME_FILE -->
+        ts = self.p('.attachbox object[id*=qtstream]')
+        print('S_QUICKTIME_FILE: {0!r}'.format(ts))
+        attachment_dicts = []
+        raise Exception('NotImplimentedYet')
+        return attachment_dicts
+
+    def parse_s_rm_file(self):
+        #<!-- ELSEIF _file.S_RM_FILE -->
+        ts = self.p('.attachbox object[id*=rmstream]')
+        print('S_RM_FILE: {0!r}'.format(ts))
+        attachment_dicts = []
+        raise Exception('NotImplimentedYet')
+        return attachment_dicts
+
+    def parse_attachbox_attachments(self, post_html):
         """Must not include ANY inline attachments"""
-        pass
+        self.post_html = post_html
+        self.p = PyQuery(self.post_html)
+
+        attachment_dicts = []
+        #attachment_dicts += self.parse_s_thumbnails()
+        attachment_dicts += self.parse_s_image()
+        #attachment_dicts += self.parse_s_file()
+        #attachment_dicts += self.parse_s_wm_file()
+        attachment_dicts += self.parse_s_flash_file()
+        #attachment_dicts += self.parse_s_quicktime_file()
+        #attachment_dicts += self.parse_s_rm_file()
+
+        print('parse_attachments() attachment_dicts: {0!r}'.format(attachment_dicts))
+        return attachment_dicts
+
 
 
 class InlineattachmentParser():
     """Parse inline attachments, generated from BBcode"""
-    # TODO: Move code to here
-    def find_inline_attachments(self):
-        """Must not include ANY attachbox attachments"""
-        pass
-    def parse_inline_attachments(self, post_html):
-        self.post_html = post_html
+    def parse_s_thumbnails(self):
+        #<!-- IF _file.S_THUMBNAIL -->
+        ts = self.p('.inline-attachment .thumbnail')
+        print('S_THUMBNAIL: {0!r}'.format(ts))
         attachment_dicts = []
-        inline_attachments = self.find_inline_attachments()
-        for inline_attachment in inline_attachments:
-            pass
-            #attachment_dicts += TODO
+        raise Exception('NotImplimentedYet')
+        return attachment_dicts
+
+    def parse_s_image(self):
+        #<!-- IF _file.S_IMAGE -->
+        ts = self.p('.inline-attachment .file .attach-image')
+        print('S_IMAGE: {0!r}'.format(ts))
+        attachment_dicts = []
+        for cont in ts.items():
+            attachment = {'type': 'S_IMAGE', 'location':'inline-attachment'}
+            print('cont: {0!r}'.format(cont))
+            snip = cont.parent().outer_html()
+            print('snip: {0!r}'.format(snip))
+
+            # <dt class="attach-image"><img src="{_file.U_INLINE_LINK}" class="postimage" alt="{_file.DOWNLOAD_NAME}"
+            il_dn_search = re.search('<dt\sclass="attach-image"><img src="([^"]+)"(?:\sclass="postimage")?\salt="([^"]+)"', snip)
+            attachment['U_INLINE_LINK'] = il_dn_search.group(1)
+            attachment['DOWNLOAD_NAME'] = il_dn_search.group(2)
+
+            # <!-- IF _file.COMMENT --><dd><em>{_file.COMMENT}</em></dd><!-- ENDIF -->
+            comment_search = re.search('<dd><em>(.+)</em></dd>', snip)
+            if comment_search:
+                 comment = comment_search.group(1)
+            else: comment = None
+            attachment['COMMENT'] = comment
+
+            # dd>{_file.DOWNLOAD_NAME} ({_file.FILESIZE} {_file.SIZE_LANG}) {_file.L_DOWNLOAD_COUNT}</dd>
+            dn_fs_sl_dc_search = re.search('<dd>([^"]+)\s(([^"]+)\s([^"]+))\s([^"]+)</dd>', snip)
+            attachment['DOWNLOAD_NAME'] = il_dn_search.group(1)
+            attachment['FILESIZE'] = il_dn_search.group(2)
+            attachment['SIZE_LANG'] = il_dn_search.group(3)
+            attachment['L_DOWNLOAD_COUNT'] = il_dn_search.group(4)
+            attachment_dicts.append(attachment)
+        return attachment_dicts
+
+    def parse_s_file(self):
+        #<!-- IF _file.S_FILE -->
+        ts = self.p('.inline-attachment .file .postlink')
+        print('S_FILE: {0!r}'.format(ts))
+        attachment_dicts = []
+        raise Exception('NotImplimentedYet')
+        return attachment_dicts
+
+    def parse_s_wm_file(self):
+        #<!-- IF _file.S_WM_FILE -->
+        ts = self.p('.inline-attachment object[id*=wmstream]')
+        print('S_WM_FILE: {0!r}'.format(ts))
+        attachment_dicts = []
+        raise Exception('NotImplimentedYet')
+        return attachment_dicts
+
+    def parse_s_flash_file(self):
+        #<!-- ELSEIF _file.S_FLASH_FILE -->
+        ts = self.p('.inline-attachment  object embed[type*=shockwave-flash]')
+        print('parse_s_flash_file() ts: {0!r}'.format(ts))
+        attachment_dicts = []
+        for cont in ts.items():
+            attachment = {'type': 'S_FLASH_FILE'}
+            print('parse_s_flash_file() cont: {0!r}'.format(cont))
+            snip = cont.parent().parent().outer_html()# div[class=inline-attachment] > ? > object > embed
+            print('parse_s_flash_file() snip: {0!r}'.format(snip))
+
+            # <embed src="{_file.U_VIEW_LINK}" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" width="{_file.WIDTH}" height="{_file.HEIGHT}" play="true" loop="true" quality="high" allowscriptaccess="never" allownetworking="internal"></embed>
+            vl_w_h_search = re.search('<embed src="([^"]+)"\stype="application/x-shockwave-flash"\spluginspage="(?:[^"]+)"\swidth="([^"]+)"\sheight="([^"]+)"', snip)
+            attachment['U_VIEW_LINK'] = vl_w_h_search.group(1)
+            attachment['WIDTH'] = vl_w_h_search.group(2)
+            attachment['HEIGHT'] = vl_w_h_search.group(3)
+
+
+            print('parse_s_flash_file() attachment: {0!r}'.format(attachment))
+            attachment_dicts.append(attachment)
+        return attachment_dicts
+
+    def parse_s_quicktime_file(self):
+        #<!-- ELSEIF _file.S_QUICKTIME_FILE -->
+        ts = self.p('.inline-attachment object[id*=qtstream]')
+        print('S_QUICKTIME_FILE: {0!r}'.format(ts))
+        attachment_dicts = []
+        raise Exception('NotImplimentedYet')
+        return attachment_dicts
+
+    def parse_s_rm_file(self):
+        #<!-- ELSEIF _file.S_RM_FILE -->
+        ts = self.p('.inline-attachment object[id*=rmstream]')
+        print('S_RM_FILE: {0!r}'.format(ts))
+        attachment_dicts = []
+        raise Exception('NotImplimentedYet')
+        return attachment_dicts
+
+    def parse_inline_attachments(self, post_html):
+        """Must not include ANY attachbox attachments"""
+        self.post_html = post_html
+        self.p = PyQuery(self.post_html)
+
+        attachment_dicts = []
+        #attachment_dicts += self.parse_s_thumbnails()
+        attachment_dicts += self.parse_s_image()
+        #attachment_dicts += self.parse_s_file()
+        #attachment_dicts += self.parse_s_wm_file()
+        attachment_dicts += self.parse_s_flash_file()
+        #attachment_dicts += self.parse_s_quicktime_file()
+        #attachment_dicts += self.parse_s_rm_file()
+
+        print('parse_attachments() attachment_dicts: {0!r}'.format(attachment_dicts))
         return attachment_dicts
 
 
@@ -410,8 +617,17 @@ class Post():
     def parse_attachments(self):
         """Parse attachments for one post
         Return the extracted information as a list of dicts"""
-        attachments_parser = AttachmentsParser()
-        attachment_dicts = attachments_parser.parse_attachments(self.post_outer_html)
+        #attachments_parser = AttachmentsParser()
+        #attachment_dicts = attachments_parser.parse_attachments(self.post_outer_html)
+        attachment_dicts = []
+        iap = InlineattachmentParser()
+        attachment_dicts += iap.parse_inline_attachments(post_html = self.post_outer_html)
+
+        abp = AttachboxParser()
+        attachment_dicts += abp.parse_attachbox_attachments(post_html = self.post_outer_html)
+
+        print('parse_attachments() attachment_dicts: {0!r}'.format(attachment_dicts))
+
         return attachment_dicts
 
 
