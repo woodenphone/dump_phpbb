@@ -61,8 +61,9 @@ class AttachboxParser():
         #<!-- IF _file.S_THUMBNAIL -->
         ts = self.p('.attachbox .thumbnail')
         print('S_THUMBNAIL: {0!r}'.format(ts))
+        if ts:
+            raise Exception('NotImplimentedYet')
         attachment_dicts = []
-        raise Exception('NotImplimentedYet')
         return attachment_dicts
 
     def parse_s_image(self):
@@ -89,7 +90,7 @@ class AttachboxParser():
             attachment['COMMENT'] = comment
 
             # dd>{_file.DOWNLOAD_NAME} ({_file.FILESIZE} {_file.SIZE_LANG}) {_file.L_DOWNLOAD_COUNT}</dd>
-            dn_fs_sl_dc_search = re.search('<dd>([^"]+)\s(([^"]+)\s([^"]+))\s([^"]+)</dd>', snip)
+            dn_fs_sl_dc_search = re.search('<dd>([^<>]+)\(([\d\.]+\s\w+)\)\sViewed\s(\d+)\stimes</dd>', snip)
             attachment['DOWNLOAD_NAME'] = il_dn_search.group(1)
             attachment['FILESIZE'] = il_dn_search.group(2)
             attachment['SIZE_LANG'] = il_dn_search.group(3)
@@ -157,7 +158,7 @@ class AttachboxParser():
         self.p = PyQuery(self.post_html)
 
         attachment_dicts = []
-        #attachment_dicts += self.parse_s_thumbnails()
+        attachment_dicts += self.parse_s_thumbnails()
         attachment_dicts += self.parse_s_image()
         #attachment_dicts += self.parse_s_file()
         #attachment_dicts += self.parse_s_wm_file()
@@ -757,7 +758,8 @@ def parse_thread_page(page_html, board_id, topic_id, offset):
 
 
 
-
+def lazy_parse(page_html, board_id, topic_id, offset):
+    pass
 
 
 
@@ -784,8 +786,8 @@ if __name__ == '__main__':
     #file_path = os.path.join('tests', 'phpbb.b6.t362219.offset270.htm')
     #file_path = os.path.join('tests', 'cichlid-forum.viewtopic.f4.t246181.htm')
     #file_path = os.path.join('tests', 'phpbb.b6.t2259706.offset15.htm')
-    file_path = os.path.join('tests', 'aryion.viewtopic.f55.t11882.offset30.htm')# has swf attachment
-    file_path = os.path.join('tests', 'aryion.viewtopic.f79.t17592.htm')# has swf attachment
+    #file_path = os.path.join('tests', 'aryion.viewtopic.f55.t11882.offset30.htm')# has swf attachment
+    #file_path = os.path.join('tests', 'aryion.viewtopic.f79.t17592.htm')# has swf attachment
 
 
 
