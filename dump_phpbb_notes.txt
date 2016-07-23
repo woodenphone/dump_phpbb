@@ -39,3 +39,65 @@ curl 'http://aryion.com/forum/ucp.php?mode=login' \
  'Connection: keep-alive' \
  --data 'username=eprange01&password=EkasPortal01&autologin=on&viewonline=on&redirect=.%2Fucp.php%3Fmode%3Dlogin&sid=2be6805429bfd9575f976330b2d3c624&redirect=index.php&login=Login' \
  --compressed
+
+
+
+
+
+
+
+
+
+# ===== PLAN ===== #
+
+General procedure:
+For each board:
+    Given BoardID, 
+    Find board Name
+    Iterate over pages and record infomraion about topics
+
+
+For each topic in a board:
+    Given topicID,
+    Find postcount
+    Find OP postID
+    Find last postID
+    Find topic title
+    Find poll details
+    Determine if topic is locked
+    Determine if topic is normal/sticky/announcement/globalannouncement
+    Iterate over pages and process posts
+
+
+for each page of a topic (viewtopic.php):
+    Split topic into posts
+    For each post:
+        Find username
+        Find userID
+        Find avtar URL
+        Find signature
+        Find post content (Reverse to bbcode?)
+        Find edited status?
+        Find attachments:
+            Inline:
+                Reverse to BBcode?
+                ATTRS:
+                    URL
+                    FileID
+                    ?Comment?
+                    Filename
+            Attachbox:
+                ATTRS:
+                    URL
+                    FileID
+                    ?Comment?
+                    Filename
+
+
+Use Wpull to grab files/attachments so we keep delicious modified/filename headers
+
+
+We want lots of test cases so we can have confidence in automated use of the tool
+    Make it clear to potential users (including ourselves) that they should write new testcases for each foum they are ripping
+Try to use phpBB DB field names for values if we can, and convert to their datatypes.
+# ===== /PLAN ===== #
