@@ -58,6 +58,7 @@ class Post():
         else:
             userid = re.search('./memberlist.php\?mode=viewprofile&amp;u=(\d+)(?:&amp;sid=\w+)?', userid_html, re.IGNORECASE|re.MULTILINE).group(1)
             assert(len(userid) >= 1)
+        userid = int(userid)
         return userid
 
     def get_post_time(self):
@@ -182,6 +183,7 @@ class Post():
         post['avatar_url'] = self.get_post_avatar_url()
         post['attachments'] = self.parse_attachments()
         post['signature'] = self.get_post_signature()
+        post['outer_html'] = post_outer_html# MAYBE REMOVE THIS? (Disk usage concern)
         return post
 
 

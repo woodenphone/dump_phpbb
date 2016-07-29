@@ -38,27 +38,11 @@ class TestViewtopic_Aryion_B55_T11882_Offset30(unittest.TestCase):
     def test_swf_attachment(self):
         self.assertEqual(self.posts[0]['attachments'][0]['type'], 'S_FLASH_FILE')
         self.assertEqual(self.posts[0]['attachments'][0]['U_VIEW_LINK'], u'./download/file.php?id=48726&amp;sid=df8fb41c844e053cfd42dc310606983f&amp;view=1')
-        self.assertEqual(self.posts[0]['attachments'][0]['WIDTH'], '160')
-        self.assertEqual(self.posts[0]['attachments'][0]['HEIGHT'], '120')
+        self.assertEqual(self.posts[0]['attachments'][0]['WIDTH'], 160)
+        self.assertEqual(self.posts[0]['attachments'][0]['HEIGHT'], 120)
         return
 
 
-class TestSinglePostAryionPidXXX(unittest.TestCase):
-    """foo"""
-    def setUp(self):
-        self.board_id = 55
-        self.topic_id = 11882
-        self.offset = 30
-        self.html_path = os.path.join('tests', 'aryion.viewtopic.f55.t11882.offset30.htm')# has swf attachment
-        with open(self.html_path, 'r') as f:
-            self.page_html = f.read()
-        self.posts = parse_viewtopic.parse_thread_page(
-            page_html=self.page_html,
-            board_id=self.board_id,
-            topic_id=self.topic_id,
-            offset=self.offset
-        )
-        return
 
 
 

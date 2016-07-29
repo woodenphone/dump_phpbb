@@ -119,6 +119,31 @@ def parse_thread_page(page_html, board_id, topic_id, offset):
     return posts
 
 
+
+
+
+
+
+
+
+def split_thread_page_for_making_test_cases(topic_page_html_path, output_folder):
+    with open(topic_page_html_path, 'r') as tf:
+        topic_html = tf.read()
+    post_ids = re.findall('<div\sid="p(\d+)"\sclass="post\s(?:has-profile\s)?bg\d(?:\s*online\s*)?">', topic_html)
+    t = PyQuery(topic_html)
+    for post_id in post_ids:
+        post_outer_html = t('#p{pid}'.format(pid=post_id)).outer_html()
+        post_filename = '{pid}.html'.format(pid=post_id)
+        post_path = os.path.join(output_folder, post_filename)
+        post_html = post_outer_html.encode('utf-8')# Fixes: UnicodeEncodeError: 'ascii' codec can't encode character u'\xbb' in position 537: ordinal not in range(128)
+        with open(post_path, 'wb') as pf:
+            pf.write(post_html)
+        continue
+    return
+
+
+
+
 def main():
     pass
 
@@ -129,12 +154,12 @@ if __name__ == '__main__':
     file_path = os.path.join('debug','thread_page_response.b53.t2182.start2580.htm')
     file_path = os.path.join('tests','aryion.b38.t45427.htm')
     #file_path = os.path.join('tests', 'phpbb.b64.t2377101.htm')
-    file_path = os.path.join('tests', 'aryion.b38.t44962.htm')
-    file_path = os.path.join('tests', 'phpbb.b64.t2103285.htm')
-    file_path = os.path.join('tests', 'electricalaudio.b5.t64830.htm')
-    file_path = os.path.join('tests', 'aryion.b53.t2182.offset2560.htm')
+    #file_path = os.path.join('tests', 'aryion.b38.t44962.htm')
+    #file_path = os.path.join('tests', 'phpbb.b64.t2103285.htm')
+    #file_path = os.path.join('tests', 'electricalaudio.b5.t64830.htm')
+    #file_path = os.path.join('tests', 'aryion.b53.t2182.offset2560.htm')
     ##file_path = os.path.join('tests', 'phpbb.b6.t362219.offset270.htm')
-    file_path = os.path.join('tests', 'aryion.viewtopic.f38.t695.htm')
+    #file_path = os.path.join('tests', 'aryion.viewtopic.f38.t695.htm')
     #file_path = os.path.join('tests', 'phpbb.b6.t362219.offset270.htm')
     #file_path = os.path.join('tests', 'aryion.viewtopic.f38.t695.htm')
     #file_path = os.path.join('tests', 'phpbb.b6.t362219.offset270.htm')
@@ -142,13 +167,17 @@ if __name__ == '__main__':
     #file_path = os.path.join('tests', 'phpbb.b6.t2259706.offset15.htm')
     #file_path = os.path.join('tests', 'aryion.viewtopic.f55.t11882.offset30.htm')# has swf attachment
     #file_path = os.path.join('tests', 'aryion.viewtopic.f79.t17592.htm')# has swf attachment
+    split_thread_page_for_making_test_cases(
+        topic_page_html_path=file_path,
+        output_folder=os.path.join('tests', 'single_posts', 'aryion')
+    )
 
-
-
-    with open(file_path, 'r') as f:
-        page_html = f.read()
-
-
-    topic = Topic()
-    result = topic.parse_topic(page_html)
-    print('result: {0!r}'.format(result))
+##
+##
+##    with open(file_path, 'r') as f:
+##        page_html = f.read()
+##
+##
+##    topic = Topic()
+##    result = topic.parse_topic(page_html)
+##    print('result: {0!r}'.format(result))
