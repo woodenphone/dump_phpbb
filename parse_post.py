@@ -58,7 +58,7 @@ class Post():
         else:
             userid = re.search('./memberlist.php\?mode=viewprofile&amp;u=(\d+)(?:&amp;sid=\w+)?', userid_html, re.IGNORECASE|re.MULTILINE).group(1)
             assert(len(userid) >= 1)
-        userid = int(userid)
+            userid = int(userid)
         return userid
 
     def get_post_time(self):
@@ -161,7 +161,7 @@ class Post():
         abp = parse_attachment.AttachboxParser()
         attachment_dicts += abp.parse_attachbox_attachments(post_html = self.post_outer_html)
 
-        print('parse_attachments() attachment_dicts: {0!r}'.format(attachment_dicts))
+        #print('parse_attachments() attachment_dicts: {0!r}'.format(attachment_dicts))
 
         return attachment_dicts
 
@@ -171,7 +171,7 @@ class Post():
         self.post_outer_html = post_outer_html
         self.p = PyQuery(self.post_outer_html)
         self.post_id = post_id
-        print('parse_post() post_id: {0!r}'.format(post_id))
+        #print('parse_post() post_id: {0!r}'.format(post_id))
         post = {}
         post['post_id'] = self.post_id
         post['time_of_retreival'] = str( time.time() )

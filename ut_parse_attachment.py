@@ -61,9 +61,9 @@ class TestAryionPid5910(unittest.TestCase):
         self.assertEqual(len(attachment_dicts), 1)
         # Correct attributes
 
-        self.assertEqual(attachment_dicts[0]['real_filename'], 'folly.jpg')
+        self.assertEqual(attachment_dicts[0]['DOWNLOAD_NAME'], 'folly.jpg')
         self.assertEqual(attachment_dicts[0]['COMMENT'], u'Yeah its vore...what else can I say. Partake and enjoy.')
-        self.assertEqual(attachment_dicts[0]['download_count'], 1231)
+        self.assertEqual(attachment_dicts[0]['L_DOWNLOAD_COUNT'], 1231)
         self.assertEqual(attachment_dicts[0]['FILESIZE'], '99.12')
         self.assertEqual(attachment_dicts[0]['SIZE_LANG'], 'KiB')
         self.assertEqual(attachment_dicts[0]['type'], 'S_IMAGE')

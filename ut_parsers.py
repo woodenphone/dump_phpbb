@@ -13,7 +13,7 @@ import unittest
 import os
 # Local
 import parsers
-
+import parse_viewtopic
 
 class TestViewtopicAryionB38T44962(unittest.TestCase):
     """phpBB v3 https://aryion.com/forum/viewtopic.php?f=38&t=44962"""
@@ -24,7 +24,7 @@ class TestViewtopicAryionB38T44962(unittest.TestCase):
         self.html_path = os.path.join('tests', 'aryion.b38.t44962.htm')
         with open(self.html_path, 'r') as f:
             self.page_html = f.read()
-        self.posts = parsers.parse_thread_page(
+        self.posts = parse_viewtopic.parse_thread_page(
             page_html=self.page_html,
             board_id=self.board_id,
             topic_id=self.topic_id,
@@ -74,7 +74,7 @@ class TestViewtopicPhpbbB64T2377101(unittest.TestCase):
         self.html_path = os.path.join('tests', 'phpbb.b64.t2377101.htm')
         with open(self.html_path, 'r') as f:
             self.page_html = f.read()
-        self.posts = parsers.parse_thread_page(
+        self.posts = parse_viewtopic.parse_thread_page(
             page_html=self.page_html,
             board_id=self.board_id,
             topic_id=self.topic_id,
@@ -86,11 +86,11 @@ class TestViewtopicPhpbbB64T2377101(unittest.TestCase):
         self.assertEqual(len(self.posts), 6)# Should be 20 posts
         return
     def test_post_userids(self):
-        self.assertEqual(self.posts[0]['userid'], '1382406')
-        self.assertEqual(self.posts[1]['userid'], '236419')
-        self.assertEqual(self.posts[2]['userid'], '404045')
-        self.assertEqual(self.posts[3]['userid'], '1382406')
-        self.assertEqual(self.posts[4]['userid'], '404045')
+        self.assertEqual(self.posts[0]['userid'], 1382406)
+        self.assertEqual(self.posts[1]['userid'], 236419)
+        self.assertEqual(self.posts[2]['userid'], 404045)
+        self.assertEqual(self.posts[3]['userid'], 1382406)
+        self.assertEqual(self.posts[4]['userid'], 404045)
         return
     def test_post_usernames(self):
         self.assertEqual(self.posts[0]['username'], 'mrag')
@@ -133,7 +133,7 @@ class TestViewtopicPhpbbB64T2377101(unittest.TestCase):
 ##        self.html_path = os.path.join('tests', 'cyclingforum.t11644.htm')
 ##        with open(self.html_path, 'r') as f:
 ##            self.page_html = f.read()
-##        self.posts = parsers.parse_thread_page(
+##        self.posts = parse_viewtopic.parse_thread_page(
 ##            page_html=self.page_html,
 ##            board_id=self.board_id,
 ##            topic_id=self.topic_id,
@@ -177,7 +177,7 @@ class TestViewtopicElectricalaudioB5T64830(unittest.TestCase):
         self.html_path = os.path.join('tests', 'electricalaudio.b5.t64830.htm')
         with open(self.html_path, 'r') as f:
             self.page_html = f.read()
-        self.posts = parsers.parse_thread_page(
+        self.posts = parse_viewtopic.parse_thread_page(
             page_html=self.page_html,
             board_id=self.board_id,
             topic_id=self.topic_id,
@@ -189,11 +189,11 @@ class TestViewtopicElectricalaudioB5T64830(unittest.TestCase):
         self.assertEqual(len(self.posts), 20)# Should be 20 posts
         return
     def test_post_userids(self):
-        self.assertEqual(self.posts[0]['userid'], '2072')
-        self.assertEqual(self.posts[1]['userid'], '13966')
-        self.assertEqual(self.posts[2]['userid'], '773')
-        self.assertEqual(self.posts[3]['userid'], '80')
-        self.assertEqual(self.posts[4]['userid'], '2072')
+        self.assertEqual(self.posts[0]['userid'], 2072)
+        self.assertEqual(self.posts[1]['userid'], 13966)
+        self.assertEqual(self.posts[2]['userid'], 773)
+        self.assertEqual(self.posts[3]['userid'], 80)
+        self.assertEqual(self.posts[4]['userid'], 2072)
         return
     def test_post_usernames(self):
         self.assertEqual(self.posts[0]['username'], 'sleepkid')
@@ -209,8 +209,8 @@ class TestViewtopicElectricalaudioB5T64830(unittest.TestCase):
         self.assertEqual(self.posts[4]['title'], 'Re: Bizarre Japanese Guitars Thread')
         return
     def test_thread_attachments(self):
-        self.assertEqual(self.posts[0]['attachments'], None)
-        self.assertEqual(self.posts[1]['attachments'], None)
+        self.assertEqual(self.posts[0]['attachments'], [])
+        self.assertEqual(self.posts[1]['attachments'], [])
 
 
 
@@ -223,7 +223,7 @@ class TestViewtopicAryionB53T2182Offset2560(unittest.TestCase):
         self.html_path = os.path.join('tests', 'aryion.b53.t2182.offset2560.htm')
         with open(self.html_path, 'r') as f:
             self.page_html = f.read()
-        self.posts = parsers.parse_thread_page(
+        self.posts = parse_viewtopic.parse_thread_page(
             page_html=self.page_html,
             board_id=self.board_id,
             topic_id=self.topic_id,
@@ -235,11 +235,11 @@ class TestViewtopicAryionB53T2182Offset2560(unittest.TestCase):
         self.assertEqual(len(self.posts), 20)# Should be 20 posts
         return
     def test_post_userids(self):
-        self.assertEqual(self.posts[0]['userid'], '20892')
-        self.assertEqual(self.posts[1]['userid'], '6155')
-        self.assertEqual(self.posts[2]['userid'], '40877')
-        self.assertEqual(self.posts[3]['userid'], '31799')
-        self.assertEqual(self.posts[4]['userid'], '25090')
+        self.assertEqual(self.posts[0]['userid'], 20892)
+        self.assertEqual(self.posts[1]['userid'], 6155)
+        self.assertEqual(self.posts[2]['userid'], 40877)
+        self.assertEqual(self.posts[3]['userid'], 31799)
+        self.assertEqual(self.posts[4]['userid'], 25090)
         return
     def test_post_usernames(self):
         self.assertEqual(self.posts[0]['username'], 'q921143')
@@ -255,30 +255,30 @@ class TestViewtopicAryionB53T2182Offset2560(unittest.TestCase):
         self.assertEqual(self.posts[4]['title'], 'Re: Giantess vore drawing thread')
         return
     def test_thread_attachments_alt_text(self):
-        self.assertEqual(self.posts[6]['attachments'][0]['alt_text'], u'SaintxTail-314679-LizardLord0001.jpg')
-        self.assertEqual(self.posts[4]['attachments'][0]['alt_text'], u'1380945683696.jpg')
+        self.assertEqual(self.posts[6]['attachments'][0]['DOWNLOAD_NAME'], u'SaintxTail-314679-LizardLord0001.jpg')
+        self.assertEqual(self.posts[4]['attachments'][0]['DOWNLOAD_NAME'], u'1380945683696.jpg')
         return
     def test_thread_attachments_count(self):
-        self.assertEqual(self.posts[0]['attachments'], None)
-        self.assertEqual(self.posts[1]['attachments'], None)
-        self.assertEqual(self.posts[2]['attachments'], None)
-        self.assertEqual(self.posts[3]['attachments'], None)
+        self.assertEqual(self.posts[0]['attachments'], [])
+        self.assertEqual(self.posts[1]['attachments'], [])
+        self.assertEqual(self.posts[2]['attachments'], [])
+        self.assertEqual(self.posts[3]['attachments'], [])
         self.assertEqual(len(self.posts[4]['attachments']), 1)
         self.assertEqual(self.posts[5]['attachments'], None)
         self.assertEqual(len(self.posts[6]['attachments']), 4)
         self.assertEqual(len(self.posts[7]['attachments']), 4)
-        self.assertEqual(self.posts[8]['attachments'], None)
-        self.assertEqual(self.posts[9]['attachments'], None)
-        self.assertEqual(self.posts[10]['attachments'], None)
-        self.assertEqual(self.posts[11]['attachments'], None)
-        self.assertEqual(self.posts[12]['attachments'], None)
-        self.assertEqual(self.posts[13]['attachments'], None)
-        self.assertEqual(self.posts[14]['attachments'], None)
+        self.assertEqual(self.posts[8]['attachments'], [])
+        self.assertEqual(self.posts[9]['attachments'], [])
+        self.assertEqual(self.posts[10]['attachments'], [])
+        self.assertEqual(self.posts[11]['attachments'], [])
+        self.assertEqual(self.posts[12]['attachments'], [])
+        self.assertEqual(self.posts[13]['attachments'], [])
+        self.assertEqual(self.posts[14]['attachments'], [])
         self.assertEqual(len(self.posts[15]['attachments']), 10)
         self.assertEqual(len(self.posts[16]['attachments']), 16)
         self.assertEqual(len(self.posts[17]['attachments']), 7)
         self.assertEqual(len(self.posts[18]['attachments']), 8)
-        self.assertEqual(self.posts[19]['attachments'], None)
+        self.assertEqual(self.posts[19]['attachments'], [])
         return
     def test_thread_attachments_dl_url(self):
         self.assertEqual(self.posts[4]['attachments'][0]['dl_url'], u'./download/file.php?id=144003&amp;sid=c5d626da13ef107f1162db58be359167&amp;mode=view')
@@ -326,7 +326,7 @@ class TestViewtopicPhpbbB6T362219ffset270(unittest.TestCase):
         self.html_path = os.path.join('tests', 'phpbb.b6.t362219.offset270.htm')
         with open(self.html_path, 'r') as f:
             self.page_html = f.read()
-        self.posts = parsers.parse_thread_page(
+        self.posts = parse_viewtopic.parse_thread_page(
             page_html=self.page_html,
             board_id=self.board_id,
             topic_id=self.topic_id,
@@ -338,10 +338,10 @@ class TestViewtopicPhpbbB6T362219ffset270(unittest.TestCase):
         self.assertEqual(len(self.posts), 15)# Should be 20 posts
         return
     def test_post_userids(self):
-        self.assertEqual(self.posts[0]['userid'], '874305')
-        self.assertEqual(self.posts[1]['userid'], '956185')
-        self.assertEqual(self.posts[2]['userid'], '329351')
-        self.assertEqual(self.posts[3]['userid'], '882465')
+        self.assertEqual(self.posts[0]['userid'], 874305)
+        self.assertEqual(self.posts[1]['userid'], 956185)
+        self.assertEqual(self.posts[2]['userid'], 329351)
+        self.assertEqual(self.posts[3]['userid'], 882465)
         self.assertEqual(self.posts[7]['userid'], None)# No user ID for this post
         return
     def test_post_usernames(self):
@@ -363,10 +363,10 @@ class TestViewtopicPhpbbB6T362219ffset270(unittest.TestCase):
 ##        self.assertEqual(self.posts[4]['attachments'][0]['alt_text'], u'1380945683696.jpg')
         return
     def test_thread_attachments_count(self):
-        self.assertEqual(self.posts[0]['attachments'], None)
-        self.assertEqual(self.posts[1]['attachments'], None)
-        self.assertEqual(self.posts[2]['attachments'], None)
-        self.assertEqual(self.posts[3]['attachments'], None)
+        self.assertEqual(self.posts[0]['attachments'], [])
+        self.assertEqual(self.posts[1]['attachments'], [])
+        self.assertEqual(self.posts[2]['attachments'], [])
+        self.assertEqual(self.posts[3]['attachments'], [])
         return
     def test_thread_attachments_dl_url(self):
 ##        self.assertEqual(self.posts[4]['attachments'][0]['dl_url'], u'./download/file.php?id=144003&amp;sid=c5d626da13ef107f1162db58be359167&amp;mode=view')
@@ -391,7 +391,7 @@ class TestViewtopicPhpbbB6T2259706ffset15(unittest.TestCase):
         self.html_path = os.path.join('tests', 'phpbb.b6.t2259706.offset15.htm')
         with open(self.html_path, 'r') as f:
             self.page_html = f.read()
-        self.posts = parsers.parse_thread_page(
+        self.posts = parse_viewtopic.parse_thread_page(
             page_html=self.page_html,
             board_id=self.board_id,
             topic_id=self.topic_id,
@@ -403,9 +403,9 @@ class TestViewtopicPhpbbB6T2259706ffset15(unittest.TestCase):
         self.assertEqual(len(self.posts), 15)# Should be 20 posts
         return
     def test_post_userids(self):
-        self.assertEqual(self.posts[0]['userid'], '182473')
-        self.assertEqual(self.posts[11]['userid'], '1136425')
-        self.assertEqual(self.posts[13]['userid'], '1136425')
+        self.assertEqual(self.posts[0]['userid'], 182473)
+        self.assertEqual(self.posts[11]['userid'], 1136425)
+        self.assertEqual(self.posts[13]['userid'], 1136425)
         return
     def test_post_usernames(self):
         self.assertEqual(self.posts[0]['username'], 'Lumpy Burgertushie')
@@ -418,15 +418,15 @@ class TestViewtopicPhpbbB6T2259706ffset15(unittest.TestCase):
         self.assertEqual(self.posts[13]['title'], 'Re: Speedtest')
         return
     def test_thread_attachments_alt_text(self):
-        self.assertEqual(self.posts[11]['attachments'][0]['alt_text'], None)# Attachment is strange in this post
-        self.assertEqual(self.posts[13]['attachments'][0]['alt_text'], u'3775542717.png')
+        self.assertEqual(self.posts[11]['attachments'][0]['DOWNLOAD_NAME'], None)# Attachment is strange in this post
+        self.assertEqual(self.posts[13]['attachments'][0]['DOWNLOAD_NAME'], u'3775542717.png')
         return
     def test_thread_attachments_count(self):
         print("self.posts[13]['attachments']: {0!r}".format(self.posts[13]['attachments']))
-        self.assertEqual(self.posts[0]['attachments'], None)
-        self.assertEqual(self.posts[1]['attachments'], None)
-        self.assertEqual(self.posts[2]['attachments'], None)
-        self.assertEqual(self.posts[3]['attachments'], None)
+        self.assertEqual(self.posts[0]['attachments'], [])
+        self.assertEqual(self.posts[1]['attachments'], [])
+        self.assertEqual(self.posts[2]['attachments'], [])
+        self.assertEqual(self.posts[3]['attachments'], [])
         self.assertEqual(len(self.posts[11]['attachments']), 1)# Attachment is strange in this post
         self.assertEqual(len(self.posts[13]['attachments']), 3)
         return
@@ -480,12 +480,12 @@ class TestListingPphbbB64(unittest.TestCase):
         return
     def test_topic_id_detection(self):
         #print('topics: {0!r}'.format(self.topics))
-        self.assertEqual(self.topics[0]['topic_id'], '558789')
-        self.assertEqual(self.topics[1]['topic_id'], '10385')
-        self.assertEqual(self.topics[2]['topic_id'], '2103285')
-        self.assertEqual(self.topics[3]['topic_id'], '1237515')
-        self.assertEqual(self.topics[4]['topic_id'], '2379711')
-        self.assertEqual(self.topics[25]['topic_id'], '2376576')
+        self.assertEqual(self.topics[0]['topic_id'], 558789)
+        self.assertEqual(self.topics[1]['topic_id'], 10385)
+        self.assertEqual(self.topics[2]['topic_id'], 2103285)
+        self.assertEqual(self.topics[3]['topic_id'], 1237515)
+        self.assertEqual(self.topics[4]['topic_id'], 2379711)
+        self.assertEqual(self.topics[25]['topic_id'], 2376576)
 
 
 
@@ -528,12 +528,12 @@ class TestListingAryionB21(unittest.TestCase):
         self.assertEqual(self.topics[49]['thread_type'], 'normal')
         return
     def test_topic_id_detection(self):
-        self.assertEqual(self.topics[0]['topic_id'], '12751')
-        self.assertEqual(self.topics[1]['topic_id'], '27754')
-        self.assertEqual(self.topics[2]['topic_id'], '47207')
-        self.assertEqual(self.topics[3]['topic_id'], '47200')
-        self.assertEqual(self.topics[4]['topic_id'], '47150')
-        self.assertEqual(self.topics[49]['topic_id'], '44870')
+        self.assertEqual(self.topics[0]['topic_id'], 12751)
+        self.assertEqual(self.topics[1]['topic_id'], 27754)
+        self.assertEqual(self.topics[2]['topic_id'], 47207)
+        self.assertEqual(self.topics[3]['topic_id'], 47200)
+        self.assertEqual(self.topics[4]['topic_id'], 47150)
+        self.assertEqual(self.topics[49]['topic_id'], 44870)
         return
 
 
@@ -578,12 +578,12 @@ class TestListingElectricalaudioB5(unittest.TestCase):
         return
     def test_topic_id_detection(self):
         #print('topics: {0!r}'.format(self.topics))
-        self.assertEqual(self.topics[0]['topic_id'], '63483')
-        self.assertEqual(self.topics[1]['topic_id'], '491')
-        self.assertEqual(self.topics[2]['topic_id'], '55031')
-        self.assertEqual(self.topics[3]['topic_id'], '34722')
-        self.assertEqual(self.topics[4]['topic_id'], '51141')
-        self.assertEqual(self.topics[50]['topic_id'], '67172')
+        self.assertEqual(self.topics[0]['topic_id'], 63483)
+        self.assertEqual(self.topics[1]['topic_id'], 491)
+        self.assertEqual(self.topics[2]['topic_id'], 55031)
+        self.assertEqual(self.topics[3]['topic_id'], 34722)
+        self.assertEqual(self.topics[4]['topic_id'], 51141)
+        self.assertEqual(self.topics[50]['topic_id'], 67172)
         return
 
 
@@ -630,13 +630,13 @@ class TestListingChichlidforumB4(unittest.TestCase):
         return
     def test_topic_id_detection(self):
         #print('topics: {0!r}'.format(self.topics))
-        self.assertEqual(self.topics[0]['topic_id'], '307234')
-        self.assertEqual(self.topics[1]['topic_id'], '255444')
-        self.assertEqual(self.topics[2]['topic_id'], '125185')
-        self.assertEqual(self.topics[3]['topic_id'], '239823')
-        self.assertEqual(self.topics[4]['topic_id'], '391585')
-        self.assertEqual(self.topics[50]['topic_id'], '389066')
-        self.assertEqual(self.topics[52]['topic_id'], '388033')
+        self.assertEqual(self.topics[0]['topic_id'], 307234)
+        self.assertEqual(self.topics[1]['topic_id'], 255444)
+        self.assertEqual(self.topics[2]['topic_id'], 125185)
+        self.assertEqual(self.topics[3]['topic_id'], 239823)
+        self.assertEqual(self.topics[4]['topic_id'], 391585)
+        self.assertEqual(self.topics[50]['topic_id'], 389066)
+        self.assertEqual(self.topics[52]['topic_id'], 388033)
         return
 
 
@@ -652,7 +652,7 @@ class TestViewtopicChichlidforumf4t246181(unittest.TestCase):
         self.html_path = os.path.join('tests', 'cichlid-forum.viewtopic.f4.t246181.htm')
         with open(self.html_path, 'r') as f:
             self.page_html = f.read()
-        self.posts = parsers.parse_thread_page(
+        self.posts = parse_viewtopic.parse_thread_page(
             page_html=self.page_html,
             board_id=self.board_id,
             topic_id=self.topic_id,
@@ -663,11 +663,11 @@ class TestViewtopicChichlidforumf4t246181(unittest.TestCase):
         self.assertEqual(len(self.posts), 15)# Should be 20 posts
         return
     def test_post_userids(self):
-        self.assertEqual(self.posts[0]['userid'], '75869')
-        self.assertEqual(self.posts[1]['userid'], '68437')
-        self.assertEqual(self.posts[2]['userid'], '75869')
-        self.assertEqual(self.posts[3]['userid'], '68437')
-        self.assertEqual(self.posts[14]['userid'], '75869')
+        self.assertEqual(self.posts[0]['userid'], 75869)
+        self.assertEqual(self.posts[1]['userid'], 68437)
+        self.assertEqual(self.posts[2]['userid'], 75869)
+        self.assertEqual(self.posts[3]['userid'], 68437)
+        self.assertEqual(self.posts[14]['userid'], 75869)
         return
     def test_post_usernames(self):
         self.assertEqual(self.posts[0]['username'], 'orau22')
@@ -683,10 +683,10 @@ class TestViewtopicChichlidforumf4t246181(unittest.TestCase):
         self.assertEqual(self.posts[14]['title'], "Re: Tank Cycling w/ Dr. Tim's One and Only")
         return
     def test_thread_attachments_count(self):
-        self.assertEqual(self.posts[0]['attachments'], None)
-        self.assertEqual(self.posts[1]['attachments'], None)
-        self.assertEqual(self.posts[2]['attachments'], None)
-        self.assertEqual(self.posts[14]['attachments'], None)
+        self.assertEqual(self.posts[0]['attachments'], [])
+        self.assertEqual(self.posts[1]['attachments'], [])
+        self.assertEqual(self.posts[2]['attachments'], [])
+        self.assertEqual(self.posts[14]['attachments'], [])
         return
 
 
@@ -702,7 +702,7 @@ class TestViewtopicAryionB38T695(unittest.TestCase):
         self.html_path = os.path.join('tests', 'aryion.viewtopic.f38.t695.htm')
         with open(self.html_path, 'r') as f:
             self.page_html = f.read()
-        self.posts = parsers.parse_thread_page(
+        self.posts = parse_viewtopic.parse_thread_page(
             page_html=self.page_html,
             board_id=self.board_id,
             topic_id=self.topic_id,
@@ -714,9 +714,9 @@ class TestViewtopicAryionB38T695(unittest.TestCase):
         self.assertEqual(len(self.posts), 6)
         return
     def test_post_userids(self):
-        self.assertEqual(self.posts[0]['userid'], '958')
-        self.assertEqual(self.posts[1]['userid'], '3')
-        self.assertEqual(self.posts[2]['userid'], '823')
+        self.assertEqual(self.posts[0]['userid'], 958)
+        self.assertEqual(self.posts[1]['userid'], 3)
+        self.assertEqual(self.posts[2]['userid'], 823)
         return
     def test_post_usernames(self):
         self.assertEqual(self.posts[0]['username'], 'ress_q_puma')
@@ -729,21 +729,23 @@ class TestViewtopicAryionB38T695(unittest.TestCase):
         self.assertEqual(self.posts[2]['title'], '')
         return
     def test_thread_attachments_alt_text(self):
-        self.assertEqual(self.posts[0]['attachments'][0]['alt_text'], u'folly.jpg')
+        self.assertEqual(self.posts[0]['attachments'][0]['DOWNLOAD_NAME'], u'folly.jpg')
         return
     def test_thread_attachments_count(self):
         #print('attachment: {0!r}'.format(self.posts[0]['attachments']))
         self.assertEqual(len(self.posts[0]['attachments']), 1)
-        self.assertEqual(self.posts[1]['attachments'], None)
-        self.assertEqual(self.posts[2]['attachments'], None)
-        self.assertEqual(self.posts[3]['attachments'], None)
+        self.assertEqual(self.posts[1]['attachments'], [])
+        self.assertEqual(self.posts[2]['attachments'], [])
+        self.assertEqual(self.posts[3]['attachments'], [])
         return
     def test_thread_attachments_dl_url(self):
         self.assertEqual(self.posts[0]['attachments'][0]['dl_url'], './download/file.php?id=630&amp;sid=9a7595219b9215d9c273b8c13457343b')
         return
-    def test_thread_attachments_title(self):
-        self.assertEqual(self.posts[0]['attachments'][0]['title'], None)
-        return
+## I don't know what this one is for anymore
+##    def test_thread_attachments_title(self):
+##        print('test_thread_attachments_title() self.posts: {0!r}'.format(self.posts))
+##        self.assertEqual(self.posts[0]['attachments'][0]['title'], None)
+##        return
 
 
 
@@ -765,10 +767,10 @@ class TestViewtopicAryionB38T44962(unittest.TestCase):
         )
         return
     def test_thread_level(self):
-        self.assertEqual(len(self.posts), 20)# Should be 20 posts
+        self.assertEqual(len(self.posts), 15)
         return
     def test_thread_attachments_alt_text(self):
-        self.assertEqual(self.posts[0]['attachments'][0]['alt_text'], u'folly.jpg')
+        self.assertEqual(self.posts[0]['attachments'][0]['DOWNLOAD_NAME'], u'folly.jpg')
         return
     def test_thread_attachments_count(self):
         #print('attachment: {0!r}'.format(self.posts[0]['attachments']))
