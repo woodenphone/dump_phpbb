@@ -32,7 +32,7 @@ class AttachboxParser():
         ts = self.p('.attachbox .thumbnail')
         print('S_THUMBNAIL: {0!r}'.format(ts))
         if ts:
-            raise Exception('NotImplimentedYet')
+            raise Exception('NotImplimentedYet')# Add these when a test case is discovered
         attachment_dicts = []
         return attachment_dicts
 
@@ -118,7 +118,7 @@ class AttachboxParser():
             return []
         print('S_WM_FILE: {0!r}'.format(ts))
         attachment_dicts = []
-        raise Exception('NotImplimentedYet')
+        raise Exception('NotImplimentedYet')# Add these when a test case is discovered
         return attachment_dicts
 
     def parse_s_flash_file(self):
@@ -150,7 +150,7 @@ class AttachboxParser():
             return []
         print('S_QUICKTIME_FILE: {0!r}'.format(ts))
         attachment_dicts = []
-        raise Exception('NotImplimentedYet')
+        raise Exception('NotImplimentedYet')# Add these when a test case is discovered
         return attachment_dicts
 
     def parse_s_rm_file(self):
@@ -160,7 +160,7 @@ class AttachboxParser():
             return []
         print('S_RM_FILE: {0!r}'.format(ts))
         attachment_dicts = []
-        raise Exception('NotImplimentedYet')
+        raise Exception('NotImplimentedYet')# Add these when a test case is discovered
         return attachment_dicts
 
     def parse_attachbox_attachments(self, post_html):
@@ -193,7 +193,7 @@ class InlineattachmentParser():
             return []
         print('S_THUMBNAIL: {0!r}'.format(ts))
         attachment_dicts = []
-        raise Exception('NotImplimentedYet')
+        raise Exception('NotImplimentedYet')# Add these when a test case is discovered
         return attachment_dicts
 
     def parse_s_image(self):
@@ -219,7 +219,7 @@ class InlineattachmentParser():
             else: comment = None
             attachment['COMMENT'] = comment
 
-            # dd>{_file.DOWNLOAD_NAME} ({_file.FILESIZE} {_file.SIZE_LANG}) {_file.L_DOWNLOAD_COUNT}</dd>
+            # <dd>{_file.DOWNLOAD_NAME} ({_file.FILESIZE} {_file.SIZE_LANG}) {_file.L_DOWNLOAD_COUNT}</dd>
             dn_fs_sl_dc_search = re.search('<dd>([^<>]+)\s\(([\d\.]+)\s(\w+)\)\sViewed\s(\d+)\stimes</dd>', snip)
             attachment['real_filename'] = dn_fs_sl_dc_search.group(1)# ex 'foo.jpg'
             attachment['FILESIZE'] = dn_fs_sl_dc_search.group(2)# ex '123'
@@ -235,7 +235,7 @@ class InlineattachmentParser():
             return []
         print('S_FILE: {0!r}'.format(ts))
         attachment_dicts = []
-        raise Exception('NotImplimentedYet')
+        raise Exception('NotImplimentedYet')# Add these when a test case is discovered
         return attachment_dicts
 
     def parse_s_wm_file(self):
@@ -245,7 +245,7 @@ class InlineattachmentParser():
             return []
         print('S_WM_FILE: {0!r}'.format(ts))
         attachment_dicts = []
-        raise Exception('NotImplimentedYet')
+        raise Exception('NotImplimentedYet')# Add these when a test case is discovered
         return attachment_dicts
 
     def parse_s_flash_file(self):
@@ -277,7 +277,7 @@ class InlineattachmentParser():
             return []
         print('S_QUICKTIME_FILE: {0!r}'.format(ts))
         attachment_dicts = []
-        raise Exception('NotImplimentedYet')
+        raise Exception('NotImplimentedYet')# Add these when a test case is discovered
         return attachment_dicts
 
     def parse_s_rm_file(self):
@@ -287,7 +287,7 @@ class InlineattachmentParser():
             return []
         print('S_RM_FILE: {0!r}'.format(ts))
         attachment_dicts = []
-        raise Exception('NotImplimentedYet')
+        raise Exception('NotImplimentedYet')# Add these when a test case is discovered
         return attachment_dicts
 
     def parse_inline_attachments(self, post_html):
