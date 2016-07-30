@@ -106,11 +106,12 @@ class TestViewtopicPhpbbB64T2377101(unittest.TestCase):
         self.assertEqual(self.posts[4]['title'], 'Re: iPhone App to post photo to forum')
         return
     def test_thread_attachments(self):
-        self.assertEqual(self.posts[0]['attachments'], None)
-        self.assertEqual(self.posts[1]['attachments'], None)
-        self.assertEqual(self.posts[2]['attachments'][0]['dl_url'], u'./download/file.php?id=184656&amp;sid=ce0a2ca732b9ae14bab7da0b241b1460&amp;mode=view')
-        self.assertEqual(self.posts[3]['attachments'][0]['dl_url'], u'./download/file.php?id=184681&amp;sid=ce0a2ca732b9ae14bab7da0b241b1460&amp;mode=view')
-        self.assertEqual(self.posts[4]['attachments'], None)
+        #print('\n\ntest_thread_attachments() self.posts: {0!r}\n\n'.format(self.posts))
+        self.assertEqual(self.posts[0]['attachments'], [])
+        self.assertEqual(self.posts[1]['attachments'], [])
+        self.assertEqual(self.posts[2]['attachments'][0]['U_DOWNLOAD_LINK'], u'./download/file.php?id=184656&amp;sid=ce0a2ca732b9ae14bab7da0b241b1460&amp;mode=view')
+        self.assertEqual(self.posts[3]['attachments'][0]['U_DOWNLOAD_LINK'], u'./download/file.php?id=184681&amp;sid=ce0a2ca732b9ae14bab7da0b241b1460&amp;mode=view')
+        self.assertEqual(self.posts[4]['attachments'], [])
         return
     def test_post_signatures(self):
         self.assertEqual(self.posts[0]['signature'], None)
@@ -264,7 +265,7 @@ class TestViewtopicAryionB53T2182Offset2560(unittest.TestCase):
         self.assertEqual(self.posts[2]['attachments'], [])
         self.assertEqual(self.posts[3]['attachments'], [])
         self.assertEqual(len(self.posts[4]['attachments']), 1)
-        self.assertEqual(self.posts[5]['attachments'], None)
+        self.assertEqual(self.posts[5]['attachments'], [])
         self.assertEqual(len(self.posts[6]['attachments']), 4)
         self.assertEqual(len(self.posts[7]['attachments']), 4)
         self.assertEqual(self.posts[8]['attachments'], [])
@@ -275,7 +276,7 @@ class TestViewtopicAryionB53T2182Offset2560(unittest.TestCase):
         self.assertEqual(self.posts[13]['attachments'], [])
         self.assertEqual(self.posts[14]['attachments'], [])
         self.assertEqual(len(self.posts[15]['attachments']), 10)
-        self.assertEqual(len(self.posts[16]['attachments']), 16)
+        self.assertEqual(len(self.posts[16]['attachments']), 8)
         self.assertEqual(len(self.posts[17]['attachments']), 7)
         self.assertEqual(len(self.posts[18]['attachments']), 8)
         self.assertEqual(self.posts[19]['attachments'], [])
@@ -774,17 +775,18 @@ class TestViewtopicAryionB38T44962(unittest.TestCase):
         return
     def test_thread_attachments_alt_text(self):
         print('\n\ntest_thread_attachments_alt_text() attachments: {0!r}\n\n'.format(self.posts[0]['attachments']))
-        self.assertEqual(self.posts[0]['attachments'][0]['DOWNLOAD_NAME'], u'folly.jpg')
+        self.assertEqual(self.posts[0]['attachments'][0]['DOWNLOAD_NAME'], u'pov.swf')
         return
     def test_thread_attachments_count(self):
         #print('attachment: {0!r}'.format(self.posts[0]['attachments']))
         self.assertEqual(len(self.posts[0]['attachments']), 1)
-        self.assertEqual(self.posts[1]['attachments'], None)
-        self.assertEqual(self.posts[2]['attachments'], None)
-        self.assertEqual(self.posts[3]['attachments'], None)
+        self.assertEqual(self.posts[1]['attachments'], [])
+        self.assertEqual(self.posts[2]['attachments'], [])
+        self.assertEqual(self.posts[3]['attachments'], [])
         return
     def test_thread_attachments_dl_url(self):
-        self.assertEqual(self.posts[0]['attachments'][0]['U_DOWNLOAD_LINK'], './download/file.php?id=630&amp;sid=9a7595219b9215d9c273b8c13457343b')
+        print('\n\nattachment: {0!r}\n\n'.format(self.posts[0]['attachments']))
+        self.assertEqual(self.posts[0]['attachments'][0]['U_VIEW_LINK'], './download/file.php?id=48726&amp;sid=df8fb41c844e053cfd42dc310606983f&amp;view=1')
         return
 ## DEPRICATED
 ##    def test_thread_attachments_title(self):
