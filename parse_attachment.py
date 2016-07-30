@@ -30,19 +30,20 @@ class AttachboxParser():
     def parse_s_thumbnails(self):
         #<!-- IF _file.S_THUMBNAIL -->
         ts = self.p('.attachbox .thumbnail')
-        print('S_THUMBNAIL: {0!r}'.format(ts))
+        #print('S_THUMBNAIL: {0!r}'.format(ts))
 ##        if ts:
 ##            raise Exception('NotImplimentedYet')# Add these when a test case is discovered
         attachment_dicts = []
         for cont in ts.items():
             attachment = {'type': 'S_THUMBNAIL', 'location':'attachbox'}
-            print('cont: {0!r}'.format(cont))
+            #print('cont: {0!r}'.format(cont))
             snip = cont.outer_html()
-            print('snip: {0!r}'.format(snip))
+            #print('snip: {0!r}'.format(snip))
 
             # {_file.U_DOWNLOAD_LINK}, {_file.THUMB_IMAGE}, {_file.DOWNLOAD_NAME}
             # dt><a href="{_file.U_DOWNLOAD_LINK}"><img src="{_file.THUMB_IMAGE}" class="postimage" alt="{_file.DOWNLOAD_NAME}"
-            dllink_thumbimg_dlname_search = re.search('<dt><a href="([^"]+)"><img src="([^"]+)" class="postimage" alt="([^"]+)"\s', snip)
+##            dllink_thumbimg_dlname_search = re.search('<dt><a href="([^"]+)"><img src="([^"]+)" class="postimage" alt="([^"]+)"\s', snip)
+            dllink_thumbimg_dlname_search = re.search('<dt><a href="([^"]+)"><img src="([^"]+)" (?:class="postimage"\s)?alt="([^"]+)"\s', snip)
             attachment['U_DOWNLOAD_LINK'] = dllink_thumbimg_dlname_search.group(1)
             attachment['THUMB_IMAGE'] = dllink_thumbimg_dlname_search.group(2)
             attachment['DOWNLOAD_NAME'] = dllink_thumbimg_dlname_search.group(3)
@@ -71,7 +72,7 @@ class AttachboxParser():
     def parse_s_image(self):
         #<!-- IF _file.S_IMAGE -->
         ts = self.p('.attachbox .file .attach-image')
-        print('S_IMAGE: {0!r}'.format(ts))
+        #print('S_IMAGE: {0!r}'.format(ts))
         attachment_dicts = []
         for cont in ts.items():
             attachment = {'type': 'S_IMAGE', 'location':'attachbox'}
@@ -106,7 +107,7 @@ class AttachboxParser():
         ts = self.p('.attachbox .file .postlink')
         if not ts:
             return []
-        print('S_FILE: {0!r}'.format(ts))
+        #print('S_FILE: {0!r}'.format(ts))
         attachment_dicts = []
         for cont in ts.items():
             attachment = {'type': 'S_FILE', 'location':'attachbox'}
@@ -154,7 +155,9 @@ class AttachboxParser():
     def parse_s_flash_file(self):
         #<!-- ELSEIF _file.S_FLASH_FILE -->
         ts = self.p('.attachbox  object embed[type*=shockwave-flash]')
-        print('parse_s_flash_file() ts: {0!r}'.format(ts))
+        if not ts:
+            return []
+        #print('parse_s_flash_file() ts: {0!r}'.format(ts))
         attachment_dicts = []
         for cont in ts.items():
             attachment = {'type': 'S_FLASH_FILE', 'location':'attachbox'}
@@ -169,7 +172,7 @@ class AttachboxParser():
             attachment['HEIGHT'] = int(vl_w_h_search.group(3))
 
 
-            print('parse_s_flash_file() attachment: {0!r}'.format(attachment))
+            #print('parse_s_flash_file() attachment: {0!r}'.format(attachment))
             attachment_dicts.append(attachment)
         return attachment_dicts
 
@@ -209,7 +212,7 @@ class AttachboxParser():
         attachment_dicts += self.parse_s_quicktime_file()
         attachment_dicts += self.parse_s_rm_file()
 
-        print('parse_attachbox_attachments() attachment_dicts: {0!r}'.format(attachment_dicts))
+        #print('parse_attachbox_attachments() attachment_dicts: {0!r}'.format(attachment_dicts))
         return attachment_dicts
 
 
@@ -221,15 +224,44 @@ class InlineattachmentParser():
         ts = self.p('.inline-attachment .thumbnail')
         if not ts:
             return []
-        print('S_THUMBNAIL: {0!r}'.format(ts))
+        #print('S_THUMBNAIL: {0!r}'.format(ts))
         attachment_dicts = []
-        raise Exception('NotImplimentedYet')# Add these when a test case is discovered
+        for cont in ts.items():
+            attachment = {'type': 'S_THUMBNAIL', 'location':'attachbox'}
+            #print('cont: {0!r}'.format(cont))
+            snip = cont.outer_html()
+            #print('snip: {0!r}'.format(snip))
+
+            # {_file.U_DOWNLOAD_LINK}, {_file.THUMB_IMAGE}, {_file.DOWNLOAD_NAME}
+            # <dt><a href="{_file.U_DOWNLOAD_LINK}"><img src="{_file.THUMB_IMAGE}" alt="{_file.DOWNLOAD_NAME}" title=...
+            dllink_thumbimg_dlname_search = re.search('<dt><a href="([^"]+)"><img src="([^"]+)" alt="([^"]+)"\stitle', snip)
+            attachment['U_DOWNLOAD_LINK'] = dllink_thumbimg_dlname_search.group(1)
+            attachment['THUMB_IMAGE'] = dllink_thumbimg_dlname_search.group(2)
+            attachment['DOWNLOAD_NAME'] = dllink_thumbimg_dlname_search.group(3)
+
+            #({_file.FILESIZE} {_file.SIZE_LANG}) {_file.L_DOWNLOAD_COUNT}" /></a></dt>
+            filesize_sizelang_dlcount_search = re.search('\(([\d.]+)\s(\w{1,5})\)\sViewed\s(\d+)\stimes"/></a></dt>', snip)
+            attachment['FILESIZE'] = dllink_thumbimg_dlname_search.group(1)
+            attachment['SIZE_LANG'] = dllink_thumbimg_dlname_search.group(2)
+            attachment['L_DOWNLOAD_COUNT'] = dllink_thumbimg_dlname_search.group(3)
+
+            # <!-- IF _file.COMMENT --><dd> {_file.COMMENT}</dd><!-- ENDIF -->
+            # {_file.COMMENT}
+            if '<dd>' not in snip:
+                attachment['COMMENT'] = None
+            else:
+                comment_search = re.search('<dd>\s(.+)</dd>', snip)
+                attachment['COMMENT'] = comment_search.group(1)
+
+            #assert(False)# WIP
+            attachment_dicts.append(attachment)
+            continue
         return attachment_dicts
 
     def parse_s_image(self):
         #<!-- IF _file.S_IMAGE -->
         ts = self.p('.inline-attachment .file .attach-image')
-        print('S_IMAGE: {0!r}'.format(ts))
+        #print('S_IMAGE: {0!r}'.format(ts))
         attachment_dicts = []
         for cont in ts.items():
             attachment = {'type': 'S_IMAGE', 'location':'inline-attachment'}
@@ -281,10 +313,10 @@ class InlineattachmentParser():
     def parse_s_flash_file(self):
         #<!-- ELSEIF _file.S_FLASH_FILE -->
         ts = self.p('.inline-attachment  object embed[type*=shockwave-flash]')
-        print('parse_s_flash_file() ts: {0!r}'.format(ts))
+        #print('parse_s_flash_file() ts: {0!r}'.format(ts))
         attachment_dicts = []
         for cont in ts.items():
-            attachment = {'type': 'S_FLASH_FILE'}
+            attachment = {'type': 'S_FLASH_FILE', 'location':'inline-attachment'}
             #print('parse_s_flash_file() cont: {0!r}'.format(cont))
             snip = cont.parent().parent().outer_html()# div[class=inline-attachment] > ? > object > embed
             #print('parse_s_flash_file() snip: {0!r}'.format(snip))
@@ -295,8 +327,16 @@ class InlineattachmentParser():
             attachment['WIDTH'] = int(vl_w_h_search.group(2))
             attachment['HEIGHT'] = int(vl_w_h_search.group(3))
 
+            #<a href="[^"]+">([^<]+)</a> \[ ([\d\.]+)\s(\w{1,5}) \| Viewed (\d+) times \]</p>
+            dlname_filesize_sizelang_dlcount_search = re.search('<a href="[^"]+">([^<]+)</a> \[ ([\d\.]+)\s(\w{1,5}) \| Viewed (\d+) times \]</p>', snip)
+            attachment['DOWNLOAD_NAME'] = dlname_filesize_sizelang_dlcount_search.group(1)
+            attachment['FILESIZE'] = dlname_filesize_sizelang_dlcount_search.group(2)
+            attachment['SIZE_LANG'] = dlname_filesize_sizelang_dlcount_search.group(3)
+            attachment['L_DOWNLOAD_COUNT'] = int(dlname_filesize_sizelang_dlcount_search.group(4))
 
-            print('parse_s_flash_file() attachment: {0!r}'.format(attachment))
+
+
+            #print('parse_s_flash_file() attachment: {0!r}'.format(attachment))
             attachment_dicts.append(attachment)
         return attachment_dicts
 
@@ -544,10 +584,15 @@ class InlineattachmentParser():
 
 
 def main():
+    pass
+
+
+if __name__ == '__main__':
     post_id = 2493048
-    html_path = os.path.join('tests', 'single_posts', 'aryion', '2493048.html')# has swf attachment
-    html_path = os.path.join('tests', 'phpbb.b64.t2377101.htm') # parse_s_thumbnails
-    html_path = os.path.join('tests', 'aryion.b53.t2182.offset2560.htm')
+##    html_path = os.path.join('tests', 'single_posts', 'aryion', '2493048.html')# has swf attachment
+    html_path = os.path.join('tests', 'single_posts', 'aryion', '470081.html')# has swf attachment
+##    html_path = os.path.join('tests', 'phpbb.b64.t2377101.htm') # parse_s_thumbnails
+##    html_path = os.path.join('tests', 'aryion.b53.t2182.offset2560.htm')
 
     with open(html_path, 'r') as f:
             html = f.read()
@@ -560,7 +605,4 @@ def main():
     attachment_dicts += abp.parse_attachbox_attachments(post_html = html)
 
     print('parse_attachments() attachment_dicts: {0!r}'.format(attachment_dicts))
-
-
-if __name__ == '__main__':
     main()

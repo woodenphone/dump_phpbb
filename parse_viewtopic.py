@@ -165,14 +165,15 @@ if __name__ == '__main__':
     #file_path = os.path.join('tests', 'phpbb.b6.t362219.offset270.htm')
     #file_path = os.path.join('tests', 'cichlid-forum.viewtopic.f4.t246181.htm')
     #file_path = os.path.join('tests', 'phpbb.b6.t2259706.offset15.htm')
-    #file_path = os.path.join('tests', 'aryion.viewtopic.f55.t11882.offset30.htm')# has swf attachment
+    file_path = os.path.join('tests', 'aryion.viewtopic.f55.t11882.offset30.htm')# has swf attachment
     #file_path = os.path.join('tests', 'aryion.viewtopic.f79.t17592.htm')# has swf attachment
+    #file_path = os.path.join('tests', 'phpbb.b64.t2377101.htm') # parse_s_thumbnails
+    #file_path = os.path.join('tests', 'aryion.b53.t2182.offset2560.htm')
 
-
-##    split_thread_page_for_making_test_cases(
-##        topic_page_html_path=file_path,
-##        output_folder=os.path.join('tests', 'single_posts', 'aryion')
-##    )
+    split_thread_page_for_making_test_cases(
+        topic_page_html_path=file_path,
+        output_folder=os.path.join('tests', 'single_posts', 'aryion_new')
+    )
 
 
     with open(file_path, 'r') as f:

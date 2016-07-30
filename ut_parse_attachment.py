@@ -60,7 +60,6 @@ class TestAryionPid5910(unittest.TestCase):
         # Exactly one attachbox attachment
         self.assertEqual(len(attachment_dicts), 1)
         # Correct attributes
-
         self.assertEqual(attachment_dicts[0]['DOWNLOAD_NAME'], 'folly.jpg')
         self.assertEqual(attachment_dicts[0]['COMMENT'], u'Yeah its vore...what else can I say. Partake and enjoy.')
         self.assertEqual(attachment_dicts[0]['L_DOWNLOAD_COUNT'], 1231)
@@ -77,7 +76,37 @@ class TestAryionPid5910(unittest.TestCase):
         return
 
 
-
+class TestAryionPid470081(unittest.TestCase):
+    """phpBB v3
+    https://aryion.com/forum/viewtopic.php?f=55&t=???? split to just have the post no 470081"""
+    def setUp(self):
+        self.post_id = 470081
+        self.html_path = os.path.join('tests', 'single_posts', 'aryion', '470081.html')# has swf attachment
+        with open(self.html_path, 'r') as f:
+            self.html = f.read()
+        return
+    def test_attachbox(self):
+        abp = parse_attachment.AttachboxParser()
+        attachment_dicts = abp.parse_attachbox_attachments(self.html)
+        # Exactly one attachbox attachment
+        self.assertEqual(len(attachment_dicts), 0)
+        return
+    def test_inline(self):
+        iap = parse_attachment.InlineattachmentParser()
+        attachment_dicts = iap.parse_inline_attachments(self.html)
+        # One attachments
+        self.assertEqual(len(attachment_dicts), 1)
+        # Correct attributes
+        self.assertEqual(attachment_dicts[0]['DOWNLOAD_NAME'], 'pov.swf')
+        self.assertEqual(attachment_dicts[0]['HEIGHT'], 120)
+        self.assertEqual(attachment_dicts[0]['WIDTH'], 160)
+        self.assertEqual(attachment_dicts[0]['U_VIEW_LINK'], u'./download/file.php?id=48726&amp;sid=df8fb41c844e053cfd42dc310606983f&amp;view=1')
+        self.assertEqual(attachment_dicts[0]['L_DOWNLOAD_COUNT'], 5588)
+        self.assertEqual(attachment_dicts[0]['FILESIZE'], '1.14')
+        self.assertEqual(attachment_dicts[0]['SIZE_LANG'], 'MiB')
+        self.assertEqual(attachment_dicts[0]['type'], 'S_FLASH_FILE')
+        self.assertEqual(attachment_dicts[0]['location'], 'inline-attachment')
+        return
 
 
 def main():

@@ -281,38 +281,40 @@ class TestViewtopicAryionB53T2182Offset2560(unittest.TestCase):
         self.assertEqual(self.posts[19]['attachments'], [])
         return
     def test_thread_attachments_dl_url(self):
-        self.assertEqual(self.posts[4]['attachments'][0]['dl_url'], u'./download/file.php?id=144003&amp;sid=c5d626da13ef107f1162db58be359167&amp;mode=view')
-        self.assertEqual(self.posts[6]['attachments'][0]['dl_url'], u'./download/file.php?id=144290&amp;sid=c5d626da13ef107f1162db58be359167&amp;mode=view')
+        self.assertEqual(self.posts[4]['attachments'][0]['U_DOWNLOAD_LINK'], u'./download/file.php?id=144003&amp;sid=c5d626da13ef107f1162db58be359167&amp;mode=view')
+        self.assertEqual(self.posts[6]['attachments'][0]['U_DOWNLOAD_LINK'], u'./download/file.php?id=144290&amp;sid=c5d626da13ef107f1162db58be359167&amp;mode=view')
         return
-    def test_thread_attachments_title(self):
-        self.assertEqual(self.posts[4]['attachments'][0]['title'], u'1380945683696.jpg (454.6 KiB) Viewed 16271 times')
-        self.assertEqual(self.posts[6]['attachments'][0]['title'], u'SaintxTail-314679-LizardLord0001.jpg (636.63 KiB) Viewed 14886 times')
-        return
-    def test_attachment_class(self):
-        self.assertEqual(self.posts[4]['attachments'][0]['class'], 'thumbnail')
-
-        self.assertEqual(self.posts[6]['attachments'][0]['class'], 'thumbnail')
-        self.assertEqual(self.posts[6]['attachments'][1]['class'], 'thumbnail')
-        self.assertEqual(self.posts[6]['attachments'][2]['class'], 'thumbnail')
-        self.assertEqual(self.posts[6]['attachments'][3]['class'], 'thumbnail')
-
-        self.assertEqual(self.posts[17]['attachments'][0]['class'], 'inline-attachment')#https://aryion.com/forum/viewtopic.php?f=53&t=2182&start=2560#p2427846
-        self.assertEqual(self.posts[17]['attachments'][1]['class'], 'inline-attachment')
-        self.assertEqual(self.posts[17]['attachments'][2]['class'], 'inline-attachment')
-        self.assertEqual(self.posts[17]['attachments'][3]['class'], 'inline-attachment')
-        self.assertEqual(self.posts[17]['attachments'][4]['class'], 'inline-attachment')
-        self.assertEqual(self.posts[17]['attachments'][5]['class'], 'inline-attachment')
-        self.assertEqual(self.posts[17]['attachments'][6]['class'], 'inline-attachment')
-        self.assertEqual(self.posts[17]['attachments'][7]['class'], 'inline-attachment')
-
-        self.assertEqual(self.posts[18]['attachments'][0]['class'], 'thumbnail')
-        self.assertEqual(self.posts[18]['attachments'][1]['class'], 'thumbnail')
-        self.assertEqual(self.posts[18]['attachments'][2]['class'], 'thumbnail')
-        self.assertEqual(self.posts[18]['attachments'][3]['class'], 'file')
-        self.assertEqual(self.posts[18]['attachments'][4]['class'], 'thumbnail')
-        self.assertEqual(self.posts[18]['attachments'][5]['class'], 'thumbnail')
-        self.assertEqual(self.posts[18]['attachments'][6]['class'], 'thumbnail')
-        self.assertEqual(self.posts[18]['attachments'][7]['class'], 'thumbnail')
+## Title is no longer provided like this
+##    def test_thread_attachments_title(self):
+##        self.assertEqual(self.posts[4]['attachments'][0]['title'], u'1380945683696.jpg (454.6 KiB) Viewed 16271 times')
+##        self.assertEqual(self.posts[6]['attachments'][0]['title'], u'SaintxTail-314679-LizardLord0001.jpg (636.63 KiB) Viewed 14886 times')
+##        return
+## DEPRICATED
+##    def test_attachment_class(self):
+##        self.assertEqual(self.posts[4]['attachments'][0]['class'], 'thumbnail')
+##
+##        self.assertEqual(self.posts[6]['attachments'][0]['class'], 'thumbnail')
+##        self.assertEqual(self.posts[6]['attachments'][1]['class'], 'thumbnail')
+##        self.assertEqual(self.posts[6]['attachments'][2]['class'], 'thumbnail')
+##        self.assertEqual(self.posts[6]['attachments'][3]['class'], 'thumbnail')
+##
+##        self.assertEqual(self.posts[17]['attachments'][0]['class'], 'inline-attachment')#https://aryion.com/forum/viewtopic.php?f=53&t=2182&start=2560#p2427846
+##        self.assertEqual(self.posts[17]['attachments'][1]['class'], 'inline-attachment')
+##        self.assertEqual(self.posts[17]['attachments'][2]['class'], 'inline-attachment')
+##        self.assertEqual(self.posts[17]['attachments'][3]['class'], 'inline-attachment')
+##        self.assertEqual(self.posts[17]['attachments'][4]['class'], 'inline-attachment')
+##        self.assertEqual(self.posts[17]['attachments'][5]['class'], 'inline-attachment')
+##        self.assertEqual(self.posts[17]['attachments'][6]['class'], 'inline-attachment')
+##        self.assertEqual(self.posts[17]['attachments'][7]['class'], 'inline-attachment')
+##
+##        self.assertEqual(self.posts[18]['attachments'][0]['class'], 'thumbnail')
+##        self.assertEqual(self.posts[18]['attachments'][1]['class'], 'thumbnail')
+##        self.assertEqual(self.posts[18]['attachments'][2]['class'], 'thumbnail')
+##        self.assertEqual(self.posts[18]['attachments'][3]['class'], 'file')
+##        self.assertEqual(self.posts[18]['attachments'][4]['class'], 'thumbnail')
+##        self.assertEqual(self.posts[18]['attachments'][5]['class'], 'thumbnail')
+##        self.assertEqual(self.posts[18]['attachments'][6]['class'], 'thumbnail')
+##        self.assertEqual(self.posts[18]['attachments'][7]['class'], 'thumbnail')
         return
 
 
@@ -739,7 +741,8 @@ class TestViewtopicAryionB38T695(unittest.TestCase):
         self.assertEqual(self.posts[3]['attachments'], [])
         return
     def test_thread_attachments_dl_url(self):
-        self.assertEqual(self.posts[0]['attachments'][0]['dl_url'], './download/file.php?id=630&amp;sid=9a7595219b9215d9c273b8c13457343b')
+        #print('attachment: {0!r}'.format(self.posts[0]['attachments']))
+        self.assertEqual(self.posts[0]['attachments'][0]['U_INLINE_LINK'], './download/file.php?id=630&amp;sid=9a7595219b9215d9c273b8c13457343b')
         return
 ## I don't know what this one is for anymore
 ##    def test_thread_attachments_title(self):
@@ -770,6 +773,7 @@ class TestViewtopicAryionB38T44962(unittest.TestCase):
         self.assertEqual(len(self.posts), 15)
         return
     def test_thread_attachments_alt_text(self):
+        print('\n\ntest_thread_attachments_alt_text() attachments: {0!r}\n\n'.format(self.posts[0]['attachments']))
         self.assertEqual(self.posts[0]['attachments'][0]['DOWNLOAD_NAME'], u'folly.jpg')
         return
     def test_thread_attachments_count(self):
@@ -780,11 +784,12 @@ class TestViewtopicAryionB38T44962(unittest.TestCase):
         self.assertEqual(self.posts[3]['attachments'], None)
         return
     def test_thread_attachments_dl_url(self):
-        self.assertEqual(self.posts[0]['attachments'][0]['dl_url'], './download/file.php?id=630&amp;sid=9a7595219b9215d9c273b8c13457343b')
+        self.assertEqual(self.posts[0]['attachments'][0]['U_DOWNLOAD_LINK'], './download/file.php?id=630&amp;sid=9a7595219b9215d9c273b8c13457343b')
         return
-    def test_thread_attachments_title(self):
-        self.assertEqual(self.posts[0]['attachments'][0]['title'], None)
-        return
+## DEPRICATED
+##    def test_thread_attachments_title(self):
+##        self.assertEqual(self.posts[0]['attachments'][0]['title'], None)
+##        return
 
 
 
